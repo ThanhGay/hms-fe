@@ -53,7 +53,19 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
-
+  assets:
+    - assets/images/clean_code.png
+    - assets/images/ban_cong.png
+    - assets/images/phong_khach.png
+    - assets/images/phong_ngu.png
+    - assets/images/nong_thon_1.png
+    - assets/images/nong_thon_2.png
+    - assets/images/nong_thon_3.png
+    - assets/images/khung_canh_1.png
+    - assets/images/khung_canh_2.png
+    - assets/images/khung_canh_3.png
+    - assets/images/nha_cay_1.png
+  
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.

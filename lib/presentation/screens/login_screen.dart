@@ -11,28 +11,28 @@ class LoginScreen extends StatelessWidget {
   Future<void> loginUser(BuildContext context) async {
     final email = emailController.text;
     final password = passwordController.text;
+    Navigator.pushNamed(context, '/home');
+    // final url =
+    //     Uri.parse('https://192.168.2.4:5108/Login'); // Thay bằng URL API thực tế
+    // final response = await http.post(
+    //   url,
+    //   headers: {'Content-Type': 'application/json'},
+    //   body: jsonEncode({'email': email, 'password': password}),
+    // );
 
-    final url =
-        Uri.parse('https://192.168.2.4:5108/Login'); // Thay bằng URL API thực tế
-    final response = await http.post(
-      url,
-      headers: {'Content-Type': 'application/json'},
-      body: jsonEncode({'email': email, 'password': password}),
-    );
-
-    if (response.statusCode == 200) {
-      final data = jsonDecode(response.body);
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-            content: Text('Login successful! Welcome ${data['username']}')),
-      );
-      Navigator.pushNamed(context, '/home');
-      // Xử lý logic sau khi đăng nhập thành công
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Login failed! Please check your credentials.')),
-      );
-    }
+    // if (response.statusCode == 200) {
+    //   final data = jsonDecode(response.body);
+    //   ScaffoldMessenger.of(context).showSnackBar(
+    //     SnackBar(
+    //         content: Text('Login successful! Welcome ${data['username']}')),
+    //   );
+    //   Navigator.pushNamed(context, '/home');
+    //   // Xử lý logic sau khi đăng nhập thành công
+    // } else {
+    //   ScaffoldMessenger.of(context).showSnackBar(
+    //     SnackBar(content: Text('Login failed! Please check your credentials.')),
+    //   );
+    // }
   }
 
   @override
