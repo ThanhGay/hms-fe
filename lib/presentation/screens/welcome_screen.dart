@@ -18,20 +18,48 @@ class WelcomeScreen extends StatelessWidget {
               'Welcome to AirBnb',
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 30),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pushNamed(context, '/login');
-              },
-              child: Text('Login'),
+            Padding(
+              padding: EdgeInsets.symmetric(
+                  horizontal: 20, vertical: 10), // Thêm padding bên ngoài
+              child: SizedBox(
+                width: 150,
+                height: 50,
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/login');
+                  },
+                  child: Text('Login'),
+                ),
+              ),
             ),
-            SizedBox(height: 10),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pushNamed(context, '/register');
-              },
-              child: Text('Register'),
+            Padding(
+              padding: EdgeInsets.symmetric(
+                  horizontal: 20, vertical: 10), // Thêm padding bên ngoài
+              child: SizedBox(
+                width: 150,
+                height: 50,
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/register');
+                  },
+                  child: Text('Register'),
+                ),
+              ),
             ),
+            Padding(
+              padding: EdgeInsets.symmetric(
+                  horizontal: 20, vertical: 10), // Thêm padding bên ngoài
+              child: SizedBox(
+                width: 150,
+                height: 50,
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/home');
+                  },
+                  child: Text('Bỏ qua'),
+                ),
+              ),
+            )
           ],
         ),
       ),

@@ -1,3 +1,4 @@
+import 'package:android_hms/GlobalData.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -11,28 +12,29 @@ class LoginScreen extends StatelessWidget {
   Future<void> loginUser(BuildContext context) async {
     final email = emailController.text;
     final password = passwordController.text;
-    Navigator.pushNamed(context, '/home');
-    // final url =
-    //     Uri.parse('https://192.168.2.4:5108/Login'); // Thay bằng URL API thực tế
-    // final response = await http.post(
-    //   url,
-    //   headers: {'Content-Type': 'application/json'},
-    //   body: jsonEncode({'email': email, 'password': password}),
-    // );
 
-    // if (response.statusCode == 200) {
-    //   final data = jsonDecode(response.body);
-    //   ScaffoldMessenger.of(context).showSnackBar(
-    //     SnackBar(
-    //         content: Text('Login successful! Welcome ${data['username']}')),
-    //   );
-    //   Navigator.pushNamed(context, '/home');
-    //   // Xử lý logic sau khi đăng nhập thành công
-    // } else {
-    //   ScaffoldMessenger.of(context).showSnackBar(
-    //     SnackBar(content: Text('Login failed! Please check your credentials.')),
-    //   );
-    // }
+    const String url = "${GlobalData.api}Login";
+    final uri = Uri.parse(url);
+    final response = await http.post(
+      uri,
+      headers: {
+        'Content-Type': 'application/json', // Xác định kiểu dữ liệu gửi đi
+      },
+      body: jsonEncode({"email": email, "password": password}),
+    );
+
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+            content: Text('Login successful! Welcome ${data['username']}')),
+      );
+      Navigator.pushNamed(context, '/home');
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Login failed! Please check your credentials.')),
+      );
+    }
   }
 
   @override
@@ -64,8 +66,8 @@ class LoginScreen extends StatelessWidget {
             ),
             SizedBox(height: 20),
             ElevatedButton(
-              onPressed: () {
-                loginUser(context);
+              onPressed: () async {
+                await loginUser(context);
               },
               child: Text('Login'),
             ),
