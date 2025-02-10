@@ -1,19 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+  const logoSvg = "assets/icons/logo.svg";
+  const logoImg = "assets/images/logo.png";
+
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Welcome'),
-        centerTitle: true,
-      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            SvgPicture.asset(
+              logoSvg,
+              colorFilter: const ColorFilter.mode(Colors.red, BlendMode.srcIn),
+              semanticsLabel: "Logo Airbnb",
+            ),
+            Image.asset(logoImg),
             Text(
               'Welcome to AirBnb',
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),

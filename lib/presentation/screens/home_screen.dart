@@ -17,10 +17,44 @@ class _HomeScreenState extends State<HomeScreen> {
   // Nội dung chính cho từng trang chính của Bottom Navigation Bar
   final List<Widget> mainPages = [
     const ExplorePage(), // Trang Khám Phá
-    Center(child: Text('Trang Thích', style: TextStyle(fontSize: 20))),
+    Center(child: Text('Trang Yêu Thích', style: TextStyle(fontSize: 20))),
     Center(child: Text('Trang Chuyến Đi', style: TextStyle(fontSize: 20))),
     Center(child: Text('Trang Tin Nhắn', style: TextStyle(fontSize: 20))),
-    Center(child: Text('Trang Đăng Nhập', style: TextStyle(fontSize: 20))),
+    Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Padding(
+            padding: EdgeInsets.symmetric(
+                horizontal: 20, vertical: 10), // Thêm padding bên ngoài
+            child: SizedBox(
+              width: 150,
+              height: 50,
+              child: ElevatedButton(
+                onPressed: () {
+                  // Navigator.pushNamed(context, '/login');
+                },
+                child: Text('Login'),
+              ),
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(
+                horizontal: 20, vertical: 10), // Thêm padding bên ngoài
+            child: SizedBox(
+              width: 150,
+              height: 50,
+              child: ElevatedButton(
+                onPressed: () {
+                  // Navigator.pushNamed(context, '/register');
+                },
+                child: Text('Register'),
+              ),
+            ),
+          ),
+        ],
+      ),
+    ),
   ];
 
   @override
