@@ -1,7 +1,10 @@
+import 'package:android_hms/Api/api_login.dart';
 import 'package:android_hms/GlobalData.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
@@ -13,22 +16,12 @@ class LoginScreen extends StatelessWidget {
     final email = emailController.text;
     final password = passwordController.text;
 
-    const String url = "${GlobalData.api}Login";
-    final uri = Uri.parse(url);
-    final response = await http.post(
-      uri,
-      headers: {
-        'Content-Type': 'application/json', // Xác định kiểu dữ liệu gửi đi
-      },
-      body: jsonEncode({"email": email, "password": password}),
-    );
+    final response = await ApiLogin.loginUser(email, password);
 
-    if (response.statusCode == 200) {
-      final data = jsonDecode(response.body);
-      print(data);
+    if (response == 200) {
+      // final prefs = await SharedPreferences.getInstance();prefs.getString('token')
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-            content: Text('Login successful! Welcome ${data['username']}')),
+        SnackBar(content: Text('Login successful! Welcome {}')),
       );
       Navigator.pushNamed(context, '/home');
     } else {

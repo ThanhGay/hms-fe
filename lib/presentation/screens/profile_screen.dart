@@ -1,3 +1,4 @@
+import 'package:android_hms/presentation/screens/info_card.dart';
 import 'package:flutter/material.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -31,10 +32,10 @@ class ProfileScreen extends StatelessWidget {
               backgroundImage: NetworkImage(avatarUrl),
             ),
             SizedBox(height: 16),
-            buildInfoCard(Icons.person, "Họ và Tên", name),
-            buildInfoCard(Icons.cake, "Tuổi", "$age"),
-            buildInfoCard(Icons.location_on, "Địa chỉ", address),
-            buildInfoCard(Icons.email, "Email", email),
+            InfoCard(icon: Icons.person, title: "Họ và Tên", value: name),
+            InfoCard(icon: Icons.cake, title: "Tuổi", value: "$age"),
+            InfoCard(icon: Icons.location_on, title: "Địa chỉ", value: address),
+            InfoCard(icon: Icons.email, title: "Email", value: email),
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
@@ -49,18 +50,6 @@ class ProfileScreen extends StatelessWidget {
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  Widget buildInfoCard(IconData icon, String title, String value) {
-    return Card(
-      elevation: 3,
-      margin: EdgeInsets.symmetric(vertical: 8),
-      child: ListTile(
-        leading: Icon(icon, color: Colors.blueAccent),
-        title: Text(title, style: TextStyle(fontWeight: FontWeight.bold)),
-        subtitle: Text(value, style: TextStyle(fontSize: 16)),
       ),
     );
   }

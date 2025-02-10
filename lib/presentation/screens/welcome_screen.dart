@@ -26,7 +26,7 @@ class WelcomeScreen extends StatelessWidget {
                 height: 50,
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, '/home', arguments: {
+                    Navigator.pushNamed(context, '/login', arguments: {
                       'avatarUrl': "https://i.imgur.com/BoN9kdC.png",
                       'name': "Nguyễn Văn A",
                       'age': 25,

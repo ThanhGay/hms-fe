@@ -1,88 +1,7 @@
-import 'dart:convert';
-
+import 'package:android_hms/Api/api_hotel.dart';
+import 'package:android_hms/Api/api_room.dart';
 import 'package:android_hms/GlobalData.dart';
-import 'package:android_hms/presentation/screens/profile_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-
-class HomeScreen extends StatefulWidget {
-  // final String avatarUrl;
-  // final String name;
-  // final int age;
-  // final String address;
-  // final String email;
-
-  // const HomeScreen(
-  //     {Key? key,
-  //     required this.avatarUrl,
-  //     required this.name,
-  //     required this.age,
-  //     required this.address,
-  //     required this.email})
-  //     : super(key: key);
-
-  @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
-  int selectedBottomTabIndex = 0; // Chỉ số của Bottom Navigation Bar
-  late final List<Widget> mainPages;
-
-  @override
-  Widget build(BuildContext context) {
-    // Nội dung chính cho từng trang chính của Bottom Navigation Bar
-
-    final List<Widget> mainPages = [
-      const ExplorePage(), // Trang Khám Phá
-      Center(child: Text('Trang Thích', style: TextStyle(fontSize: 20))),
-      Center(child: Text('Trang Chuyến Đi', style: TextStyle(fontSize: 20))),
-      Center(child: Text('Trang Tin Nhắn', style: TextStyle(fontSize: 20))),
-      ProfileScreen(
-        avatarUrl: "https://i.imgur.com/BoN9kdC.png",
-        address: "Hà Nội, Việt Nam",
-        age: 2,
-        email: "nguyenvana@example.com",
-        name: "Nguyễn Văn A",
-      )
-    ];
-    return Scaffold(
-      body: mainPages[selectedBottomTabIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: selectedBottomTabIndex,
-        onTap: (index) {
-          setState(() {
-            selectedBottomTabIndex = index;
-          });
-        },
-        selectedItemColor: Colors.red,
-        unselectedItemColor: Colors.grey,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: 'Khám phá',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.favorite_border),
-            label: 'Yêu thích',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.airplane_ticket),
-            label: 'Chuyến đi',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.message),
-            label: 'Tin nhắn',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Hồ Sơ',
-          ),
-        ],
-      ),
-    );
-  }
-}
 
 class ExplorePage extends StatefulWidget {
   const ExplorePage({Key? key}) : super(key: key);
@@ -157,7 +76,7 @@ class _ExplorePageState extends State<ExplorePage> {
                     Icon(
                       button["icon"],
                       color: selectedExploreTabIndex == index
-                          ? getHotelColor(button['hotelName'])
+                          ? getHotelColor(button['label'])
                           : Colors.black,
                     ),
                     const SizedBox(height: 5),
@@ -166,7 +85,7 @@ class _ExplorePageState extends State<ExplorePage> {
                       style: TextStyle(
                         fontSize: 12,
                         color: selectedExploreTabIndex == index
-                            ? getHotelColor(button['hotelName'])
+                            ? getHotelColor(button['label'])
                             : Colors.black,
                       ),
                     ),
@@ -194,7 +113,7 @@ class _ExplorePageState extends State<ExplorePage> {
                       height: 300,
                       child: PageView.builder(
                         scrollDirection: Axis.horizontal,
-                        itemCount: room['roomImages'].length,
+                        itemCount: room['listImage'].length,
                         itemBuilder: (context, index) {
                           return Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 8),
@@ -202,7 +121,7 @@ class _ExplorePageState extends State<ExplorePage> {
                               borderRadius: BorderRadius.circular(10),
                               child: Image.network(
                                 GlobalData.api +
-                                    room['roomImages'][index]['imageURL'],
+                                    room['listImage'][index]['imageURL'],
                                 height: 300,
                                 width: 200,
                                 fit: BoxFit.cover,
@@ -261,51 +180,34 @@ class _ExplorePageState extends State<ExplorePage> {
   }
 
   Future<void> DsHotel() async {
-    const String url = "${GlobalData.api}api/hotel/all";
-    final uri = Uri.parse(url);
-    try {
-      final response = await http.get(uri);
-
-      if (response.statusCode == 200) {
-        final data = jsonDecode(response.body);
-        setState(() {
-          for (var element in data['items']) {
-            navigationButtons.add({
-              "icon": Icons.hotel,
-              "label": element['hotelName'],
-              'hotelId': element['hotelId'],
-              'hotelName': element['hotelName']
-            });
-          }
+    final response = await ApiHotel.dsHotel();
+    for (var element in response) {
+      setState(() {
+        navigationButtons.add({
+          "icon": Icons.hotel,
+          "label": element.hotelName,
+          'hotelId': element.hotelId,
         });
-      } else {
-        print("Lỗi API: ${response.statusCode} - ${response.body}");
-      }
-    } catch (e) {
-      print("Lỗi khi gọi API: $e");
+      });
     }
   }
 
   Future<void> DsRoom(int hotelId) async {
-    final String url = "${GlobalData.api}api/room/all?hotelId=${hotelId}";
-    final uri = Uri.parse(url);
-
-    try {
-      final response = await http.get(uri);
-
-      if (response.statusCode == 200) {
-        final data = jsonDecode(response.body);
-        print(data);
-        List<Map<String, dynamic>> listRoom =
-            List<Map<String, dynamic>>.from(data['items']);
-        setState(() {
-          roomList = listRoom;
+    final response = await ApiRoom.dsRoom(hotelId);
+    for (var element in response) {
+      setState(() {
+        roomList.add({
+          "roomId": element.roomId,
+          "roomName": element.roomName,
+          "floor": element.floor,
+          "roomTypeName": element.roomTypeName,
+          "description": element.description,
+          "pricePerHour": element.pricePerHour,
+          "pricePerNight": element.pricePerNight,
+          "hotelId": element.hotelId,
+          "listImage": element.listImage
         });
-      } else {
-        print("Lỗi API: ${response.statusCode} - ${response.body}");
-      }
-    } catch (e) {
-      print("Lỗi khi gọi API: $e");
+      });
     }
   }
 }
