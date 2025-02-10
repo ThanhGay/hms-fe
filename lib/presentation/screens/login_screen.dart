@@ -25,6 +25,7 @@ class LoginScreen extends StatelessWidget {
 
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
+      print(data);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
             content: Text('Login successful! Welcome ${data['username']}')),

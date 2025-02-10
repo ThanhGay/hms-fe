@@ -1,11 +1,25 @@
 import 'dart:convert';
 
 import 'package:android_hms/GlobalData.dart';
+import 'package:android_hms/presentation/screens/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  // final String avatarUrl;
+  // final String name;
+  // final int age;
+  // final String address;
+  // final String email;
+
+  // const HomeScreen(
+  //     {Key? key,
+  //     required this.avatarUrl,
+  //     required this.name,
+  //     required this.age,
+  //     required this.address,
+  //     required this.email})
+  //     : super(key: key);
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -13,18 +27,25 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int selectedBottomTabIndex = 0; // Chỉ số của Bottom Navigation Bar
-
-  // Nội dung chính cho từng trang chính của Bottom Navigation Bar
-  final List<Widget> mainPages = [
-    const ExplorePage(), // Trang Khám Phá
-    Center(child: Text('Trang Thích', style: TextStyle(fontSize: 20))),
-    Center(child: Text('Trang Chuyến Đi', style: TextStyle(fontSize: 20))),
-    Center(child: Text('Trang Tin Nhắn', style: TextStyle(fontSize: 20))),
-    Center(child: Text('Trang Đăng Nhập', style: TextStyle(fontSize: 20))),
-  ];
+  late final List<Widget> mainPages;
 
   @override
   Widget build(BuildContext context) {
+    // Nội dung chính cho từng trang chính của Bottom Navigation Bar
+
+    final List<Widget> mainPages = [
+      const ExplorePage(), // Trang Khám Phá
+      Center(child: Text('Trang Thích', style: TextStyle(fontSize: 20))),
+      Center(child: Text('Trang Chuyến Đi', style: TextStyle(fontSize: 20))),
+      Center(child: Text('Trang Tin Nhắn', style: TextStyle(fontSize: 20))),
+      ProfileScreen(
+        avatarUrl: "https://i.imgur.com/BoN9kdC.png",
+        address: "Hà Nội, Việt Nam",
+        age: 2,
+        email: "nguyenvana@example.com",
+        name: "Nguyễn Văn A",
+      )
+    ];
     return Scaffold(
       body: mainPages[selectedBottomTabIndex],
       bottomNavigationBar: BottomNavigationBar(
@@ -72,125 +93,6 @@ class ExplorePage extends StatefulWidget {
 
 class _ExplorePageState extends State<ExplorePage> {
   int selectedExploreTabIndex = 0;
-
-  // Dữ liệu mẫu cho các danh sách phòng dựa trên từng nút điều hướng
-  // List<List<Map<String, dynamic>>> exploreTabData = [
-  //   [
-  //     {
-  //       "imageAssetPath": "assets/images/phong_khach.png",
-  //       "roomName": "Uccle, Bỉ",
-  //       "host": "Chủ nhà: Marianne · Đã nghỉ hưu",
-  //       "price": "941.170 / đêm",
-  //       "rating": 4.89,
-  //     },
-  //     {
-  //       "imageAssetPath": "assets/images/phong_ngu.png",
-  //       "roomName": "Brussels, Bỉ",
-  //       "host": "Chủ nhà: Jean · Chào mừng",
-  //       "price": "1.200.000 / đêm",
-  //       "rating": 4.95,
-  //     },
-  //     {
-  //       "imageAssetPath": "assets/images/ban_cong.png",
-  //       "roomName": "Ghent, Bỉ",
-  //       "host": "Chủ nhà: Laura · Thân thiện",
-  //       "price": "850.000 / đêm",
-  //       "rating": 4.75,
-  //     },
-  //   ],
-  //   [
-  //     {
-  //       "imageAssetPath": "assets/images/phong_ngu.png",
-  //       "roomName": "Hà Nội, Việt Nam",
-  //       "host": "Chủ nhà: Đăng Khoa · Đã nghỉ hưu",
-  //       "price": "1.111.170 / đêm",
-  //       "rating": 5.0,
-  //     },
-  //     {
-  //       "imageAssetPath": "assets/images/phong_khach.png",
-  //       "roomName": "Brussels, Bỉ",
-  //       "host": "Chủ nhà: Jean · Chào mừng",
-  //       "price": "1.200.000 / đêm",
-  //       "rating": 4.95,
-  //     },
-  //     {
-  //       "imageAssetPath": "assets/images/ban_cong.png",
-  //       "roomName": "Ghent, Bỉ",
-  //       "host": "Chủ nhà: Laura · Thân thiện",
-  //       "price": "850.000 / đêm",
-  //       "rating": 4.75,
-  //     },
-  //   ],
-  //   [
-  //     {
-  //       "imageAssetPath": "assets/images/nong_thon_1.png",
-  //       "roomName": "Hà Nội, Việt Nam",
-  //       "host": "Chủ nhà: Đăng Khoa · Đã nghỉ hưu",
-  //       "price": "1.111.170 / đêm",
-  //       "rating": 5.0,
-  //     },
-  //     {
-  //       "imageAssetPath": "assets/images/nong_thon_2.png",
-  //       "roomName": "Brussels, Bỉ",
-  //       "host": "Chủ nhà: Jean · Chào mừng",
-  //       "price": "1.200.000 / đêm",
-  //       "rating": 4.95,
-  //     },
-  //     {
-  //       "imageAssetPath": "assets/images/ban_cong.png",
-  //       "roomName": "Ghent, Bỉ",
-  //       "host": "Chủ nhà: Laura · Thân thiện",
-  //       "price": "850.000 / đêm",
-  //       "rating": 4.75,
-  //     },
-  //   ],
-  //   [
-  //     {
-  //       "imageAssetPath": "assets/images/khung_canh_1.png",
-  //       "roomName": "Hà Nội, Việt Nam",
-  //       "host": "Chủ nhà: Đăng Khoa · Đã nghỉ hưu",
-  //       "price": "1.111.170 / đêm",
-  //       "rating": 5.0,
-  //     },
-  //     {
-  //       "imageAssetPath": "assets/images/khung_canh_2.png",
-  //       "roomName": "Brussels, Bỉ",
-  //       "host": "Chủ nhà: Jean · Chào mừng",
-  //       "price": "1.200.000 / đêm",
-  //       "rating": 4.95,
-  //     },
-  //     {
-  //       "imageAssetPath": "assets/images/ban_cong.png",
-  //       "roomName": "Ghent, Bỉ",
-  //       "host": "Chủ nhà: Laura · Thân thiện",
-  //       "price": "850.000 / đêm",
-  //       "rating": 4.75,
-  //     },
-  //   ],
-  //   [
-  //     {
-  //       "imageAssetPath": "assets/images/nha_cay_1.png",
-  //       "roomName": "Hà Nội, Việt Nam",
-  //       "host": "Chủ nhà: Đăng Khoa · Đã nghỉ hưu",
-  //       "price": "1.111.170 / đêm",
-  //       "rating": 5.0,
-  //     },
-  //     {
-  //       "imageAssetPath": "assets/images/nong_thon_3.png",
-  //       "roomName": "Brussels, Bỉ",
-  //       "host": "Chủ nhà: Jean · Chào mừng",
-  //       "price": "1.200.000 / đêm",
-  //       "rating": 4.95,
-  //     },
-  //     {
-  //       "imageAssetPath": "assets/images/khung_canh_3.png",
-  //       "roomName": "Ghent, Bỉ",
-  //       "host": "Chủ nhà: Laura · Thân thiện",
-  //       "price": "850.000 / đêm",
-  //       "rating": 4.75,
-  //     },
-  //   ],
-  // ];
 
   // Dữ liệu mẫu cho danh sách phòng hiện tại
   List<Map<String, dynamic>> roomList = [];
@@ -255,7 +157,7 @@ class _ExplorePageState extends State<ExplorePage> {
                     Icon(
                       button["icon"],
                       color: selectedExploreTabIndex == index
-                          ? Colors.red
+                          ? getHotelColor(button['hotelName'])
                           : Colors.black,
                     ),
                     const SizedBox(height: 5),
@@ -264,7 +166,7 @@ class _ExplorePageState extends State<ExplorePage> {
                       style: TextStyle(
                         fontSize: 12,
                         color: selectedExploreTabIndex == index
-                            ? Colors.red
+                            ? getHotelColor(button['hotelName'])
                             : Colors.black,
                       ),
                     ),
@@ -288,15 +190,6 @@ class _ExplorePageState extends State<ExplorePage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // ClipRRect(
-                    //   borderRadius: BorderRadius.circular(10),
-                    //   child: Image.asset(
-                    //     room["imageAssetPath"],
-                    //     height: 300,
-                    //     width: double.infinity,
-                    //     fit: BoxFit.cover,
-                    //   ),
-                    // ),
                     SizedBox(
                       height: 300,
                       child: PageView.builder(
@@ -325,26 +218,22 @@ class _ExplorePageState extends State<ExplorePage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            room["roomName"],
+                            "Phòng: ${room["roomName"]}",
                             style: const TextStyle(
                                 fontSize: 18, fontWeight: FontWeight.bold),
                           ),
                           const SizedBox(height: 5),
-                          Text(room["roomName"],
+                          Text("Loại phòng: ${room["roomTypeName"]}",
                               style: const TextStyle(fontSize: 14)),
                           const SizedBox(height: 5),
-                          Text("₫${room["roomName"]}",
+                          Text(
+                              "Giá qua đêm: ${room["pricePerNight"].toString()} VNĐ",
                               style: const TextStyle(fontSize: 16)),
                           const SizedBox(height: 5),
-                          Row(
-                            children: [
-                              const Icon(Icons.star,
-                                  color: Colors.amber, size: 16),
-                              const SizedBox(width: 5),
-                              Text(room["roomName"].toString(),
-                                  style: const TextStyle(fontSize: 14)),
-                            ],
-                          ),
+                          Text(
+                              "Giá theo giờ: ${room["pricePerHour"].toString()} VNĐ",
+                              style: const TextStyle(fontSize: 16)),
+                          const SizedBox(height: 5),
                         ],
                       ),
                     ),
@@ -356,6 +245,19 @@ class _ExplorePageState extends State<ExplorePage> {
         ),
       ],
     );
+  }
+
+  Color getHotelColor(String hotelName) {
+    switch (hotelName) {
+      case 'Eco Blue':
+        return Colors.blue;
+      case 'Eco Green':
+        return Colors.green;
+      case 'Eco Yellow':
+        return Colors.yellow;
+      default:
+        return Colors.blue;
+    }
   }
 
   Future<void> DsHotel() async {
@@ -371,7 +273,8 @@ class _ExplorePageState extends State<ExplorePage> {
             navigationButtons.add({
               "icon": Icons.hotel,
               "label": element['hotelName'],
-              'hotelId': element['hotelId']
+              'hotelId': element['hotelId'],
+              'hotelName': element['hotelName']
             });
           }
         });
@@ -397,7 +300,6 @@ class _ExplorePageState extends State<ExplorePage> {
             List<Map<String, dynamic>>.from(data['items']);
         setState(() {
           roomList = listRoom;
-          print(listRoom[0]['roomImages']);
         });
       } else {
         print("Lỗi API: ${response.statusCode} - ${response.body}");
