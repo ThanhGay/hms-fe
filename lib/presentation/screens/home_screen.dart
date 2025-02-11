@@ -1,7 +1,10 @@
+import 'dart:convert';
+
 import 'package:android_hms/Api/api_hotel.dart';
 import 'package:android_hms/Api/api_room.dart';
 import 'package:android_hms/GlobalData.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ExplorePage extends StatefulWidget {
   const ExplorePage({Key? key}) : super(key: key);
@@ -29,6 +32,7 @@ class _ExplorePageState extends State<ExplorePage> {
     }).catchError((error) {
       print("Lỗi");
     });
+    loadData();
   }
 
   @override
@@ -194,20 +198,29 @@ class _ExplorePageState extends State<ExplorePage> {
 
   Future<void> DsRoom(int hotelId) async {
     final response = await ApiRoom.dsRoom(hotelId);
+    List<Map<String, dynamic>> data = [];
     for (var element in response) {
-      setState(() {
-        roomList.add({
-          "roomId": element.roomId,
-          "roomName": element.roomName,
-          "floor": element.floor,
-          "roomTypeName": element.roomTypeName,
-          "description": element.description,
-          "pricePerHour": element.pricePerHour,
-          "pricePerNight": element.pricePerNight,
-          "hotelId": element.hotelId,
-          "listImage": element.listImage
-        });
+      data.add({
+        "roomId": element.roomId,
+        "roomName": element.roomName,
+        "floor": element.floor,
+        "roomTypeName": element.roomTypeName,
+        "description": element.description,
+        "pricePerHour": element.pricePerHour,
+        "pricePerNight": element.pricePerNight,
+        "hotelId": element.hotelId,
+        "listImage": element.listImage
       });
     }
+    setState(() {
+      roomList = data;
+    });
+  }
+
+  Future<void> loadData() async {
+    final prefs = await SharedPreferences.getInstance();
+    String? jsonData = prefs.getString('userData');
+    Map<String, dynamic> user = json.decode(jsonData!); // Chuyển lại thành Map
+    print('Data ${user['firstName']} ${user['lastName']}');
   }
 }

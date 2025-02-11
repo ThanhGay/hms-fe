@@ -1,20 +1,10 @@
+import 'package:android_hms/Entity/user.dart';
 import 'package:android_hms/presentation/screens/info_card.dart';
 import 'package:flutter/material.dart';
 
 class ProfileScreen extends StatelessWidget {
-  final String avatarUrl;
-  final String name;
-  final int age;
-  final String address;
-  final String email;
-  const ProfileScreen(
-      {Key? key,
-      required this.avatarUrl,
-      required this.name,
-      required this.age,
-      required this.address,
-      required this.email})
-      : super(key: key);
+  final User user;
+  const ProfileScreen({Key? key, required this.user}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,13 +19,14 @@ class ProfileScreen extends StatelessWidget {
           children: [
             CircleAvatar(
               radius: 50,
-              backgroundImage: NetworkImage(avatarUrl),
+              backgroundImage: NetworkImage(user.avatarUrl),
             ),
             SizedBox(height: 16),
-            InfoCard(icon: Icons.person, title: "Họ và Tên", value: name),
-            InfoCard(icon: Icons.cake, title: "Tuổi", value: "$age"),
-            InfoCard(icon: Icons.location_on, title: "Địa chỉ", value: address),
-            InfoCard(icon: Icons.email, title: "Email", value: email),
+            InfoCard(icon: Icons.person, title: "Họ và Tên", value: user.name),
+            InfoCard(icon: Icons.cake, title: "Tuổi", value: "$user.age"),
+            InfoCard(
+                icon: Icons.location_on, title: "Địa chỉ", value: user.address),
+            InfoCard(icon: Icons.email, title: "Email", value: user.email),
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
