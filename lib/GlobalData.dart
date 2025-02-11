@@ -1,3 +1,4 @@
 class GlobalData {
-  static const String api = "https://dd65-113-181-146-33.ngrok-free.app/";
+  //adb reverse tcp:6060 tcp:5108
+  static const String api = "http://localhost:6060/";
 }
