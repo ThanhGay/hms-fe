@@ -6,6 +6,7 @@ class Room {
   final String description;
   final double pricePerHour;
   final double pricePerNight;
+  final int roomTypeId;
   final int hotelId;
   final List<Map<String, dynamic>> listImage;
   Room(
@@ -16,6 +17,21 @@ class Room {
       required this.description,
       required this.pricePerHour,
       required this.pricePerNight,
+      required this.roomTypeId,
       required this.hotelId,
       required this.listImage});
+  Map<String, dynamic> toMap() {
+    return {
+      'roomId': roomId,
+      "roomName": roomName,
+      "floor": floor,
+      "roomTypeName": roomTypeName,
+      "description": description,
+      "pricePerHour": pricePerHour,
+      "pricePerNight": pricePerNight,
+      "roomTypeId": roomTypeId,
+      "hotelId": hotelId,
+      "listImage": listImage,
+    };
+  }
 }

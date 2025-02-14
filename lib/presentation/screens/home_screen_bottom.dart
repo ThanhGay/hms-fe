@@ -19,10 +19,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     // Nội dung chính cho từng trang chính của Bottom Navigation Bar
-    final args =
-        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
-
-    print("Hello ${args}");
     final List<Widget> mainPages = [
       const ExplorePage(), // Trang Khám Phá
       Center(child: Text('Trang Thích', style: TextStyle(fontSize: 20))),

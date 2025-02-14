@@ -1,11 +1,14 @@
 import 'dart:convert';
 
+import 'package:android_hms/Data/room_provider.dart';
 import 'package:android_hms/Entity/room.dart';
 import 'package:android_hms/GlobalData.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 
 class ApiRoom {
-  static Future<List<Room>> dsRoom(int hotelId) async {
+  static Future<List<Room>> dsRoom(BuildContext context, int hotelId) async {
     final String url = "${GlobalData.api}api/room/all?hotelId=$hotelId";
     final uri = Uri.parse(url);
 
@@ -15,7 +18,6 @@ class ApiRoom {
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
         for (var element in data['items']) {
-          print(element['pricePerNight'].runtimeType);
           List<Map<String, dynamic>> listImage =
               List<Map<String, dynamic>>.from(element['roomImages']);
           rooms.add(Room(
@@ -26,9 +28,16 @@ class ApiRoom {
               description: element['description'],
               pricePerHour: element['pricePerHour'],
               pricePerNight: element['pricePerNight'],
+              roomTypeId: element['roomTypeId'],
               hotelId: element['hotelId'],
               listImage: listImage));
         }
+
+        List<Map<String, dynamic>> roomMapList =
+            rooms.map((room) => room.toMap()).toList();
+
+        Provider.of<RoomProvider>(context, listen: false)
+            .setHotels(roomMapList);
       } else {
         print("Lỗi API: ${response.statusCode} - ${response.body}");
       }
