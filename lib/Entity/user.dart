@@ -4,5 +4,5 @@ class User {
   final int age;
   final String address;
   final String email;
-  const User(this.avatarUrl, this.name, this.age, this.address, this.email);
+  User(this.avatarUrl, this.name, this.age, this.address, this.email);
 }

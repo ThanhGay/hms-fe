@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
             return MaterialPageRoute(
               builder: (context) => HomeScreen(
                 user: args ??
-                    User("https://i.imgur.com/BoN9kdC.png", "Guest", 0, "none",
+                    User("https://i.imgur.com/BoN9kdC.png", "", 0, "none",
                         "guest@example.com"),
               ),
             );

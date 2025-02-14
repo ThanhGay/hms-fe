@@ -25,7 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
     print("Hello ${args}");
     final List<Widget> mainPages = [
       const ExplorePage(), // Trang Khám Phá
-      Center(child: Text('Trang Thích', style: TextStyle(fontSize: 20))),
+      Center(child: Text('Trang Yêu Thích', style: TextStyle(fontSize: 20))),
       Center(child: Text('Trang Chuyến Đi', style: TextStyle(fontSize: 20))),
       Center(child: Text('Trang Tin Nhắn', style: TextStyle(fontSize: 20))),
       ProfileScreen(

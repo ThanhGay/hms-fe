@@ -6,20 +6,22 @@ class WelcomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-  const logoSvg = "assets/icons/logo.svg";
-  const logoImg = "assets/images/logo.png";
+    const logoSvg = "assets/icons/logo.svg";
 
     return Scaffold(
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SvgPicture.asset(
-              logoSvg,
-              colorFilter: const ColorFilter.mode(Colors.red, BlendMode.srcIn),
-              semanticsLabel: "Logo Airbnb",
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 16),
+              child: SvgPicture.asset(
+                logoSvg,
+                width: 128,
+                height: 140,
+                semanticsLabel: "Logo Airbnb",
+              ),
             ),
-            Image.asset(logoImg),
             Text(
               'Welcome to AirBnb',
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),

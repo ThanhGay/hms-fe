@@ -67,6 +67,8 @@ flutter:
     - assets/images/khung_canh_2.png
     - assets/images/khung_canh_3.png
     - assets/images/nha_cay_1.png
+    
+    - assets/icons/logo.svg
   
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
