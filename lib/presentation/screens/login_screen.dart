@@ -18,7 +18,7 @@ class LoginScreen extends StatelessWidget {
 
     if (response == 200) {
       final prefs = await SharedPreferences.getInstance();
-      String? jsonData = prefs.getString('userData');
+      String? jsonData = prefs.getString('user');
       Map<String, dynamic> user =
           json.decode(jsonData!); // Chuyển lại thành Map
       ScaffoldMessenger.of(context).showSnackBar(

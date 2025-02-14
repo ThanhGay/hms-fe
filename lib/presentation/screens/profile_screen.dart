@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:android_hms/Entity/user.dart';
 import 'package:android_hms/presentation/screens/info_card.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfileScreen extends StatelessWidget {
   final User user;
@@ -56,8 +59,14 @@ class ProfileDefault extends StatelessWidget {
                   children: [
                     Text('Don\'t have an account?'),
                     TextButton(
-                        onPressed: () {
-                          Navigator.pushNamed(context, '/register');
+                        onPressed: () async {
+                          // Navigator.pushNamed(context, '/register');
+                          final prefs = await SharedPreferences.getInstance();
+                          String? jsonData = prefs.getString('user');
+                          Map<String, dynamic> user =
+                              json.decode(jsonData!); // Chuyển lại thành Map
+                          print(
+                              'Data ${user['firstName']} ${user['lastName']}');
                         },
                         child: Text(
                           'Sign Up',
@@ -156,7 +165,6 @@ class ProfileWithUser extends StatelessWidget {
                 );
               },
               child: Text("Chỉnh sửa"),
-              
             ),
           ],
         ),
