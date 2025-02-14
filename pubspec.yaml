@@ -39,8 +39,10 @@ dependencies:
   shared_preferences: ^2.5.1
   provider: ^6.1.2
   flutter_svg: ^2.0.17
+  flutter_launcher_icons: ^0.14.3
 
 dev_dependencies:
+  flutter_launcher_icons: ^0.14.3
   flutter_test:
     sdk: flutter
 
@@ -68,6 +70,7 @@ flutter:
     - assets/images/khung_canh_2.png
     - assets/images/khung_canh_3.png
     - assets/images/nha_cay_1.png
+    - assets/images/logo.png
     
     - assets/icons/logo.svg
   
@@ -106,3 +109,10 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
+
+# The following change application icon
+flutter_launcher_icons:
+  android: true
+  ios: true
+  remove_alpha_ios: true
+  image_path: "assets/images/logo.png"
