@@ -1,9 +1,10 @@
-import 'dart:convert';
-
 import 'package:android_hms/Api/api_hotel.dart';
 import 'package:android_hms/Api/api_room.dart';
+import 'package:android_hms/Data/hotel_provider.dart';
+import 'package:android_hms/Data/room_provider.dart';
 import 'package:android_hms/GlobalData.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
@@ -112,21 +113,36 @@ class _ExplorePageState extends State<ExplorePage> {
 
   // Dữ liệu mẫu cho danh sách phòng hiện tại
   List<Map<String, dynamic>> roomList = [];
+  List<Map<String, dynamic>> navigationButtons = [];
 
   // Danh sách nút điều hướng
-  final List<Map<String, dynamic>> navigationButtons = [];
-
   @override
   void initState() {
     super.initState();
     // Khởi tạo roomList với dữ liệu của tab đầu tiên
-    DsHotel().then((data) {
-      int hotelId = navigationButtons[0]['hotelId'];
-      DsRoom(hotelId).then((data) {}).catchError((error) {});
-    }).catchError((error) {
-      print("Lỗi");
+    // DsHotel().then((data) {
+    //   int hotelId = navigationButtons[0]['hotelId'];
+    //   DsRoom(hotelId).then((data) {}).catchError((error) {});
+    // }).catchError((error) {
+    //   print("Lỗi");
+    // });
+    ApiHotel.dsHotel(context).then((data) {}).catchError((error) {
+      print("error: ${error}");
     });
-    loadData();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    // Truy cập vào HotelProvider tại đây thay vì trong initState.
+    setState(() {
+      navigationButtons = Provider.of<HotelProvider>(context).hotel;
+      ApiRoom.dsRoom(context, 2).then((data) {}).catchError((error) {
+        print("error: ${error}");
+      });
+      roomList = Provider.of<RoomProvider>(context, listen: false).room;
+    });
   }
 
   @override
@@ -160,30 +176,33 @@ class _ExplorePageState extends State<ExplorePage> {
               int index = navigationButtons.indexOf(button);
               return GestureDetector(
                 onTap: () async {
+                  int hotelId = button['hotelId'];
+
+                  await ApiRoom.dsRoom(context, hotelId);
                   setState(() {
                     selectedExploreTabIndex = index;
                     // roomList =
                     //     exploreTabData[index]; // Cập nhật danh sách phòng
+                    roomList =
+                        Provider.of<RoomProvider>(context, listen: false).room;
                   });
-                  int hotelId = button['hotelId'];
-                  await DsRoom(hotelId);
                 },
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Icon(
-                      button["icon"],
+                      Icons.hotel,
                       color: selectedExploreTabIndex == index
-                          ? getHotelColor(button['label'])
+                          ? getHotelColor(button['hotelName'])
                           : Colors.black,
                     ),
                     const SizedBox(height: 5),
                     Text(
-                      button["label"],
+                      button["hotelName"],
                       style: TextStyle(
                         fontSize: 12,
                         color: selectedExploreTabIndex == index
-                            ? getHotelColor(button['label'])
+                            ? getHotelColor(button['hotelName'])
                             : Colors.black,
                       ),
                     ),
@@ -277,44 +296,44 @@ class _ExplorePageState extends State<ExplorePage> {
     }
   }
 
-  Future<void> DsHotel() async {
-    final response = await ApiHotel.dsHotel();
-    for (var element in response) {
-      setState(() {
-        navigationButtons.add({
-          "icon": Icons.hotel,
-          "label": element.hotelName,
-          'hotelId': element.hotelId,
-        });
-      });
-    }
-  }
+  // Future<void> DsHotel() async {
+  //   final response = await ApiHotel.dsHotel();
+  //   for (var element in response) {
+  //     setState(() {
+  //       navigationButtons.add({
+  //         "icon": Icons.hotel,
+  //         "label": element.hotelName,
+  //         'hotelId': element.hotelId,
+  //       });
+  //     });
+  //   }
+  // }
 
-  Future<void> DsRoom(int hotelId) async {
-    final response = await ApiRoom.dsRoom(hotelId);
-    List<Map<String, dynamic>> data = [];
-    for (var element in response) {
-      data.add({
-        "roomId": element.roomId,
-        "roomName": element.roomName,
-        "floor": element.floor,
-        "roomTypeName": element.roomTypeName,
-        "description": element.description,
-        "pricePerHour": element.pricePerHour,
-        "pricePerNight": element.pricePerNight,
-        "hotelId": element.hotelId,
-        "listImage": element.listImage
-      });
-    }
-    setState(() {
-      roomList = data;
-    });
-  }
+  // Future<void> DsRoom(int hotelId) async {
+  //   final response = await ApiRoom.dsRoom(hotelId);
+  //   List<Map<String, dynamic>> data = [];
+  //   for (var element in response) {
+  //     data.add({
+  //       "roomId": element.roomId,
+  //       "roomName": element.roomName,
+  //       "floor": element.floor,
+  //       "roomTypeName": element.roomTypeName,
+  //       "description": element.description,
+  //       "pricePerHour": element.pricePerHour,
+  //       "pricePerNight": element.pricePerNight,
+  //       "hotelId": element.hotelId,
+  //       "listImage": element.listImage
+  //     });
+  //   }
+  //   setState(() {
+  //     roomList = data;
+  //   });
+  // }
 
-  Future<void> loadData() async {
-    final prefs = await SharedPreferences.getInstance();
-    String? jsonData = prefs.getString('userData');
-    Map<String, dynamic> user = json.decode(jsonData!); // Chuyển lại thành Map
-    print('Data ${user['firstName']} ${user['lastName']}');
-  }
+  // Future<void> loadData() async {
+  //   final prefs = await SharedPreferences.getInstance();
+  //   String? jsonData = prefs.getString('userData');
+  //   Map<String, dynamic> user = json.decode(jsonData!); // Chuyển lại thành Map
+  //   print('Data ${user['firstName']} ${user['lastName']}');
+  // }
 }
