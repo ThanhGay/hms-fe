@@ -24,11 +24,8 @@ class ApiHotel {
               hotelAddress: element['hotelAddress'],
               hotline: element['hotline']));
         }
-        List<Map<String, dynamic>> hotelMapList =
-            hotels.map((hotel) => hotel.toMap()).toList();
 
-        Provider.of<HotelProvider>(context, listen: false)
-            .setHotels(hotelMapList);
+        Provider.of<HotelProvider>(context, listen: false).setHotels(hotels);
       } else {
         print("Lỗi API: ${response.statusCode} - ${response.body}");
       }

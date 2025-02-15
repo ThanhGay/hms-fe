@@ -1,4 +1,4 @@
-import 'package:android_hms/Api/api_signUp.dart';
+import 'package:android_hms/Service/api_signUp.dart';
 import 'package:flutter/material.dart';
 
 class SignupScreen extends StatelessWidget {

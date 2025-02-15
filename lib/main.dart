@@ -4,6 +4,7 @@ import 'package:android_hms/Entity/user.dart';
 import 'package:android_hms/presentation/screens/home_screen_bottom.dart';
 import 'package:android_hms/presentation/screens/login_screen.dart';
 import 'package:android_hms/presentation/screens/signup_screen.dart';
+import 'package:android_hms/presentation/themes/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'presentation/screens/welcome_screen.dart';
@@ -24,7 +25,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData.light(),
+      theme: AppTheme.lightTheme,
       debugShowCheckedModeBanner: false,
       home: WelcomeScreen(),
       onGenerateRoute: (settings) {
@@ -40,7 +41,7 @@ class MyApp extends StatelessWidget {
             final args = settings.arguments as User?;
 
             return MaterialPageRoute(
-              builder: (context) => HomeScreen(
+              builder: (context) => HomeScreenBottom(
                 user: args ??
                     User("https://i.imgur.com/BoN9kdC.png", "", 0, "none",
                         "guest@example.com"),

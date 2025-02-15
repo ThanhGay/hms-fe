@@ -20,18 +20,4 @@ class Room {
       required this.roomTypeId,
       required this.hotelId,
       required this.listImage});
-  Map<String, dynamic> toMap() {
-    return {
-      'roomId': roomId,
-      "roomName": roomName,
-      "floor": floor,
-      "roomTypeName": roomTypeName,
-      "description": description,
-      "pricePerHour": pricePerHour,
-      "pricePerNight": pricePerNight,
-      "roomTypeId": roomTypeId,
-      "hotelId": hotelId,
-      "listImage": listImage,
-    };
-  }
 }

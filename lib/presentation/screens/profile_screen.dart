@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:android_hms/Entity/user.dart';
-import 'package:android_hms/presentation/screens/info_card.dart';
+import 'package:android_hms/presentation/component/info_card.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

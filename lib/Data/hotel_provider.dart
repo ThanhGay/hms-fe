@@ -1,11 +1,12 @@
+import 'package:android_hms/Entity/hotel.dart';
 import 'package:flutter/material.dart';
 
 class HotelProvider extends ChangeNotifier {
-  List<Map<String, dynamic>> _hotel = [];
+  List<Hotel> _hotel = [];
 
-  List<Map<String, dynamic>> get hotel => _hotel;
+  List<Hotel> get hotel => _hotel;
 
-  void setHotels(List<Map<String, dynamic>> data) {
+  void setHotels(List<Hotel> data) {
     _hotel = data;
     notifyListeners();
   }

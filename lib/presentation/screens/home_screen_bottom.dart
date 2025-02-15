@@ -3,16 +3,16 @@ import 'package:android_hms/presentation/screens/home_screen.dart';
 import 'package:android_hms/presentation/screens/profile_screen.dart';
 import 'package:flutter/material.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreenBottom extends StatefulWidget {
   final User user;
 
-  const HomeScreen({Key? key, required this.user}) : super(key: key);
+  const HomeScreenBottom({Key? key, required this.user}) : super(key: key);
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<HomeScreenBottom> createState() => _HomeScreenBottomState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenBottomState extends State<HomeScreenBottom> {
   int selectedBottomTabIndex = 0; // Chỉ số của Bottom Navigation Bar
   late final List<Widget> mainPages;
 
@@ -20,7 +20,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     // Nội dung chính cho từng trang chính của Bottom Navigation Bar
     final List<Widget> mainPages = [
-      const ExplorePage(), // Trang Khám Phá
+      const HomeScreen(), // Trang Khám Phá
       Center(child: Text('Trang Yêu Thích', style: TextStyle(fontSize: 20))),
       Center(child: Text('Trang Chuyến Đi', style: TextStyle(fontSize: 20))),
       Center(child: Text('Trang Tin Nhắn', style: TextStyle(fontSize: 20))),

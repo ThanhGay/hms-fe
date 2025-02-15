@@ -9,13 +9,4 @@ class Hotel {
       required this.hotelId,
       required this.hotelAddress,
       required this.hotline});
-
-  Map<String, dynamic> toMap() {
-    return {
-      'hotelName': hotelName,
-      'hotelId': hotelId,
-      'hotelAddress': hotelAddress,
-      'hotline': hotline
-    };
-  }
 }

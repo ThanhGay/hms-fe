@@ -11,7 +11,6 @@ class ApiRoom {
   static Future<List<Room>> dsRoom(BuildContext context, int hotelId) async {
     final String url = "${GlobalData.api}api/room/all?hotelId=$hotelId";
     final uri = Uri.parse(url);
-
     try {
       final response = await http.get(uri);
       List<Room> rooms = [];
@@ -32,12 +31,7 @@ class ApiRoom {
               hotelId: element['hotelId'],
               listImage: listImage));
         }
-
-        List<Map<String, dynamic>> roomMapList =
-            rooms.map((room) => room.toMap()).toList();
-
-        Provider.of<RoomProvider>(context, listen: false)
-            .setHotels(roomMapList);
+        Provider.of<RoomProvider>(context, listen: false).setHotels(rooms);
       } else {
         print("Lỗi API: ${response.statusCode} - ${response.body}");
       }

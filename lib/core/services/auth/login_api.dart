@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -14,8 +13,6 @@ class LoginApi {
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({'email': email, 'password': password}),
     );
-
-    // Navigator.pushNamed(context, '/home');
 
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
