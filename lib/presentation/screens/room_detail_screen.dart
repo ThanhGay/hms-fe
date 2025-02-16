@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 
 class RoomDetailScreen extends StatelessWidget {
   final int roomId;
+  final int hotelId;
 
-  const RoomDetailScreen({super.key, required this.roomId});
+  const RoomDetailScreen({super.key, required this.roomId,required this.hotelId});
 
   @override
   Widget build(BuildContext context) {
@@ -30,9 +31,8 @@ class RoomDetailScreen extends StatelessWidget {
         children: [
           Expanded(
             child: ListView(
-              padding: EdgeInsets.zero, // Xóa padding dư thừa
+              padding: EdgeInsets.zero, 
               children: [
-                // Hình ảnh phòng
                 Container(
                   height: 250,
                   decoration: BoxDecoration(
@@ -44,7 +44,6 @@ class RoomDetailScreen extends StatelessWidget {
                   ),
                 ),
 
-                // Thông tin phòng
                 Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Column(
@@ -67,7 +66,7 @@ class RoomDetailScreen extends StatelessWidget {
 
                       SizedBox(height: 10),
 
-                      // Rating và đánh giá
+                      
                       Row(
                         children: [
                           Icon(Icons.star, color: Colors.orange, size: 20),
@@ -84,22 +83,20 @@ class RoomDetailScreen extends StatelessWidget {
 
                       Divider(height: 30),
 
-                      // Thông tin chủ nhà
                       Row(
                         children: [
                           CircleAvatar(
-                            backgroundImage: NetworkImage(
-                                "https://i.imgur.com/BoN9kdC.png"),
+                            backgroundImage: AssetImage('assets/images/khung_canh_2.png'),
                             radius: 25,
                           ),
                           SizedBox(width: 10),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text("Chủ nhà: Adam",
+                              Text("Khách sạn: 4 chúng mình",
                                   style: TextStyle(
                                       fontSize: 16, fontWeight: FontWeight.bold)),
-                              Text("Chủ nhà siêu cấp",
+                              Text("Khách sạn siêu cấp",
                                   style: TextStyle(
                                       fontSize: 14, color: Colors.grey[700])),
                               Text("2 năm kinh nghiệm đón tiếp khách",
@@ -123,14 +120,6 @@ class RoomDetailScreen extends StatelessWidget {
 
                       SizedBox(height: 100),
 
-                      Row(
-                        children: [
-                          Icon(Icons.directions_walk, size: 18),
-                          SizedBox(width: 5),
-                          Text("Cách hồ 1 phút đi bộ",
-                              style: TextStyle(fontSize: 14)),
-                        ],
-                      ),
                     ],
                   ),
                 ),
@@ -138,14 +127,13 @@ class RoomDetailScreen extends StatelessWidget {
             ),
           ),
 
-          // Thanh giá và nút đặt phòng cố định dưới cùng
           Container(
             padding: EdgeInsets.symmetric(vertical: 10, horizontal: 16),
             decoration: BoxDecoration(
               border: Border(
                   top: BorderSide(
-                      color: Colors.grey.shade300)), // Viền trên
-              color: Colors.white, // Nền trắng
+                      color: Colors.grey.shade300)),
+              color: Colors.white, 
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -167,13 +155,12 @@ class RoomDetailScreen extends StatelessWidget {
 
                 SizedBox(width: 30),
 
-                // Nút Đặt phòng bên phải
                 Expanded(
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xFFFF385C), // Màu hồng Airbnb
+                      backgroundColor: Color(0xFFFF385C), 
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8), // Bo góc nhẹ
+                        borderRadius: BorderRadius.circular(8),
                       ),
                       padding: EdgeInsets.symmetric(vertical: 14),
                     ),

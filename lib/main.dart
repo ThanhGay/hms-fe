@@ -28,8 +28,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       theme: AppTheme.lightTheme,
       debugShowCheckedModeBanner: false,
-      // home: WelcomeScreen(),
-      home: RoomDetailScreen(roomId: 0), 
+      home: WelcomeScreen(),
+      // home: RoomDetailScreen(roomId: 0),
 
       onGenerateRoute: (settings) {
         switch (settings.name) {
@@ -52,10 +52,17 @@ class MyApp extends StatelessWidget {
             );
 
           case '/room_detail':
-            final roomId = settings.arguments as int?;
-            return MaterialPageRoute(
-              builder: (context) => RoomDetailScreen(roomId: roomId ?? 0),
-            );
+            if (settings.arguments is Map<String, int>) {
+              final args = settings.arguments as Map<String, int>;
+              final roomId = args['roomId'] ?? 0;
+              final hotelId = args['hotelId'] ?? 0;
+
+              return MaterialPageRoute(
+                builder: (context) =>
+                    RoomDetailScreen(roomId: roomId, hotelId: hotelId),
+              );
+            }
+            return null;
 
           default:
             return null;
