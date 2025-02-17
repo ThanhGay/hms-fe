@@ -1,4 +1,4 @@
-import 'package:android_hms/Service/api_signUp.dart';
+import 'package:android_hms/core/services/Auth/api_signUp.dart';
 import 'package:flutter/material.dart';
 
 class SignupScreen extends StatelessWidget {
@@ -29,9 +29,9 @@ class SignupScreen extends StatelessWidget {
           lastName, phoneNumber, citizenIdentity, dateOfBirth);
       if (response == 200) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Registration successful! Welcome {}')),
+          SnackBar(content: Text('Registration successful!')),
         );
-        Navigator.pushNamed(context, '/home');
+        Navigator.pushNamed(context, '/login');
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Registration failed! Please try again.')),

@@ -1,6 +1,5 @@
 import 'package:android_hms/Data/hotel_provider.dart';
 import 'package:android_hms/Data/room_provider.dart';
-import 'package:android_hms/Entity/user.dart';
 import 'package:android_hms/presentation/screens/home_screen_bottom.dart';
 import 'package:android_hms/presentation/screens/login_screen.dart';
 import 'package:android_hms/presentation/screens/signup_screen.dart';
@@ -40,15 +39,8 @@ class MyApp extends StatelessWidget {
             return MaterialPageRoute(builder: (context) => SignupScreen());
 
           case '/home':
-            // Nhận dữ liệu từ arguments
-            final args = settings.arguments as User?;
-
             return MaterialPageRoute(
-              builder: (context) => HomeScreenBottom(
-                user: args ??
-                    User("https://i.imgur.com/BoN9kdC.png", "", 0, "none",
-                        "guest@example.com"),
-              ),
+              builder: (context) => HomeScreenBottom(),
             );
 
           case '/room_detail':

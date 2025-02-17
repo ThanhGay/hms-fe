@@ -1,12 +1,9 @@
-import 'package:android_hms/Entity/user.dart';
 import 'package:android_hms/presentation/screens/home_screen.dart';
 import 'package:android_hms/presentation/screens/profile_screen.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreenBottom extends StatefulWidget {
-  final User user;
-
-  const HomeScreenBottom({Key? key, required this.user}) : super(key: key);
+  const HomeScreenBottom({Key? key}) : super(key: key);
 
   @override
   State<HomeScreenBottom> createState() => _HomeScreenBottomState();
@@ -24,9 +21,7 @@ class _HomeScreenBottomState extends State<HomeScreenBottom> {
       Center(child: Text('Trang Yêu Thích', style: TextStyle(fontSize: 20))),
       Center(child: Text('Trang Chuyến Đi', style: TextStyle(fontSize: 20))),
       Center(child: Text('Trang Tin Nhắn', style: TextStyle(fontSize: 20))),
-      ProfileScreen(
-        user: widget.user,
-      )
+      ProfileScreen()
     ];
     return Scaffold(
       body: mainPages[selectedBottomTabIndex],
