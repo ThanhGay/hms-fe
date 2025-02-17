@@ -71,6 +71,7 @@ flutter:
     - assets/images/khung_canh_3.png
     - assets/images/nha_cay_1.png
     - assets/images/logo.png
+    - assets/images/default_avatar.png
     
     - assets/icons/logo.svg
   
