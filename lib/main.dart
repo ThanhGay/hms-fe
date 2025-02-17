@@ -7,6 +7,7 @@ import 'package:android_hms/presentation/themes/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'presentation/screens/welcome_screen.dart';
+import 'package:android_hms/presentation/screens/room_detail_screen.dart';
 
 void main() {
   runApp(MultiProvider(
@@ -27,6 +28,8 @@ class MyApp extends StatelessWidget {
       theme: AppTheme.lightTheme,
       debugShowCheckedModeBanner: false,
       home: WelcomeScreen(),
+      // home: RoomDetailScreen(roomId: 0),
+
       onGenerateRoute: (settings) {
         switch (settings.name) {
           case '/login':
@@ -39,6 +42,19 @@ class MyApp extends StatelessWidget {
             return MaterialPageRoute(
               builder: (context) => HomeScreenBottom(),
             );
+
+          case '/room_detail':
+            if (settings.arguments is Map<String, int>) {
+              final args = settings.arguments as Map<String, int>;
+              final roomId = args['roomId'] ?? 0;
+              final hotelId = args['hotelId'] ?? 0;
+
+              return MaterialPageRoute(
+                builder: (context) =>
+                    RoomDetailScreen(roomId: roomId, hotelId: hotelId),
+              );
+            }
+            return null;
 
           default:
             return null;
