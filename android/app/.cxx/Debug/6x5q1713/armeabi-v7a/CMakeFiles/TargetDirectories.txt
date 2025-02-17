@@ -1,0 +1,2 @@
+F:/New folder/CODE/Danentang_QuyDinh/hms-fe/android/app/.cxx/Debug/6x5q1713/armeabi-v7a/CMakeFiles/edit_cache.dir
+F:/New folder/CODE/Danentang_QuyDinh/hms-fe/android/app/.cxx/Debug/6x5q1713/armeabi-v7a/CMakeFiles/rebuild_cache.dir

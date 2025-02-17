@@ -5,6 +5,7 @@ import 'package:android_hms/Data/room_provider.dart';
 import 'package:android_hms/Entity/hotel.dart';
 import 'package:android_hms/Entity/room.dart';
 import 'package:android_hms/presentation/component/info_room.dart';
+import 'package:android_hms/presentation/screens/room_detail_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -18,31 +19,40 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int selectedExploreTabIndex = 0;
 
-  // Dữ liệu mẫu cho danh sách phòng hiện tại
   List<Room> roomList = [];
   List<Hotel> navigationButtons = [];
 
-  // Danh sách nút điều hướng
   @override
   void initState() {
     super.initState();
+    // Gọi API để lấy danh sách khách sạn
     ApiHotel.dsHotel(context).then((data) {}).catchError((error) {
-      print("error: ${error}");
+      print("Error fetching hotels: $error");
     });
-    print("object");
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
 
-    // Truy cập vào HotelProvider tại đây thay vì trong initState.
+    // Lấy danh sách khách sạn từ Provider
+    final hotelProvider = Provider.of<HotelProvider>(context);
+    final roomProvider = Provider.of<RoomProvider>(context, listen: false);
+
     setState(() {
-      navigationButtons = Provider.of<HotelProvider>(context).hotel;
-      ApiRoom.dsRoom(context, 2).then((data) {}).catchError((error) {
-        print("error: ${error}");
-      });
-      roomList = Provider.of<RoomProvider>(context, listen: false).room;
+      navigationButtons = hotelProvider.hotel;
+
+      // Gọi API để lấy danh sách phòng cho khách sạn đầu tiên nếu có
+      if (navigationButtons.isNotEmpty) {
+        int firstHotelId = navigationButtons[0].hotelId;
+        ApiRoom.dsRoom(context, firstHotelId).then((_) {
+          setState(() {
+            roomList = roomProvider.room;
+          });
+        }).catchError((error) {
+          print("Error fetching rooms: $error");
+        });
+      }
     });
   }
 
@@ -119,7 +129,32 @@ class _HomeScreenState extends State<HomeScreen> {
             itemCount: roomList.length,
             itemBuilder: (context, index) {
               final room = roomList[index];
-              return InfoRoom(room: room);
+
+              return GestureDetector(
+                onTap: () {
+                  if (navigationButtons.isNotEmpty) {
+                    int hotelId =
+                        navigationButtons[selectedExploreTabIndex].hotelId;
+
+                    debugPrint("Navigating to RoomDetailScreen");
+                    debugPrint("Room Data: ${room.toString()}");
+                    debugPrint("Hotel ID: ${hotelId}");
+
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => RoomDetailScreen(
+                          roomId: room.roomId,
+                          hotelId: hotelId,
+                        ),
+                      ),
+                    );
+                  } else {
+                    debugPrint("Error: No hotel data available!");
+                  }
+                },
+                child: InfoRoom(room: room),
+              );
             },
           ),
         ),
@@ -127,6 +162,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  // Lấy màu dựa vào tên khách sạn
   Color getHotelColor(String hotelName) {
     switch (hotelName) {
       case 'Eco Blue':
@@ -139,10 +175,4 @@ class _HomeScreenState extends State<HomeScreen> {
         return Colors.blue;
     }
   }
-  // Future<void> loadData() async {
-  //   final prefs = await SharedPreferences.getInstance();
-  //   String? jsonData = prefs.getString('userData');
-  //   Map<String, dynamic> user = json.decode(jsonData!); // Chuyển lại thành Map
-  //   print('Data ${user['firstName']} ${user['lastName']}');
-  // }
 }
