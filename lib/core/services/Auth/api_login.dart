@@ -1,11 +1,11 @@
 import 'dart:convert';
-import 'package:android_hms/GlobalData.dart';
+import 'package:android_hms/core/constants/api_constants.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ApiLogin {
   static Future<int> loginUser(String email, String password) async {
-    const String url = "${GlobalData.api}Login";
+    const String url = "${APIConstants.api}Login";
     final uri = Uri.parse(url);
     final response = await http.post(
       uri,

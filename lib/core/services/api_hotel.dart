@@ -2,14 +2,14 @@ import 'dart:convert';
 
 import 'package:android_hms/Data/hotel_provider.dart';
 import 'package:android_hms/Entity/hotel.dart';
-import 'package:android_hms/GlobalData.dart';
+import 'package:android_hms/core/constants/api_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 
 class ApiHotel {
   static Future<List<Hotel>> dsHotel(BuildContext context) async {
-    const String url = "${GlobalData.api}api/hotel/all";
+    const String url = "${APIConstants.api}api/hotel/all";
     final uri = Uri.parse(url);
     try {
       final response = await http.get(uri);

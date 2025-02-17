@@ -1,5 +1,5 @@
 import 'package:android_hms/Entity/room.dart';
-import 'package:android_hms/GlobalData.dart';
+import 'package:android_hms/core/constants/api_constants.dart';
 import 'package:flutter/material.dart';
 
 class InfoRoom extends StatelessWidget {
@@ -26,7 +26,7 @@ class InfoRoom extends StatelessWidget {
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(10),
                     child: Image.network(
-                      GlobalData.api + room.listImage[index]['imageURL'],
+                      APIConstants.api + room.listImage[index]['imageURL'],
                       height: 300,
                       width: 200,
                       fit: BoxFit.cover,

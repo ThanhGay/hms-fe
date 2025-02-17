@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:android_hms/GlobalData.dart';
+import 'package:android_hms/core/constants/api_constants.dart';
 import 'package:http/http.dart' as http;
 
 class ApiSignup {
@@ -12,8 +12,8 @@ class ApiSignup {
       String phoneNumber,
       String citizenIdentity,
       String dateOfBirth) async {
-    final url =
-        Uri.parse("${GlobalData.api}add-customer"); // Thay bằng URL API thực tế
+    final url = Uri.parse(
+        "${APIConstants.api}add-customer"); // Thay bằng URL API thực tế
     final response = await http.post(
       url,
       headers: {'Content-Type': 'application/json'},
