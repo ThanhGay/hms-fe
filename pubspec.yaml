@@ -36,6 +36,10 @@ dependencies:
   cupertino_icons: ^1.0.8
   http: ^1.2.2
   english_words: ^4.0.0
+  shared_preferences: ^2.5.1
+  provider: ^6.1.2
+  flutter_svg: ^2.0.17
+  flutter_launcher_icons: ^0.14.3
 
 dev_dependencies:
   flutter_test:
@@ -54,17 +58,10 @@ dev_dependencies:
 # The following section is specific to Flutter packages.
 flutter:
   assets:
-    - assets/images/clean_code.png
-    - assets/images/ban_cong.png
-    - assets/images/phong_khach.png
-    - assets/images/phong_ngu.png
-    - assets/images/nong_thon_1.png
-    - assets/images/nong_thon_2.png
-    - assets/images/nong_thon_3.png
-    - assets/images/khung_canh_1.png
-    - assets/images/khung_canh_2.png
-    - assets/images/khung_canh_3.png
-    - assets/images/nha_cay_1.png
+    - assets/images/logo.png
+    - assets/images/default_avatar.png
+    
+    - assets/icons/logo.svg
   
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
@@ -101,3 +98,10 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
+
+# The following change application icon
+flutter_launcher_icons:
+  android: true
+  ios: true
+  remove_alpha_ios: true
+  image_path: "assets/images/logo.png"
