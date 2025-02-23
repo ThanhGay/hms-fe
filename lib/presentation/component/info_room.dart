@@ -1,6 +1,7 @@
 import 'package:android_hms/Entity/room.dart';
 import 'package:android_hms/core/constants/api_constants.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class InfoRoom extends StatelessWidget {
   final Room room;
@@ -11,7 +12,9 @@ class InfoRoom extends StatelessWidget {
   Widget build(BuildContext context) {
     // TODO: implement build
     return Card(
-      margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+      elevation: 0,
+      margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+      color: Colors.white,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -22,7 +25,7 @@ class InfoRoom extends StatelessWidget {
               itemCount: room.listImage.length,
               itemBuilder: (context, index) {
                 return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  padding: const EdgeInsets.symmetric(horizontal: 0),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(10),
                     child: Image.network(
@@ -43,18 +46,41 @@ class InfoRoom extends StatelessWidget {
               children: [
                 Text(
                   "Phòng: ${room.roomName}",
-                  style: const TextStyle(
-                      fontSize: 18, fontWeight: FontWeight.bold),
+                  style: GoogleFonts.roboto(
+                    fontSize: 16, 
+                    fontWeight: FontWeight.w600, 
+                    height: 20.02 / 14, 
+                    color: Color.fromRGBO(34, 34, 34, 1),
+                  ),
                 ),
                 const SizedBox(height: 5),
-                Text("Loại phòng: ${room.roomTypeName}",
-                    style: const TextStyle(fontSize: 14)),
+                Text(
+                  "Loại phòng: ${room.roomTypeName}",
+                  style: GoogleFonts.roboto(
+                    fontSize: 16, 
+                    fontWeight: FontWeight.w400, 
+                    height: 20.02 / 14, 
+                    color: Colors.grey[500],
+                  ),
+                ),
                 const SizedBox(height: 5),
                 Text("Giá qua đêm: ${room.pricePerNight.toString()} VNĐ",
-                    style: const TextStyle(fontSize: 16)),
+                    style: GoogleFonts.roboto(
+                    fontSize: 16, 
+                    fontWeight: FontWeight.w400, 
+                    height: 20.02 / 14, 
+                    color: Color.fromRGBO(34, 34, 34, 1),
+                  ),
+                ),
                 const SizedBox(height: 5),
                 Text("Giá theo giờ: ${room.pricePerHour.toString()} VNĐ",
-                    style: const TextStyle(fontSize: 16)),
+                    style: GoogleFonts.roboto(
+                    fontSize: 16, 
+                    fontWeight: FontWeight.w400, 
+                    height: 20.02 / 14, 
+                    color: Color.fromRGBO(34, 34, 34, 1),
+                  ),
+                ),
                 const SizedBox(height: 5),
               ],
             ),
