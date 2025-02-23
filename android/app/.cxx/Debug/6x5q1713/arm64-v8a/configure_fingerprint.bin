@@ -2,6 +2,7 @@ C/C++ Structured LogK
 I
 GC:\flutter\packages\flutter_tools\gradle\src\main\groovy\CMakeLists.txtC
 A
+<<<<<<< HEAD
 ?com.android.build.gradle.internal.cxx.io.EncodedFileFingerPrint	ÔØ ›Ó2§ †ÿèúÐ2v
 t
 rF:\New folder\CODE\Danentang_QuyDinh\hms-fe\android\app\.cxx\Debug\6x5q1713\arm64-v8a\additional_project_files.txt	ÔØ ›Ó2 ñ‰Ü•Ó2s
@@ -26,3 +27,29 @@ j
 hF:\New folder\CODE\Danentang_QuyDinh\hms-fe\android\app\.cxx\Debug\6x5q1713\arm64-v8a\prefab_config.json	ÔØ ›Ó2( ®ŠÜ•Ó2q
 o
 mF:\New folder\CODE\Danentang_QuyDinh\hms-fe\android\app\.cxx\Debug\6x5q1713\arm64-v8a\symbol_folder_index.txt	ÔØ ›Ó2d ¯ŠÜ•Ó2
+=======
+?com.android.build.gradle.internal.cxx.io.EncodedFileFingerPrint	á™‘ýÐ2§ †ÿèúÐ2v
+t
+rF:\New folder\CODE\Danentang_QuyDinh\hms-fe\android\app\.cxx\Debug\6x5q1713\arm64-v8a\additional_project_files.txt	â™‘ýÐ2 è­¾ûÐ2s
+q
+oF:\New folder\CODE\Danentang_QuyDinh\hms-fe\android\app\.cxx\Debug\6x5q1713\arm64-v8a\android_gradle_build.json	â™‘ýÐ2Â ö­¾ûÐ2x
+v
+tF:\New folder\CODE\Danentang_QuyDinh\hms-fe\android\app\.cxx\Debug\6x5q1713\arm64-v8a\android_gradle_build_mini.json	â™‘ýÐ2 ˆ®¾ûÐ2e
+c
+aF:\New folder\CODE\Danentang_QuyDinh\hms-fe\android\app\.cxx\Debug\6x5q1713\arm64-v8a\build.ninja	â™‘ýÐ2ÈÔ ¥¬¾ûÐ2i
+g
+eF:\New folder\CODE\Danentang_QuyDinh\hms-fe\android\app\.cxx\Debug\6x5q1713\arm64-v8a\build.ninja.txt	â™‘ýÐ2n
+l
+jF:\New folder\CODE\Danentang_QuyDinh\hms-fe\android\app\.cxx\Debug\6x5q1713\arm64-v8a\build_file_index.txt	â™‘ýÐ2G ®¾ûÐ2o
+m
+kF:\New folder\CODE\Danentang_QuyDinh\hms-fe\android\app\.cxx\Debug\6x5q1713\arm64-v8a\compile_commands.json	â™‘ýÐ2	s
+q
+oF:\New folder\CODE\Danentang_QuyDinh\hms-fe\android\app\.cxx\Debug\6x5q1713\arm64-v8a\compile_commands.json.bin	â™‘ýÐ2
+y
+w
+uF:\New folder\CODE\Danentang_QuyDinh\hms-fe\android\app\.cxx\Debug\6x5q1713\arm64-v8a\metadata_generation_command.txt	â™‘ýÐ2à ®¾ûÐ2l
+j
+hF:\New folder\CODE\Danentang_QuyDinh\hms-fe\android\app\.cxx\Debug\6x5q1713\arm64-v8a\prefab_config.json	â™‘ýÐ2( Ž®¾ûÐ2q
+o
+mF:\New folder\CODE\Danentang_QuyDinh\hms-fe\android\app\.cxx\Debug\6x5q1713\arm64-v8a\symbol_folder_index.txt	â™‘ýÐ2d Ž®¾ûÐ2
+>>>>>>> 2747f2201235be5f364b0b671856cd9885d4d4f0

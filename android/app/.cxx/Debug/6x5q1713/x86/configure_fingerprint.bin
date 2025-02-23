@@ -2,6 +2,7 @@ C/C++ Structured LogK
 I
 GC:\flutter\packages\flutter_tools\gradle\src\main\groovy\CMakeLists.txtC
 A
+<<<<<<< HEAD
 ?com.android.build.gradle.internal.cxx.io.EncodedFileFingerPrint	‹Ù ›Ó2§ †ÿèúÐ2p
 n
 lF:\New folder\CODE\Danentang_QuyDinh\hms-fe\android\app\.cxx\Debug\6x5q1713\x86\additional_project_files.txt	‹Ù ›Ó2 ãÎÜ•Ó2m
@@ -26,3 +27,29 @@ d
 bF:\New folder\CODE\Danentang_QuyDinh\hms-fe\android\app\.cxx\Debug\6x5q1713\x86\prefab_config.json	ŒÙ ›Ó2( òÎÜ•Ó2k
 i
 gF:\New folder\CODE\Danentang_QuyDinh\hms-fe\android\app\.cxx\Debug\6x5q1713\x86\symbol_folder_index.txt	ŒÙ ›Ó2^ ôÎÜ•Ó2
+=======
+?com.android.build.gradle.internal.cxx.io.EncodedFileFingerPrint	Éš‘ýÐ2§ †ÿèúÐ2p
+n
+lF:\New folder\CODE\Danentang_QuyDinh\hms-fe\android\app\.cxx\Debug\6x5q1713\x86\additional_project_files.txt	Éš‘ýÐ2 ¢àÁûÐ2m
+k
+iF:\New folder\CODE\Danentang_QuyDinh\hms-fe\android\app\.cxx\Debug\6x5q1713\x86\android_gradle_build.json	Éš‘ýÐ2¶ ¨àÁûÐ2r
+p
+nF:\New folder\CODE\Danentang_QuyDinh\hms-fe\android\app\.cxx\Debug\6x5q1713\x86\android_gradle_build_mini.json	Éš‘ýÐ2‘ «àÁûÐ2_
+]
+[F:\New folder\CODE\Danentang_QuyDinh\hms-fe\android\app\.cxx\Debug\6x5q1713\x86\build.ninja	Éš‘ýÐ2ªÔ èÞÁûÐ2c
+a
+_F:\New folder\CODE\Danentang_QuyDinh\hms-fe\android\app\.cxx\Debug\6x5q1713\x86\build.ninja.txt	Éš‘ýÐ2h
+f
+dF:\New folder\CODE\Danentang_QuyDinh\hms-fe\android\app\.cxx\Debug\6x5q1713\x86\build_file_index.txt	Éš‘ýÐ2G ­àÁûÐ2i
+g
+eF:\New folder\CODE\Danentang_QuyDinh\hms-fe\android\app\.cxx\Debug\6x5q1713\x86\compile_commands.json	Éš‘ýÐ2	m
+k
+iF:\New folder\CODE\Danentang_QuyDinh\hms-fe\android\app\.cxx\Debug\6x5q1713\x86\compile_commands.json.bin	Éš‘ýÐ2
+s
+q
+oF:\New folder\CODE\Danentang_QuyDinh\hms-fe\android\app\.cxx\Debug\6x5q1713\x86\metadata_generation_command.txt	Éš‘ýÐ2Â ¬àÁûÐ2f
+d
+bF:\New folder\CODE\Danentang_QuyDinh\hms-fe\android\app\.cxx\Debug\6x5q1713\x86\prefab_config.json	Éš‘ýÐ2( ¬àÁûÐ2k
+i
+gF:\New folder\CODE\Danentang_QuyDinh\hms-fe\android\app\.cxx\Debug\6x5q1713\x86\symbol_folder_index.txt	Éš‘ýÐ2^ ¬àÁûÐ2
+>>>>>>> 2747f2201235be5f364b0b671856cd9885d4d4f0

@@ -175,4 +175,8 @@ class _HomeScreenState extends State<HomeScreen> {
         return Colors.blue;
     }
   }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 2747f2201235be5f364b0b671856cd9885d4d4f0

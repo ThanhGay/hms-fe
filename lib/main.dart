@@ -32,6 +32,8 @@ class MyApp extends StatelessWidget {
       theme: AppTheme.lightTheme,
       debugShowCheckedModeBanner: false,
       home: WelcomeScreen(),
+      // home: RoomDetailScreen(roomId: 0),
+
       onGenerateRoute: (settings) {
         switch (settings.name) {
           case '/login':
