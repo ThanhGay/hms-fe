@@ -9,13 +9,14 @@ import 'package:android_hms/presentation/screens/welcome_screen.dart';
 import 'package:android_hms/presentation/screens/login_screen.dart';
 import 'package:android_hms/presentation/screens/signup_screen.dart';
 import 'package:android_hms/presentation/screens/home_screen_bottom.dart';
-
+import 'package:android_hms/presentation/screens/forgot_password_screen.dart'; 
+import 'package:android_hms/presentation/screens/change_password_screen.dart'; // Import màn hình đổi mật khẩu
 
 void main() {
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (_) => HotelProvider()),
-      ChangeNotifierProvider(create: (_) => RoomProvider())
+      ChangeNotifierProvider(create: (_) => RoomProvider()),
     ],
     child: MyApp(),
   ));
@@ -39,8 +40,15 @@ class MyApp extends StatelessWidget {
             return MaterialPageRoute(builder: (context) => SignupScreen());
 
           case '/home':
+            return MaterialPageRoute(builder: (context) => HomeScreenBottom());
+
+          case '/forgot-password': 
+            return MaterialPageRoute(builder: (context) => ForgotPasswordScreen());
+
+          case '/change-password': 
+            final args = settings.arguments as Map<String, String>;
             return MaterialPageRoute(
-              builder: (context) => HomeScreenBottom(),
+              builder: (context) => ChangePasswordScreen(email: args['email']!),
             );
 
           default:
