@@ -20,4 +20,11 @@ class Room {
       required this.roomTypeId,
       required this.hotelId,
       required this.listImage});
+        @override
+  String toString() {
+    return 'Room(roomId: $roomId, roomName: $roomName, floor: $floor, '
+        'roomTypeName: $roomTypeName, description: $description, '
+        'pricePerHour: $pricePerHour, pricePerNight: $pricePerNight, '
+        'roomTypeId: $roomTypeId, hotelId: $hotelId, listImage: $listImage)';
+  }
 }
