@@ -40,13 +40,6 @@ class MyApp extends StatelessWidget {
             return MaterialPageRoute(builder: (context) => SignupScreen());
 
           case '/home':
-            return MaterialPageRoute(builder: (context) => HomeScreenBottom());
-
-          case '/forgot-password': 
-            return MaterialPageRoute(builder: (context) => ForgotPasswordScreen());
-
-          case '/change-password': 
-            final args = settings.arguments as Map<String, String>;
             return MaterialPageRoute(
               builder: (context) => ChangePasswordScreen(email: args['email']!),
             );
