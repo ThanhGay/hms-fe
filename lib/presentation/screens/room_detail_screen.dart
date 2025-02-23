@@ -26,7 +26,7 @@ class _RoomDetailScreenState extends State<RoomDetailScreen> {
 
   Future<void> _fetchRoomDetail() async {
     try {
-      await ApiRoom.dsRoom(context, widget.hotelId); // Gọi API lấy danh sách phòng theo hotelId
+      await ApiRoom.dsRoom(context, widget.hotelId); 
       final roomProvider = Provider.of<RoomProvider>(context, listen: false);
 
       setState(() {
@@ -90,17 +90,17 @@ class _RoomDetailScreenState extends State<RoomDetailScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              roomDetail!.roomName, // Tên phòng từ API
+                              roomDetail!.roomName,
                               style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                             ),
                             SizedBox(height: 5),
                             Text(
-                              roomDetail!.description, // Mô tả phòng từ API
+                              roomDetail!.description, 
                               style: TextStyle(fontSize: 16, color: Colors.grey[600]),
                             ),
                             SizedBox(height: 8),
                             Text(
-                              "Loại phòng: ${roomDetail!.roomTypeName}", // Loại phòng từ API
+                              "Loại phòng: ${roomDetail!.roomTypeName}", 
                               style: TextStyle(fontSize: 14, color: Colors.grey[600]),
                             ),
 
@@ -176,11 +176,11 @@ class _RoomDetailScreenState extends State<RoomDetailScreen> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Text(
-                            "₫${roomDetail!.pricePerNight} / đêm", // Giá phòng từ API
+                            "₫${roomDetail!.pricePerNight} / đêm", 
                             style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                           ),
                           //    Text(
-                          //   "₫${roomDetail!.pricePerHour} / giờ", // Giá phòng từ API
+                          //   "₫${roomDetail!.pricePerHour} / giờ", 
                           //   style: TextStyle(fontSize: 18, fontWeight: FontWeight.normal, color: Colors.grey[600]),
                           // ),
                           Text("21 - 26 tháng 2",
