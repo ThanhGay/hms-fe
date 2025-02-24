@@ -1,3 +1,8 @@
+import 'package:json_annotation/json_annotation.dart';
+
+part 'room.g.dart';
+
+@JsonSerializable()
 class Room {
   final int roomId;
   final String roomName;
@@ -21,19 +26,9 @@ class Room {
       required this.hotelId,
       required this.listImage});
 
-  factory Room.fromMap(Map<String, dynamic> data) {
-    return Room(
-        roomId: data['roomId'] ?? 0,
-        roomName: data['roomName'] ?? "",
-        floor: data['floor'] ?? 0,
-        roomTypeName: data['roomTypeName'] ?? '',
-        description: data['description'] ?? '',
-        pricePerHour: data['pricePerHour'] ?? 0,
-        pricePerNight: data['pricePerNight'] ?? 0,
-        roomTypeId: data['roomTypeId'] ?? 0,
-        hotelId: data['hotelId'] ?? 0,
-        listImage: data['roomImages'] ?? []);
-  }
+  factory Room.fromJson(Map<String, dynamic> json) => _$RoomFromJson(json);
+
+  Map<String, dynamic> toJson() => _$RoomToJson(this);
 
   @override
   String toString() {

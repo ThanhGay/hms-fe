@@ -1,5 +1,8 @@
-import 'package:flutter/foundation.dart';
+import 'package:json_annotation/json_annotation.dart';
 
+part 'favourite.g.dart';
+
+@JsonSerializable()
 class Favourite {
   final int favouriteId;
   final int customerId;
@@ -10,10 +13,7 @@ class Favourite {
       required this.customerId,
       required this.roomId});
 
-  factory Favourite.fromMap(Map<String, dynamic> map) {
-    return Favourite(
-        favouriteId: map['favouriteId'] ?? 0,
-        customerId: map['customerId'] ?? 0,
-        roomId: map['roomId'] ?? 0);
-  }
+  factory Favourite.fromJson(Map<String, dynamic> json) => _$FavouriteFromJson(json);
+
+  Map<String, dynamic> toJson() => _$FavouriteToJson(this);
 }
