@@ -57,15 +57,16 @@ class _SignupScreenState extends State<SignupScreen> {
 
       final response = await ApiSignup.signUp(email, password, firstName,
           lastName, phoneNumber, citizenIdentity, dateOfBirth);
-
-      if (response == 200) {
+      if (response == "Success") {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Registration successful!')),
         );
         Navigator.pushNamed(context, '/login');
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Registration failed! Please try again.')),
+          SnackBar(
+              content: Text(
+                  'Registration failed! ${response}, Please try again!!!')),
         );
       }
     } else {
