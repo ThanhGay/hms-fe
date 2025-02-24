@@ -60,7 +60,6 @@ flutter:
   assets:
     - assets/images/logo.png
     - assets/images/default_avatar.png
-    
     - assets/icons/logo.svg
   
   # The following line ensures that the Material Icons font is
