@@ -44,7 +44,7 @@ class ProfileWithUser extends StatelessWidget {
       if (confirm) {
         final statusCode = await ApiLogout.logoutUser();
 
-        if (statusCode == 200) {
+        if (statusCode == "Success") {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text("Đăng xuất thành công!"),
