@@ -18,7 +18,7 @@ class ApiHotel {
 
       List<dynamic> allHotel = response.data['items'];
 
-      hotels = allHotel.map((h) => Hotel.fromMap(h)).toList();
+      hotels = allHotel.map((h) => Hotel.fromJson(h)).toList();
 
       Provider.of<HotelProvider>(context, listen: false).setHotels(hotels);
 

@@ -18,12 +18,13 @@ class ApiRoom {
 
       List<dynamic> allRoombyId = response.data['items'];
 
-      rooms = allRoombyId.map((r) => Room.fromMap(r)).toList();
+      rooms = allRoombyId.map((r) => Room.fromJson(r)).toList();
 
       Provider.of<RoomProvider>(context, listen: false).setHotels(rooms);
 
       return rooms;
     } on DioException catch (e) {
+      print("${e.response}");
       return rooms;
     }
   }

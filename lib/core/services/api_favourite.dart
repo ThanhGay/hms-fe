@@ -17,7 +17,7 @@ class ApiFavourite {
       List<dynamic> allFavourite = response.data['items'];
 
       favourites = allFavourite
-          .map((favourite) => Favourite.fromMap(favourite))
+          .map((favourite) => Favourite.fromJson(favourite))
           .toList();
 
       Provider.of<FavouriteProvider>(context, listen: false)
