@@ -8,7 +8,7 @@ class Room {
   final double pricePerNight;
   final int roomTypeId;
   final int hotelId;
-  final List<Map<String, dynamic>> listImage;
+  final List<dynamic> listImage;
 
   Room({
     required this.roomId,
@@ -22,6 +22,20 @@ class Room {
     required this.hotelId,
     required this.listImage,
   });
+
+  factory Room.fromMap(Map<String, dynamic> data) {
+    return Room(
+        roomId: data['roomId'] ?? 0,
+        roomName: data['roomName'] ?? "",
+        floor: data['floor'] ?? 0,
+        roomTypeName: data['roomTypeName'] ?? '',
+        description: data['description'] ?? '',
+        pricePerHour: data['pricePerHour'] ?? 0,
+        pricePerNight: data['pricePerNight'] ?? 0,
+        roomTypeId: data['roomTypeId'] ?? 0,
+        hotelId: data['hotelId'] ?? 0,
+        listImage: data['roomImages'] ?? []);
+  }
 
   @override
   String toString() {

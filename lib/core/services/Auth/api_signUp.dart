@@ -1,10 +1,10 @@
-import 'dart:convert';
-
 import 'package:android_hms/core/constants/api_constants.dart';
-import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart';
+
+final dio = Dio();
 
 class ApiSignup {
-  static Future<int> signUp(
+  static Future<String> signUp(
       String email,
       String password,
       String firstName,
@@ -12,12 +12,10 @@ class ApiSignup {
       String phoneNumber,
       String citizenIdentity,
       String dateOfBirth) async {
-    final url = Uri.parse(
-        "${APIConstants.api}add-customer"); // Thay bằng URL API thực tế
-    final response = await http.post(
-      url,
-      headers: {'Content-Type': 'application/json'},
-      body: jsonEncode({
+    Response response;
+    final url = "${APIConstants.api}add-customer";
+    try {
+      response = await dio.post(url, data: {
         "email": email,
         "passWord": password,
         "firstName": firstName,
@@ -25,8 +23,10 @@ class ApiSignup {
         "phoneNumber": phoneNumber,
         "citizenIdentity": citizenIdentity,
         "dateOfBirth": dateOfBirth
-      }),
-    );
-    return response.statusCode;
+      });
+      return "Success";
+    } on DioException catch (e) {
+      return "${e.response}";
+    }
   }
 }

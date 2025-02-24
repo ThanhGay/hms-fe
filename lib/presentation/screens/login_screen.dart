@@ -1,8 +1,5 @@
-import 'dart:convert';
-
 import 'package:android_hms/core/services/Auth/api_login.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
@@ -16,20 +13,14 @@ class LoginScreen extends StatelessWidget {
 
     final response = await ApiLogin.loginUser(email, password);
 
-    if (response == 200) {
-      final prefs = await SharedPreferences.getInstance();
-      String? jsonData = prefs.getString('user');
-      Map<String, dynamic> user =
-          json.decode(jsonData!); // Chuyển lại thành Map
+    if (response == "Success") {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-            content: Text(
-                'Login successful! Welcome ${user['firstName']} ${user['lastName']}')),
+        SnackBar(content: Text('Login successful! Welcome')),
       );
       Navigator.pushNamed(context, '/home');
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Login failed! Please check your credentials.')),
+        SnackBar(content: Text('Login failed!!!')),
       );
     }
   }
