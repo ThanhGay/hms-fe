@@ -1,13 +1,14 @@
-import 'package:android_hms/Data/hotel_provider.dart';
-import 'package:android_hms/Data/room_provider.dart';
-import 'package:android_hms/presentation/screens/home_screen_bottom.dart';
-import 'package:android_hms/presentation/screens/login_screen.dart';
-import 'package:android_hms/presentation/screens/signup_screen.dart';
-import 'package:android_hms/presentation/themes/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'presentation/screens/welcome_screen.dart';
-import 'package:android_hms/presentation/screens/room_detail_screen.dart';
+
+import 'package:android_hms/Data/hotel_provider.dart';
+import 'package:android_hms/Data/room_provider.dart';
+
+import 'package:android_hms/presentation/themes/app_theme.dart';
+import 'package:android_hms/presentation/screens/welcome_screen.dart';
+import 'package:android_hms/presentation/screens/login_screen.dart';
+import 'package:android_hms/presentation/screens/signup_screen.dart';
+import 'package:android_hms/presentation/screens/home_screen_bottom.dart';
 
 void main() {
   runApp(MultiProvider(
