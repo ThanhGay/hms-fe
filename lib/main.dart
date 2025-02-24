@@ -1,3 +1,4 @@
+import 'package:android_hms/presentation/screens/room_detail_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -9,13 +10,14 @@ import 'package:android_hms/presentation/screens/welcome_screen.dart';
 import 'package:android_hms/presentation/screens/login_screen.dart';
 import 'package:android_hms/presentation/screens/signup_screen.dart';
 import 'package:android_hms/presentation/screens/home_screen_bottom.dart';
-
+import 'package:android_hms/presentation/screens/forgot_password_screen.dart';
+import 'package:android_hms/presentation/screens/change_password_screen.dart';
 
 void main() {
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (_) => HotelProvider()),
-      ChangeNotifierProvider(create: (_) => RoomProvider())
+      ChangeNotifierProvider(create: (_) => RoomProvider()),
     ],
     child: MyApp(),
   ));
@@ -30,6 +32,8 @@ class MyApp extends StatelessWidget {
       theme: AppTheme.lightTheme,
       debugShowCheckedModeBanner: false,
       home: WelcomeScreen(),
+      // home: RoomDetailScreen(roomId: 0),
+
       onGenerateRoute: (settings) {
         switch (settings.name) {
           case '/login':
@@ -39,10 +43,29 @@ class MyApp extends StatelessWidget {
             return MaterialPageRoute(builder: (context) => SignupScreen());
 
           case '/home':
-            return MaterialPageRoute(
-              builder: (context) => HomeScreenBottom(),
-            );
+            return MaterialPageRoute(builder: (context) => HomeScreenBottom());
 
+          case '/forgot-password':
+            return MaterialPageRoute(
+                builder: (context) => ForgotPasswordScreen());
+
+          case '/change-password':
+            final args = settings.arguments as Map<String, String>;
+            return MaterialPageRoute(
+              builder: (context) => ChangePasswordScreen(email: args['email']!),
+            );
+          case '/room_detail':
+            if (settings.arguments is Map<String, int>) {
+              final args = settings.arguments as Map<String, int>;
+              final roomId = args['roomId'] ?? 0;
+              final hotelId = args['hotelId'] ?? 0;
+
+              return MaterialPageRoute(
+                builder: (context) =>
+                    RoomDetailScreen(roomId: roomId, hotelId: hotelId),
+              );
+            }
+            return null;
           default:
             return null;
         }

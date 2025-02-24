@@ -20,7 +20,7 @@ class LoginScreen extends StatelessWidget {
       final prefs = await SharedPreferences.getInstance();
       String? jsonData = prefs.getString('user');
       Map<String, dynamic> user =
-          json.decode(jsonData!); // Chuyển lại thành Map
+          json.decode(jsonData!); 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
             content: Text(
@@ -61,7 +61,23 @@ class LoginScreen extends StatelessWidget {
               ),
               obscureText: true,
             ),
-            SizedBox(height: 20),
+            //forgot password
+            SizedBox(height: 10),
+            Align(
+              alignment: Alignment.centerRight, 
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, '/forgot-password');
+                },
+                child: Text(
+                  'Forgot password?',
+                  style: TextStyle(
+                      color: Colors.blue, fontWeight: FontWeight.bold),
+                ),
+              ),
+            ),
+
+            SizedBox(height: 10),
             ElevatedButton(
               onPressed: () async {
                 await loginUser(context);
