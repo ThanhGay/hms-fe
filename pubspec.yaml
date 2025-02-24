@@ -51,6 +51,7 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^5.0.0
+  json_serializable: ^6.9.4
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -59,6 +60,7 @@ dev_dependencies:
 flutter:
   assets:
     - assets/images/logo.png
+    - assets/images/logo_app.png
     - assets/images/default_avatar.png
     
     - assets/icons/logo.svg
@@ -104,4 +106,4 @@ flutter_launcher_icons:
   android: true
   ios: true
   remove_alpha_ios: true
-  image_path: "assets/images/logo.png"
+  image_path: "assets/images/logo_app.png"

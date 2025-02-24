@@ -1,3 +1,6 @@
+import 'package:json_annotation/json_annotation.dart';
+
+@JsonSerializable()
 class User {
   final UserInformation user;
   final String token;
@@ -14,6 +17,7 @@ class User {
   }
 }
 
+@JsonSerializable()
 class UserInformation {
   final int userId;
   final String firstName;
