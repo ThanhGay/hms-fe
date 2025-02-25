@@ -1,10 +1,9 @@
 import 'dart:convert';
 import 'package:android_hms/core/constants/api_constants.dart';
-import 'package:android_hms/core/services/dioClient.dart';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-// final dio = Dio();
+final dio = Dio();
 
 class ApiLogin {
   static Future<String> loginUser(String email, String password) async {
@@ -12,9 +11,8 @@ class ApiLogin {
     const String url = "${APIConstants.api}Login";
 
     try {
-      response = await DioClient()
-          .dio
-          .post(url, data: {"email": email, "password": password});
+      response =
+          await dio.post(url, data: {"email": email, "password": password});
 
       final data = response.data;
 

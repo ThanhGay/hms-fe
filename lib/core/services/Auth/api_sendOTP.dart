@@ -1,17 +1,27 @@
 import 'dart:convert';
 import 'package:android_hms/core/constants/api_constants.dart';
+import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
+
+final dio = Dio();
 
 class ApiSendOTP {
   static Future<int> sendOtp(String email) async {
+    Response response;
     const String url = "${APIConstants.api}forgot-password";
-    final uri = Uri.parse(url);
-    final response = await http.post(
-      uri,
-      headers: {'Content-Type': 'application/json'},
-      body: jsonEncode({"email": email}),
-    );
+    final formData = FormData.fromMap({
+      'email': email,
+    });
+    try {
+      print("send otp");
+      response = await dio.post(url, data: formData);
 
-    return response.statusCode;
+      print("send otp: ${response.data}");
+
+      return response.statusCode!;
+    } on DioException catch (e) {
+      print("error: ${e}");
+      return -1;
+    }
   }
 }

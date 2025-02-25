@@ -8,7 +8,7 @@ class Room {
   final double pricePerNight;
   final int roomTypeId;
   final int hotelId;
-  final List<Map<String, dynamic>> listImage;
+  final List<dynamic> listImage;
   Room(
       {required this.roomId,
       required this.roomName,
