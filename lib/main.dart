@@ -1,3 +1,4 @@
+import 'package:android_hms/Data/favourite_provider.dart';
 import 'package:android_hms/presentation/screens/room_detail_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -18,6 +19,7 @@ void main() {
     providers: [
       ChangeNotifierProvider(create: (_) => HotelProvider()),
       ChangeNotifierProvider(create: (_) => RoomProvider()),
+      ChangeNotifierProvider(create: (_) => FavouriteProvider())
     ],
     child: MyApp(),
   ));

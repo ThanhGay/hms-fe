@@ -29,8 +29,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final prefs = await SharedPreferences.getInstance();
     String? jsonData = prefs.getString('user');
 
-    print('JSON Data: $jsonData');
-
     if (jsonData != null) {
       setState(() {
         userData = UserInformation.fromJson(jsonDecode(jsonData));

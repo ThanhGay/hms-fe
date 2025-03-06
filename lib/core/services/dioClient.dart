@@ -17,8 +17,6 @@ class DioClient {
         final prefs = await SharedPreferences.getInstance();
         String? token = prefs.getString("token");
 
-        print("Interceptor đang hoạt động! Token: $token");
-
         if (token != null) {
           options.headers["Authorization"] = "Bearer $token";
           options.headers["Accept"] = "application/json";

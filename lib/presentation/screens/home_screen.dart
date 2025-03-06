@@ -101,7 +101,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   await ApiRoom.dsRoom(context, hotelId);
                   setState(() {
                     selectedExploreTabIndex = index;
-                    roomList = Provider.of<RoomProvider>(context, listen: false).room;
+                    roomList =
+                        Provider.of<RoomProvider>(context, listen: false).room;
                   });
                 },
                 child: Column(
@@ -125,8 +126,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     const SizedBox(height: 5),
                     Container(
-                      height: 3, 
-                      width: 60, 
+                      height: 3,
+                      width: 60,
                       color: selectedExploreTabIndex == index
                           ? Colors.black // Nếu được chọn thì màu đen
                           : Colors.transparent, // Nếu không thì ẩn đi
@@ -151,10 +152,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   if (navigationButtons.isNotEmpty) {
                     int hotelId =
                         navigationButtons[selectedExploreTabIndex].hotelId;
-
-                    // debugPrint("Navigating to RoomDetailScreen");
-                    // debugPrint("Room Data: ${room.toString()}");
-                    // debugPrint("Hotel ID: ${hotelId}");
 
                     Navigator.push(
                       context,

@@ -1,3 +1,7 @@
+import 'package:android_hms/Data/favourite_provider.dart';
+import 'package:android_hms/Entity/hotel.dart';
+import 'package:android_hms/core/services/api_favourite.dart';
+import 'package:android_hms/core/services/api_hotel.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:android_hms/core/services/api_room.dart';
@@ -9,7 +13,8 @@ class RoomDetailScreen extends StatefulWidget {
   final int roomId;
   final int hotelId;
 
-  const RoomDetailScreen({super.key, required this.roomId, required this.hotelId});
+  const RoomDetailScreen(
+      {super.key, required this.roomId, required this.hotelId});
 
   @override
   _RoomDetailScreenState createState() => _RoomDetailScreenState();
@@ -17,20 +22,32 @@ class RoomDetailScreen extends StatefulWidget {
 
 class _RoomDetailScreenState extends State<RoomDetailScreen> {
   Room? roomDetail;
+  Hotel? hotel;
+  bool isFavorite = false;
 
   @override
   void initState() {
     super.initState();
     _fetchRoomDetail();
+    ApiHotel.getHotelById(context, widget.hotelId).then((data) {
+      setState(() {
+        hotel = data;
+      });
+    });
   }
 
   Future<void> _fetchRoomDetail() async {
     try {
-      await ApiRoom.dsRoom(context, widget.hotelId); 
+      await ApiRoom.dsRoom(context, widget.hotelId);
       final roomProvider = Provider.of<RoomProvider>(context, listen: false);
-
+      final favourite = Provider.of<FavouriteProvider>(context, listen: false);
       setState(() {
-        roomDetail = roomProvider.room.firstWhere((room) => room.roomId == widget.roomId);
+        roomDetail = roomProvider.room
+            .firstWhere((room) => room.roomId == widget.roomId);
+        bool isFav =
+            favourite.favourite.any((fav) => fav.roomId == roomDetail?.roomId);
+        print("isFav: ${isFav}");
+        isFavorite = isFav;
       });
     } catch (error) {
       print("Error fetching room details: $error");
@@ -48,12 +65,28 @@ class _RoomDetailScreenState extends State<RoomDetailScreen> {
           onPressed: () => Navigator.pop(context),
         ),
         actions: [
-          IconButton(icon: Icon(Icons.share, color: Colors.black), onPressed: () {}),
-          IconButton(icon: Icon(Icons.favorite_border, color: Colors.black), onPressed: () {}),
+          IconButton(
+              icon: Icon(Icons.share, color: Colors.black), onPressed: () {}),
+          IconButton(
+            icon: Icon(
+              isFavorite ? Icons.favorite : Icons.favorite_border, // Đổi icon
+              color: isFavorite ? Colors.red : Colors.black, // Đổi màu
+            ),
+            onPressed: () async {
+              await (isFavorite
+                  ? ApiFavourite.removeFavourite
+                  : ApiFavourite.addFavourite)(context, widget.roomId);
+              setState(() {
+                isFavorite = !isFavorite; // Đảo trạng thái khi bấm nút
+              });
+            },
+          )
         ],
       ),
       body: roomDetail == null
-          ? Center(child: CircularProgressIndicator()) // Hiển thị loading nếu dữ liệu chưa có
+          ? Center(
+              child:
+                  CircularProgressIndicator()) // Hiển thị loading nếu dữ liệu chưa có
           : Column(
               children: [
                 Expanded(
@@ -61,13 +94,14 @@ class _RoomDetailScreenState extends State<RoomDetailScreen> {
                     padding: EdgeInsets.zero,
                     children: [
                       // Hình ảnh phòng (Nếu có)
-                      if (roomDetail!.listImage.isNotEmpty)
+                      if (roomDetail!.roomImages.isNotEmpty)
                         Container(
                           height: 250,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
                             image: DecorationImage(
-                               image: NetworkImage(APIConstants.api + roomDetail!.listImage[0]['imageURL']),
+                              image: NetworkImage(APIConstants.api +
+                                  roomDetail!.roomImages[0]['imageURL']),
                               fit: BoxFit.cover,
                             ),
                           ),
@@ -78,7 +112,8 @@ class _RoomDetailScreenState extends State<RoomDetailScreen> {
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
                             image: DecorationImage(
-                              image: AssetImage('assets/images/khung_canh_3.png'),
+                              image:
+                                  AssetImage('assets/images/khung_canh_3.png'),
                               fit: BoxFit.cover,
                             ),
                           ),
@@ -91,39 +126,43 @@ class _RoomDetailScreenState extends State<RoomDetailScreen> {
                           children: [
                             Text(
                               roomDetail!.roomName,
-                              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                              style: TextStyle(
+                                  fontSize: 22, fontWeight: FontWeight.bold),
                             ),
                             SizedBox(height: 5),
                             Text(
-                              roomDetail!.description, 
-                              style: TextStyle(fontSize: 16, color: Colors.grey[600]),
+                              roomDetail!.description,
+                              style: TextStyle(
+                                  fontSize: 16, color: Colors.grey[600]),
                             ),
                             SizedBox(height: 8),
                             Text(
-                              "Loại phòng: ${roomDetail!.roomTypeName}", 
-                              style: TextStyle(fontSize: 14, color: Colors.grey[600]),
+                              "Loại phòng: ${roomDetail!.roomTypeName}",
+                              style: TextStyle(
+                                  fontSize: 14, color: Colors.grey[600]),
                             ),
-
                             SizedBox(height: 10),
-
                             Row(
                               children: [
-                                Icon(Icons.star, color: Colors.orange, size: 20),
+                                Icon(Icons.star,
+                                    color: Colors.orange, size: 20),
                                 SizedBox(width: 5),
                                 Text("4.94",
-                                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold)),
                                 SizedBox(width: 10),
                                 Text("67 đánh giá",
-                                    style: TextStyle(fontSize: 14, color: Colors.blue[700])),
+                                    style: TextStyle(
+                                        fontSize: 14, color: Colors.blue[700])),
                               ],
                             ),
-
                             Divider(height: 30),
-
                             Row(
                               children: [
                                 CircleAvatar(
-                                  backgroundImage: AssetImage('assets/images/khung_canh_2.png'),
+                                  backgroundImage: AssetImage(
+                                      'assets/images/khung_canh_2.png'),
                                   radius: 25,
                                 ),
                                 SizedBox(width: 10),
@@ -131,28 +170,30 @@ class _RoomDetailScreenState extends State<RoomDetailScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      "Khách sạn: ${widget.hotelId}",
-                                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                                      "Khách sạn: ${hotel?.hotelName}",
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold),
                                     ),
                                     Text("Khách sạn siêu cấp",
-                                        style: TextStyle(fontSize: 14, color: Colors.grey[700])),
+                                        style: TextStyle(
+                                            fontSize: 14,
+                                            color: Colors.grey[700])),
                                     Text("2 năm kinh nghiệm đón tiếp khách",
                                         style: TextStyle(fontSize: 12)),
                                   ],
                                 ),
                               ],
                             ),
-
                             SizedBox(height: 20),
-
                             Row(
                               children: [
                                 Icon(Icons.directions_walk, size: 18),
                                 SizedBox(width: 5),
-                                Text("Cách hồ 1 phút đi bộ", style: TextStyle(fontSize: 14)),
+                                Text("Vị trí: ${hotel?.hotelAddress}",
+                                    style: TextStyle(fontSize: 14)),
                               ],
                             ),
-
                             SizedBox(height: 100),
                           ],
                         ),
@@ -165,7 +206,8 @@ class _RoomDetailScreenState extends State<RoomDetailScreen> {
                 Container(
                   padding: EdgeInsets.symmetric(vertical: 10, horizontal: 16),
                   decoration: BoxDecoration(
-                    border: Border(top: BorderSide(color: Colors.grey.shade300)),
+                    border:
+                        Border(top: BorderSide(color: Colors.grey.shade300)),
                     color: Colors.white,
                   ),
                   child: Row(
@@ -176,20 +218,20 @@ class _RoomDetailScreenState extends State<RoomDetailScreen> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Text(
-                            "₫${roomDetail!.pricePerNight} / đêm", 
-                            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                            "₫${roomDetail!.pricePerNight} / đêm",
+                            style: TextStyle(
+                                fontSize: 18, fontWeight: FontWeight.bold),
                           ),
                           //    Text(
-                          //   "₫${roomDetail!.pricePerHour} / giờ", 
+                          //   "₫${roomDetail!.pricePerHour} / giờ",
                           //   style: TextStyle(fontSize: 18, fontWeight: FontWeight.normal, color: Colors.grey[600]),
                           // ),
                           Text("21 - 26 tháng 2",
-                              style: TextStyle(fontSize: 14, color: Colors.grey[600])),
+                              style: TextStyle(
+                                  fontSize: 14, color: Colors.grey[600])),
                         ],
                       ),
-
                       SizedBox(width: 30),
-
                       Expanded(
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
@@ -203,7 +245,9 @@ class _RoomDetailScreenState extends State<RoomDetailScreen> {
                           child: Text(
                             "Đặt phòng",
                             style: TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white),
                           ),
                         ),
                       ),

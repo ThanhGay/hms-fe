@@ -13,7 +13,7 @@ class Room {
   final double pricePerNight;
   final int roomTypeId;
   final int hotelId;
-  final List<Map<String, dynamic>> listImage;
+  final List<Map<String, dynamic>> roomImages;
   Room(
       {required this.roomId,
       required this.roomName,
@@ -24,7 +24,7 @@ class Room {
       required this.pricePerNight,
       required this.roomTypeId,
       required this.hotelId,
-      required this.listImage});
+      required this.roomImages});
 
   factory Room.fromJson(Map<String, dynamic> json) => _$RoomFromJson(json);
 
@@ -35,6 +35,6 @@ class Room {
     return 'Room(roomId: $roomId, roomName: $roomName, floor: $floor, '
         'roomTypeName: $roomTypeName, description: $description, '
         'pricePerHour: $pricePerHour, pricePerNight: $pricePerNight, '
-        'roomTypeId: $roomTypeId, hotelId: $hotelId, listImage: $listImage)';
+        'roomTypeId: $roomTypeId, hotelId: $hotelId, roomImages: $roomImages)';
   }
 }

@@ -28,4 +28,27 @@ class ApiRoom {
       return rooms;
     }
   }
+
+  static Future<Room> getRoomById(BuildContext context, int roomId) async {
+    Response response;
+    final String url = "${APIConstants.api}api/room/get/$roomId";
+    try {
+      response = await dio.get(url);
+
+      return Room.fromJson(response.data);
+    } on DioException catch (e) {
+      print("${e.response}");
+      return Room(
+          roomId: 0,
+          roomName: "fail",
+          floor: 0,
+          roomTypeName: "fail",
+          description: "fail",
+          pricePerHour: 0,
+          pricePerNight: 0,
+          roomTypeId: 0,
+          hotelId: 0,
+          roomImages: []);
+    }
+  }
 }
