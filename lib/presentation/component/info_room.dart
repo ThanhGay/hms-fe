@@ -22,14 +22,14 @@ class InfoRoom extends StatelessWidget {
             height: 300,
             child: PageView.builder(
               scrollDirection: Axis.horizontal,
-              itemCount: room.listImage.length,
+              itemCount: room.roomImages.length,
               itemBuilder: (context, index) {
                 return Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 0),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(10),
                     child: Image.network(
-                      APIConstants.api + room.listImage[index]['imageURL'],
+                      APIConstants.api + room.roomImages[index]['imageURL'],
                       height: 300,
                       width: 200,
                       fit: BoxFit.cover,
@@ -47,9 +47,9 @@ class InfoRoom extends StatelessWidget {
                 Text(
                   "Phòng: ${room.roomName}",
                   style: GoogleFonts.roboto(
-                    fontSize: 16, 
-                    fontWeight: FontWeight.w600, 
-                    height: 20.02 / 14, 
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    height: 20.02 / 14,
                     color: Color.fromRGBO(34, 34, 34, 1),
                   ),
                 ),
@@ -57,27 +57,29 @@ class InfoRoom extends StatelessWidget {
                 Text(
                   "Loại phòng: ${room.roomTypeName}",
                   style: GoogleFonts.roboto(
-                    fontSize: 16, 
-                    fontWeight: FontWeight.w400, 
-                    height: 20.02 / 14, 
+                    fontSize: 16,
+                    fontWeight: FontWeight.w400,
+                    height: 20.02 / 14,
                     color: Colors.grey[500],
                   ),
                 ),
                 const SizedBox(height: 5),
-                Text("Giá qua đêm: ${room.pricePerNight.toString()} VNĐ",
-                    style: GoogleFonts.roboto(
-                    fontSize: 16, 
-                    fontWeight: FontWeight.w400, 
-                    height: 20.02 / 14, 
+                Text(
+                  "Giá qua đêm: ${room.pricePerNight.toString()} VNĐ",
+                  style: GoogleFonts.roboto(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w400,
+                    height: 20.02 / 14,
                     color: Color.fromRGBO(34, 34, 34, 1),
                   ),
                 ),
                 const SizedBox(height: 5),
-                Text("Giá theo giờ: ${room.pricePerHour.toString()} VNĐ",
-                    style: GoogleFonts.roboto(
-                    fontSize: 16, 
-                    fontWeight: FontWeight.w400, 
-                    height: 20.02 / 14, 
+                Text(
+                  "Giá theo giờ: ${room.pricePerHour.toString()} VNĐ",
+                  style: GoogleFonts.roboto(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w400,
+                    height: 20.02 / 14,
                     color: Color.fromRGBO(34, 34, 34, 1),
                   ),
                 ),

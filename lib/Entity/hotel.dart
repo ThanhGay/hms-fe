@@ -1,3 +1,8 @@
+import 'package:json_annotation/json_annotation.dart';
+
+part 'hotel.g.dart';
+
+@JsonSerializable()
 class Hotel {
   final String hotelName;
   final int hotelId;
@@ -11,13 +16,7 @@ class Hotel {
     required this.hotline,
   });
 
-  // Chuyển từ Map -> Hotel
-  factory Hotel.fromMap(Map<String, dynamic> map) {
-    return Hotel(
-      hotelName: map['hotelName'] ?? '',
-      hotelId: map['hotelId'] ?? 0,
-      hotelAddress: map['hotelAddress'] ?? '',
-      hotline: map['hotline'] ?? '',
-    );
-  }
+  factory Hotel.fromJson(Map<String, dynamic> json) => _$HotelFromJson(json);
+
+  Map<String, dynamic> toJson() => _$HotelToJson(this);
 }

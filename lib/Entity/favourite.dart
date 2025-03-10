@@ -1,3 +1,8 @@
+import 'package:json_annotation/json_annotation.dart';
+
+part 'favourite.g.dart';
+
+@JsonSerializable()
 class Favourite {
   final int favouriteId;
   final int hotelId;
@@ -5,10 +10,8 @@ class Favourite {
   Favourite(
       {required this.favouriteId, required this.hotelId, required this.roomId});
 
-  factory Favourite.fromMap(Map<String, dynamic> map) {
-    return Favourite(
-        favouriteId: map['favouriteId'] ?? 0,
-        hotelId: map['customerId'] ?? 0,
-        roomId: map['roomId'] ?? 0);
-  }
+  factory Favourite.fromJson(Map<String, dynamic> json) =>
+      _$FavouriteFromJson(json);
+
+  Map<String, dynamic> toJson() => _$FavouriteToJson(this);
 }

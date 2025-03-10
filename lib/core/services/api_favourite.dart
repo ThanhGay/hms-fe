@@ -17,10 +17,30 @@ class ApiFavourite {
       List<dynamic> allFavourite = response.data['items'];
 
       favourites = allFavourite
-          .map((favourite) => Favourite.fromMap(favourite))
+          .map((favourite) => Favourite.fromJson(favourite))
           .toList();
       Provider.of<FavouriteProvider>(context, listen: false)
           .setFavourite(favourites);
+    } on DioException catch (e) {
+      print("${e.response}");
+    }
+  }
+
+  static Future<void> addFavourite(BuildContext context, int roomId) async {
+    final String url = "${APIConstants.api}add-favourite?roomId=$roomId";
+    print("add favourite");
+    try {
+      await DioClient().dio.get(url);
+    } on DioException catch (e) {
+      print("${e.response}");
+    }
+  }
+
+  static Future<void> removeFavourite(BuildContext context, int roomId) async {
+    final String url = "${APIConstants.api}remove-favourite?roomId=$roomId";
+    print("remove favourite");
+    try {
+      await DioClient().dio.get(url);
     } on DioException catch (e) {
       print("${e.response}");
     }

@@ -152,11 +152,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   if (navigationButtons.isNotEmpty) {
                     int hotelId =
                         navigationButtons[selectedExploreTabIndex].hotelId;
-                    String hotelName =
-                        navigationButtons[selectedExploreTabIndex].hotelName;
-                    // debugPrint("Navigating to RoomDetailScreen");
-                    // debugPrint("Room Data: ${room.toString()}");
-                    // debugPrint("Hotel ID: ${hotelId}");
 
                     Navigator.push(
                       context,
@@ -164,7 +159,6 @@ class _HomeScreenState extends State<HomeScreen> {
                         builder: (context) => RoomDetailScreen(
                           roomId: room.roomId,
                           hotelId: hotelId,
-                          hotelName: hotelName,
                         ),
                       ),
                     );

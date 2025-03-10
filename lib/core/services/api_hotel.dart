@@ -18,7 +18,7 @@ class ApiHotel {
 
       List<dynamic> allHotel = response.data['items'];
 
-      hotels = allHotel.map((h) => Hotel.fromMap(h)).toList();
+      hotels = allHotel.map((h) => Hotel.fromJson(h)).toList();
 
       Provider.of<HotelProvider>(context, listen: false).setHotels(hotels);
 
@@ -26,6 +26,21 @@ class ApiHotel {
     } on DioException catch (e) {
       print("Error hotel: $e");
       return hotels;
+    }
+  }
+
+  static Future<Hotel> getHotelById(BuildContext context, int roomId) async {
+    Response response;
+    final String url = "${APIConstants.api}api/hotel/get/$roomId";
+    print("url: ${url}");
+    try {
+      response = await dio.get(url);
+
+      return Hotel.fromJson(response.data);
+    } on DioException catch (e) {
+      print("${e.response}");
+      return Hotel(
+          hotelName: "fail", hotelId: 0, hotelAddress: "fail", hotline: "fail");
     }
   }
 }

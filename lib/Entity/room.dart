@@ -1,3 +1,8 @@
+import 'package:json_annotation/json_annotation.dart';
+
+part 'room.g.dart';
+
+@JsonSerializable()
 class Room {
   final int roomId;
   final String roomName;
@@ -8,7 +13,7 @@ class Room {
   final double pricePerNight;
   final int roomTypeId;
   final int hotelId;
-  final List<dynamic> listImage;
+  final List<Map<String, dynamic>> roomImages;
   Room(
       {required this.roomId,
       required this.roomName,
@@ -19,27 +24,17 @@ class Room {
       required this.pricePerNight,
       required this.roomTypeId,
       required this.hotelId,
-      required this.listImage});
+      required this.roomImages});
 
-  factory Room.fromMap(Map<String, dynamic> data) {
-    return Room(
-        roomId: data['roomId'] ?? 0,
-        roomName: data['roomName'] ?? "",
-        floor: data['floor'] ?? 0,
-        roomTypeName: data['roomTypeName'] ?? '',
-        description: data['description'] ?? '',
-        pricePerHour: data['pricePerHour'] ?? 0,
-        pricePerNight: data['pricePerNight'] ?? 0,
-        roomTypeId: data['roomTypeId'] ?? 0,
-        hotelId: data['hotelId'] ?? 0,
-        listImage: data['roomImages'] ?? []);
-  }
+  factory Room.fromJson(Map<String, dynamic> json) => _$RoomFromJson(json);
+
+  Map<String, dynamic> toJson() => _$RoomToJson(this);
 
   @override
   String toString() {
     return 'Room(roomId: $roomId, roomName: $roomName, floor: $floor, '
         'roomTypeName: $roomTypeName, description: $description, '
         'pricePerHour: $pricePerHour, pricePerNight: $pricePerNight, '
-        'roomTypeId: $roomTypeId, hotelId: $hotelId, listImage: $listImage)';
+        'roomTypeId: $roomTypeId, hotelId: $hotelId, roomImages: $roomImages)';
   }
 }
