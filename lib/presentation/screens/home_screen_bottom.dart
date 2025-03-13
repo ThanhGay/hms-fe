@@ -1,3 +1,4 @@
+import 'package:android_hms/presentation/screens/voucher_screen.dart';
 import 'package:android_hms/presentation/screens/favourite_screen.dart';
 import 'package:android_hms/presentation/screens/home_screen.dart';
 import 'package:android_hms/presentation/screens/profile_screen.dart';
@@ -20,7 +21,7 @@ class _HomeScreenBottomState extends State<HomeScreenBottom> {
     final List<Widget> mainPages = [
       const HomeScreen(), // Trang Khám Phá
       FavouriteScreen(),
-      Center(child: Text('Trang Chuyến Đi', style: TextStyle(fontSize: 20))),
+      VoucherScreen(),
       Center(child: Text('Trang Tin Nhắn', style: TextStyle(fontSize: 20))),
       ProfileScreen()
     ];

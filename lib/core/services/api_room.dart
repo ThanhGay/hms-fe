@@ -30,7 +30,7 @@ class ApiRoom {
     }
   }
 
-  static Future<Room> getRoomById(BuildContext context, int roomId) async {
+  static Future<Room?> getRoomById(int roomId) async {
     Response response;
     final String url = "${APIConstants.api}api/room/get/$roomId";
     try {
@@ -39,17 +39,7 @@ class ApiRoom {
       return Room.fromJson(response.data);
     } on DioException catch (e) {
       print("${e.response}");
-      return Room(
-          roomId: 0,
-          roomName: "fail",
-          floor: 0,
-          roomTypeName: "fail",
-          description: "fail",
-          pricePerHour: 0,
-          pricePerNight: 0,
-          roomTypeId: 0,
-          hotelId: 0,
-          roomImages: []);
+      return null;
     }
   }
 }

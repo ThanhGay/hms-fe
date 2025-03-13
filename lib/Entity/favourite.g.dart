@@ -14,6 +14,6 @@ Favourite _$FavouriteFromJson(Map<String, dynamic> json) => Favourite(
 
 Map<String, dynamic> _$FavouriteToJson(Favourite instance) => <String, dynamic>{
       'favouriteId': instance.favouriteId,
-      'customerId': instance.hotelId,
+      'hotelId': instance.hotelId,
       'roomId': instance.roomId,
     };

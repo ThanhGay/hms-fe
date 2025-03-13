@@ -1,7 +1,5 @@
-import 'dart:convert';
 import 'package:android_hms/core/constants/api_constants.dart';
 import 'package:dio/dio.dart';
-import 'package:http/http.dart' as http;
 
 final dio = Dio();
 

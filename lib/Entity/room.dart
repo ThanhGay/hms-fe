@@ -29,12 +29,4 @@ class Room {
   factory Room.fromJson(Map<String, dynamic> json) => _$RoomFromJson(json);
 
   Map<String, dynamic> toJson() => _$RoomToJson(this);
-
-  @override
-  String toString() {
-    return 'Room(roomId: $roomId, roomName: $roomName, floor: $floor, '
-        'roomTypeName: $roomTypeName, description: $description, '
-        'pricePerHour: $pricePerHour, pricePerNight: $pricePerNight, '
-        'roomTypeId: $roomTypeId, hotelId: $hotelId, roomImages: $roomImages)';
-  }
 }
