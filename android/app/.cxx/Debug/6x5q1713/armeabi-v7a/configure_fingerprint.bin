@@ -2,54 +2,27 @@ C/C++ Structured LogK
 I
 GC:\flutter\packages\flutter_tools\gradle\src\main\groovy\CMakeLists.txtC
 A
-<<<<<<< HEAD
-?com.android.build.gradle.internal.cxx.io.EncodedFileFingerPrint	ñØ ›Ó2§ †ÿèúÐ2x
+?com.android.build.gradle.internal.cxx.io.EncodedFileFingerPrint	ä“¾ÿÙ2§ †ÿèúÐ2x
 v
-tF:\New folder\CODE\Danentang_QuyDinh\hms-fe\android\app\.cxx\Debug\6x5q1713\armeabi-v7a\additional_project_files.txt	ñØ ›Ó2 þ«Ü•Ó2u
+tF:\New folder\CODE\Danentang_QuyDinh\hms-fe\android\app\.cxx\Debug\6x5q1713\armeabi-v7a\additional_project_files.txt	ä“¾ÿÙ2 àº…ûÙ2u
 s
-qF:\New folder\CODE\Danentang_QuyDinh\hms-fe\android\app\.cxx\Debug\6x5q1713\armeabi-v7a\android_gradle_build.json	òØ ›Ó2Æ Š¬Ü•Ó2z
+qF:\New folder\CODE\Danentang_QuyDinh\hms-fe\android\app\.cxx\Debug\6x5q1713\armeabi-v7a\android_gradle_build.json	ä“¾ÿÙ2Æ ãº…ûÙ2z
 x
-vF:\New folder\CODE\Danentang_QuyDinh\hms-fe\android\app\.cxx\Debug\6x5q1713\armeabi-v7a\android_gradle_build_mini.json	òØ ›Ó2¡ Ž¬Ü•Ó2g
+vF:\New folder\CODE\Danentang_QuyDinh\hms-fe\android\app\.cxx\Debug\6x5q1713\armeabi-v7a\android_gradle_build_mini.json	ä“¾ÿÙ2¡ íº…ûÙ2g
 e
-cF:\New folder\CODE\Danentang_QuyDinh\hms-fe\android\app\.cxx\Debug\6x5q1713\armeabi-v7a\build.ninja	òØ ›Ó2ÒÔ ý¨Ü•Ó2k
+cF:\New folder\CODE\Danentang_QuyDinh\hms-fe\android\app\.cxx\Debug\6x5q1713\armeabi-v7a\build.ninja	ä“¾ÿÙ2ÒÔ Ê¸…ûÙ2k
 i
-gF:\New folder\CODE\Danentang_QuyDinh\hms-fe\android\app\.cxx\Debug\6x5q1713\armeabi-v7a\build.ninja.txt	òØ ›Ó2p
+gF:\New folder\CODE\Danentang_QuyDinh\hms-fe\android\app\.cxx\Debug\6x5q1713\armeabi-v7a\build.ninja.txt	ä“¾ÿÙ2p
 n
-lF:\New folder\CODE\Danentang_QuyDinh\hms-fe\android\app\.cxx\Debug\6x5q1713\armeabi-v7a\build_file_index.txt	òØ ›Ó2G “¬Ü•Ó2q
+lF:\New folder\CODE\Danentang_QuyDinh\hms-fe\android\app\.cxx\Debug\6x5q1713\armeabi-v7a\build_file_index.txt	ä“¾ÿÙ2G ïº…ûÙ2q
 o
-mF:\New folder\CODE\Danentang_QuyDinh\hms-fe\android\app\.cxx\Debug\6x5q1713\armeabi-v7a\compile_commands.json	òØ ›Ó2	u
+mF:\New folder\CODE\Danentang_QuyDinh\hms-fe\android\app\.cxx\Debug\6x5q1713\armeabi-v7a\compile_commands.json	ä“¾ÿÙ2	u
 s
-qF:\New folder\CODE\Danentang_QuyDinh\hms-fe\android\app\.cxx\Debug\6x5q1713\armeabi-v7a\compile_commands.json.bin	òØ ›Ó2
+qF:\New folder\CODE\Danentang_QuyDinh\hms-fe\android\app\.cxx\Debug\6x5q1713\armeabi-v7a\compile_commands.json.bin	ä“¾ÿÙ2
 {
 y
-wF:\New folder\CODE\Danentang_QuyDinh\hms-fe\android\app\.cxx\Debug\6x5q1713\armeabi-v7a\metadata_generation_command.txt	òØ ›Ó2ê ¬Ü•Ó2n
+wF:\New folder\CODE\Danentang_QuyDinh\hms-fe\android\app\.cxx\Debug\6x5q1713\armeabi-v7a\metadata_generation_command.txt	ä“¾ÿÙ2ê îº…ûÙ2n
 l
-jF:\New folder\CODE\Danentang_QuyDinh\hms-fe\android\app\.cxx\Debug\6x5q1713\armeabi-v7a\prefab_config.json	òØ ›Ó2( ¬Ü•Ó2s
+jF:\New folder\CODE\Danentang_QuyDinh\hms-fe\android\app\.cxx\Debug\6x5q1713\armeabi-v7a\prefab_config.json	ä“¾ÿÙ2( ïº…ûÙ2s
 q
-oF:\New folder\CODE\Danentang_QuyDinh\hms-fe\android\app\.cxx\Debug\6x5q1713\armeabi-v7a\symbol_folder_index.txt	òØ ›Ó2f “¬Ü•Ó2
-=======
-?com.android.build.gradle.internal.cxx.io.EncodedFileFingerPrint	²š‘ýÐ2§ †ÿèúÐ2x
-v
-tF:\New folder\CODE\Danentang_QuyDinh\hms-fe\android\app\.cxx\Debug\6x5q1713\armeabi-v7a\additional_project_files.txt	²š‘ýÐ2 šËÁûÐ2u
-s
-qF:\New folder\CODE\Danentang_QuyDinh\hms-fe\android\app\.cxx\Debug\6x5q1713\armeabi-v7a\android_gradle_build.json	²š‘ýÐ2Æ žËÁûÐ2z
-x
-vF:\New folder\CODE\Danentang_QuyDinh\hms-fe\android\app\.cxx\Debug\6x5q1713\armeabi-v7a\android_gradle_build_mini.json	³š‘ýÐ2¡ ¥ËÁûÐ2g
-e
-cF:\New folder\CODE\Danentang_QuyDinh\hms-fe\android\app\.cxx\Debug\6x5q1713\armeabi-v7a\build.ninja	³š‘ýÐ2ÒÔ ßÈÁûÐ2k
-i
-gF:\New folder\CODE\Danentang_QuyDinh\hms-fe\android\app\.cxx\Debug\6x5q1713\armeabi-v7a\build.ninja.txt	³š‘ýÐ2p
-n
-lF:\New folder\CODE\Danentang_QuyDinh\hms-fe\android\app\.cxx\Debug\6x5q1713\armeabi-v7a\build_file_index.txt	³š‘ýÐ2G «ËÁûÐ2q
-o
-mF:\New folder\CODE\Danentang_QuyDinh\hms-fe\android\app\.cxx\Debug\6x5q1713\armeabi-v7a\compile_commands.json	³š‘ýÐ2	u
-s
-qF:\New folder\CODE\Danentang_QuyDinh\hms-fe\android\app\.cxx\Debug\6x5q1713\armeabi-v7a\compile_commands.json.bin	³š‘ýÐ2
-{
-y
-wF:\New folder\CODE\Danentang_QuyDinh\hms-fe\android\app\.cxx\Debug\6x5q1713\armeabi-v7a\metadata_generation_command.txt	³š‘ýÐ2ê ¦ËÁûÐ2n
-l
-jF:\New folder\CODE\Danentang_QuyDinh\hms-fe\android\app\.cxx\Debug\6x5q1713\armeabi-v7a\prefab_config.json	³š‘ýÐ2( ©ËÁûÐ2s
-q
-oF:\New folder\CODE\Danentang_QuyDinh\hms-fe\android\app\.cxx\Debug\6x5q1713\armeabi-v7a\symbol_folder_index.txt	³š‘ýÐ2f ªËÁûÐ2
->>>>>>> 2747f2201235be5f364b0b671856cd9885d4d4f0
+oF:\New folder\CODE\Danentang_QuyDinh\hms-fe\android\app\.cxx\Debug\6x5q1713\armeabi-v7a\symbol_folder_index.txt	å“¾ÿÙ2f ïº…ûÙ2

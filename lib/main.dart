@@ -1,3 +1,5 @@
+import 'package:android_hms/presentation/screens/booking_option_sheet_screen.dart';
+import 'package:android_hms/presentation/screens/booking_review_screen.dart';
 import 'package:android_hms/presentation/screens/room_detail_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -31,7 +33,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       theme: AppTheme.lightTheme,
       debugShowCheckedModeBanner: false,
-      home: WelcomeScreen(),
+      home: BookingReviewScreen(roomId: 1, hotelId: 1),
       // home: RoomDetailScreen(roomId: 0),
 
       onGenerateRoute: (settings) {
@@ -54,6 +56,23 @@ class MyApp extends StatelessWidget {
             return MaterialPageRoute(
               builder: (context) => ChangePasswordScreen(email: args['email']!),
             );
+
+          case '/booking_review':
+            if (settings.arguments is Map<String, int>) {
+              final args = settings.arguments as Map<String, int>;
+              return MaterialPageRoute(
+                builder: (context) => BookingReviewScreen(
+                  roomId: args['roomId']!,
+                  hotelId: args['hotelId']!,
+                ),
+              );
+            }
+            return null; // Trả về null nếu không có đủ tham số
+
+          case '/booking_option':
+            return MaterialPageRoute(
+                builder: (context) => BookingOptionsSheet());
+
           case '/room_detail':
             if (settings.arguments is Map<String, int>) {
               final args = settings.arguments as Map<String, int>;
