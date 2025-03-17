@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       theme: AppTheme.lightTheme,
       debugShowCheckedModeBanner: false,
-      home: BookingReviewScreen(roomId: 1, hotelId: 1),
+      home: WelcomeScreen(),
       // home: RoomDetailScreen(roomId: 0),
 
       onGenerateRoute: (settings) {
