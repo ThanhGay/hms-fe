@@ -32,7 +32,9 @@ class _FavouriteScreen extends State<FavouriteScreen> {
     // Ví dụ: lấy token từ SharedPreferences
     final prefs = await SharedPreferences.getInstance();
     final token = prefs.getString('token'); // hoặc từ Provider
+    print("favourite");
     if (token != null && token.isNotEmpty) {
+      print("Favourite2");
       setState(() {
         isLoggedIn = true;
       });
@@ -43,19 +45,19 @@ class _FavouriteScreen extends State<FavouriteScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    if (isLoggedIn) {
-      final proFavourite = Provider.of<FavouriteProvider>(context);
-      favoriteItems = proFavourite.favourite;
-      if (favoriteItems.isNotEmpty) {
-        List<Room> roomFav = [];
-        for (var element in favoriteItems) {
-          ApiRoom.getRoomById(element.roomId).then((data) {
-            roomFav.add(data!);
-            setState(() {
-              rooms = roomFav;
-            });
+    final proFavourite = Provider.of<FavouriteProvider>(context);
+    favoriteItems = proFavourite.favourite;
+    if (favoriteItems.isNotEmpty) {
+      List<Room> roomFav = [];
+      for (var element in favoriteItems) {
+        ApiRoom.getRoomById(element.roomId).then((data) {
+          print("object: ${data}");
+
+          roomFav.add(data!);
+          setState(() {
+            rooms = roomFav;
           });
-        }
+        });
       }
     }
   }
@@ -110,7 +112,7 @@ class _FavouriteScreen extends State<FavouriteScreen> {
                   ElevatedButton(
                     onPressed: () {
                       // Chuyển đến trang đăng nhập
-                      Navigator.pushNamed(context, '/login'); 
+                      Navigator.pushNamed(context, '/login');
                     },
                     child: Text("Đăng nhập"),
                   ),

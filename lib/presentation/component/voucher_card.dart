@@ -48,7 +48,7 @@ class _VoucherCardState extends State<VoucherCard> {
               ),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(10),
-                child: Image.network(
+                child: Image.asset(
                   "assets/images/logo_app.png",
                   height: 300,
                   width: 200,
@@ -124,8 +124,8 @@ class LeftDiagonalClipper extends CustomClipper<Path> {
   Path getClip(Size size) {
     Path path = Path()
       ..moveTo(0, 0)
-      ..lineTo(size.width * 0.4, 0) // Chia phần trái khoảng 60%
-      ..lineTo(size.width * 0.9, size.height)
+      ..lineTo(size.width * 0.2, 0) // Chia phần trái khoảng 60%
+      ..lineTo(size.width * 0.6, size.height)
       ..lineTo(0, size.height)
       ..close();
     return path;

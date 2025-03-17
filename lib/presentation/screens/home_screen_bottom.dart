@@ -49,6 +49,10 @@ class _HomeScreenBottomState extends State<HomeScreenBottom> {
             label: 'Yêu thích',
           ),
           BottomNavigationBarItem(
+            icon: Icon(Icons.card_giftcard_outlined),
+            label: 'Giảm giá',
+          ),
+          BottomNavigationBarItem(
             icon: Icon(Icons.airplane_ticket),
             label: 'Chuyến đi',
           ),
