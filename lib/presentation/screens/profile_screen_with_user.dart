@@ -1,7 +1,10 @@
-import 'package:android_hms/Entity/user.dart';
-import 'package:android_hms/presentation/component/section_title.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
+import 'package:android_hms/Entity/user.dart';
+import 'package:android_hms/core/services/Auth/api_logout.dart';
+import 'package:android_hms/presentation/component/info_card.dart';
+import 'package:android_hms/presentation/component/section_title.dart';
 
 class ProfileWithUser extends StatelessWidget {
   final UserInformation user;
@@ -18,6 +21,53 @@ class ProfileWithUser extends StatelessWidget {
       );
     }
 
+    Future<void> logoutUser(BuildContext context) async {
+      bool confirm = await showDialog(
+            context: context,
+            builder: (context) => AlertDialog(
+              title: Text("Warning"),
+              content: Text("Are you sure to log out ?"),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(context, false),
+                  child: Text("Cancel"),
+                ),
+                TextButton(
+                  onPressed: () => Navigator.pop(context, true),
+                  child: Text("Logout"),
+                ),
+              ],
+            ),
+          ) ??
+          false;
+
+      if (confirm) {
+        final statusCode = await ApiLogout.logoutUser();
+
+        if (statusCode == "Success") {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text("Đăng xuất thành công!"),
+              backgroundColor: Colors.green,
+              duration: Duration(seconds: 1), // Hiển thị trong 1 giây
+            ),
+          );
+
+          Future.delayed(Duration(seconds: 1), () {
+            Navigator.pushNamedAndRemoveUntil(
+                context, '/login', (route) => false);
+          });
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text("Đăng xuất thất bại! Vui lòng thử lại."),
+              backgroundColor: Colors.red,
+            ),
+          );
+        }
+      }
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text("Profile"),
@@ -28,21 +78,30 @@ class ProfileWithUser extends StatelessWidget {
         child: Column(
           children: [
             ListTile(
-              leading: CircleAvatar(
-                radius: 50,
-                backgroundImage:
-                    NetworkImage('assets/images/default_avatar.png'),
-              ),
-              title: Text(
-                user.lastName,
-                style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20),
-              ),
-              subtitle: Text(
-                'Show profile',
-                style: TextStyle(color: Colors.grey.shade500),
-              ),
-              trailing: Icon(Icons.arrow_forward_ios_rounded),
-            ),
+                leading: CircleAvatar(
+                  radius: 50,
+                  backgroundImage:
+                      // NetworkImage('assets/images/default_avatar.png'),
+                      AssetImage('assets/images/default_avatar.png'),
+                ),
+                title: Text(
+                  user.lastName,
+                  style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20),
+                ),
+                subtitle: Text(
+                  'Show profile',
+                  style: TextStyle(color: Colors.grey.shade500),
+                ),
+                trailing: Icon(Icons.arrow_forward_ios_rounded),
+                onTap: () {
+                  // hiển thị màn hình Detail Profile
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => DetailProfile(user: user),
+                    ),
+                  );
+                }),
             Divider(),
             Expanded(
               child: ListView(
@@ -174,7 +233,9 @@ class ProfileWithUser extends StatelessWidget {
                   ),
                   Divider(),
                   TextButton(
-                      onPressed: pending,
+                      onPressed: () {
+                        logoutUser(context);
+                      },
                       child: Text(
                         'Log out',
                         style: TextStyle(
@@ -194,45 +255,54 @@ class ProfileWithUser extends StatelessWidget {
   }
 }
 
-// class DetailProfile extends StatelessWidget {
-//   const DetailProfile({
-//     super.key,
-//     required this.user,
-//   });
+class DetailProfile extends StatelessWidget {
+  const DetailProfile({
+    super.key,
+    required this.user,
+  });
 
-//   final UserInformation user;
+  final UserInformation user;
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return Column(
-//       crossAxisAlignment: CrossAxisAlignment.center,
-//       children: [
-//         // CircleAvatar(
-//         //   radius: 50,
-//         //   backgroundImage: NetworkImage(user.avatarUrl),
-//         // ),
-//         SizedBox(height: 16),
-//         InfoCard(
-//           icon: Icons.person,
-//           title: "Họ và Tên",
-//           value: '${user.firstName} ${user.lastName}',
-//         ),
-//         InfoCard(icon: Icons.cake, title: "Tuổi", value: user.dateOfBirth),
-//         InfoCard(
-//             icon: Icons.location_on,
-//             title: "Địa chỉ",
-//             value: user.citizenIdentity),
-//         InfoCard(icon: Icons.email, title: "Email", value: user.phoneNumber),
-//         SizedBox(height: 20),
-//         ElevatedButton(
-//           onPressed: () {
-//             ScaffoldMessenger.of(context).showSnackBar(
-//               SnackBar(content: Text("Chức năng đang phát triển")),
-//             );
-//           },
-//           child: Text("Chỉnh sửa"),
-//         ),
-//       ],
-//     );
-//   }
-// }
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Detail profile"),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            // CircleAvatar(
+            //   radius: 50,
+            //   backgroundImage: NetworkImage(user.avatarUrl),
+            // ),
+            SizedBox(height: 16),
+            InfoCard(
+              icon: Icons.person,
+              title: "Họ và Tên",
+              value: '${user.firstName} ${user.lastName}',
+            ),
+            InfoCard(icon: Icons.cake, title: "Tuổi", value: user.dateOfBirth),
+            InfoCard(
+                icon: Icons.location_on,
+                title: "Địa chỉ",
+                value: user.citizenIdentity),
+            InfoCard(
+                icon: Icons.phone, title: "Phone", value: user.phoneNumber),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text("Chức năng đang phát triển")),
+                );
+              },
+              child: Text("Chỉnh sửa"),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

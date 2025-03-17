@@ -1,9 +1,11 @@
 import 'dart:convert';
+import 'package:flutter/material.dart';
+
+import 'package:shared_preferences/shared_preferences.dart';
+
 import 'package:android_hms/Entity/user.dart';
 import 'package:android_hms/presentation/screens/profile_screen_default.dart';
 import 'package:android_hms/presentation/screens/profile_screen_with_user.dart';
-import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({
@@ -27,8 +29,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final prefs = await SharedPreferences.getInstance();
     String? jsonData = prefs.getString('user');
 
-    print('JSON Data: $jsonData');
-
     if (jsonData != null) {
       setState(() {
         userData = UserInformation.fromJson(jsonDecode(jsonData));
@@ -38,9 +38,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print("hello profile");
-    print(userData);
-
     if (userData == null) {
       return ProfileDefault();
     } else {

@@ -1,5 +1,8 @@
+import 'package:android_hms/presentation/screens/favourite_screen.dart';
 import 'package:android_hms/presentation/screens/home_screen.dart';
 import 'package:android_hms/presentation/screens/profile_screen.dart';
+import 'package:android_hms/presentation/screens/trip_screen.dart';
+import 'package:android_hms/presentation/screens/message_screen.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreenBottom extends StatefulWidget {
@@ -18,9 +21,9 @@ class _HomeScreenBottomState extends State<HomeScreenBottom> {
     // Nội dung chính cho từng trang chính của Bottom Navigation Bar
     final List<Widget> mainPages = [
       const HomeScreen(), // Trang Khám Phá
-      Center(child: Text('Trang Yêu Thích', style: TextStyle(fontSize: 20))),
-      Center(child: Text('Trang Chuyến Đi', style: TextStyle(fontSize: 20))),
-      Center(child: Text('Trang Tin Nhắn', style: TextStyle(fontSize: 20))),
+      FavouriteScreen(),
+      TripScreen(),
+      MessageScreen(),
       ProfileScreen()
     ];
     return Scaffold(

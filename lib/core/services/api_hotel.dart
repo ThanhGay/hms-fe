@@ -1,38 +1,46 @@
-import 'dart:convert';
-
 import 'package:android_hms/Data/hotel_provider.dart';
 import 'package:android_hms/Entity/hotel.dart';
 import 'package:android_hms/core/constants/api_constants.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
+
+final dio = Dio();
 
 class ApiHotel {
   static Future<List<Hotel>> dsHotel(BuildContext context) async {
+    Response response;
     const String url = "${APIConstants.api}api/hotel/all";
-    final uri = Uri.parse(url);
+    List<Hotel> hotels = [];
+
     try {
-      final response = await http.get(uri);
-      List<Hotel> hotels = [];
+      response = await dio.get(url);
 
-      if (response.statusCode == 200) {
-        final data = jsonDecode(response.body);
-        for (var element in data['items']) {
-          hotels.add(Hotel(
-              hotelName: element["hotelName"],
-              hotelId: element["hotelId"],
-              hotelAddress: element['hotelAddress'],
-              hotline: element['hotline']));
-        }
+      List<dynamic> allHotel = response.data['items'];
 
-        Provider.of<HotelProvider>(context, listen: false).setHotels(hotels);
-      } else {
-        print("Lỗi API: ${response.statusCode} - ${response.body}");
-      }
+      hotels = allHotel.map((h) => Hotel.fromJson(h)).toList();
+
+      Provider.of<HotelProvider>(context, listen: false).setHotels(hotels);
+
       return hotels;
-    } catch (e) {
+    } on DioException catch (e) {
       print("Lỗi khi gọi API: $e");
-      return [];
+      return hotels;
+    }
+  }
+
+  static Future<Hotel> getHotelById(BuildContext context, int roomId) async {
+    Response response;
+    final String url = "${APIConstants.api}api/hotel/get/$roomId";
+    print("url: ${url}");
+    try {
+      response = await dio.get(url);
+
+      return Hotel.fromJson(response.data);
+    } on DioException catch (e) {
+      print("${e.response}");
+      return Hotel(
+          hotelName: "fail", hotelId: 0, hotelAddress: "fail", hotline: "fail");
     }
   }
 }

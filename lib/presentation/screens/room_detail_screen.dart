@@ -1,3 +1,7 @@
+import 'package:android_hms/Data/favourite_provider.dart';
+import 'package:android_hms/Entity/hotel.dart';
+import 'package:android_hms/core/services/api_favourite.dart';
+import 'package:android_hms/core/services/api_hotel.dart';
 import 'package:android_hms/presentation/screens/booking_review_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -19,21 +23,32 @@ class RoomDetailScreen extends StatefulWidget {
 
 class _RoomDetailScreenState extends State<RoomDetailScreen> {
   Room? roomDetail;
+  Hotel? hotel;
+  bool isFavorite = false;
 
   @override
   void initState() {
     super.initState();
     _fetchRoomDetail();
+    ApiHotel.getHotelById(context, widget.hotelId).then((data) {
+      setState(() {
+        hotel = data;
+      });
+    });
   }
 
   Future<void> _fetchRoomDetail() async {
     try {
       await ApiRoom.dsRoom(context, widget.hotelId);
       final roomProvider = Provider.of<RoomProvider>(context, listen: false);
-
+      final favourite = Provider.of<FavouriteProvider>(context, listen: false);
       setState(() {
         roomDetail = roomProvider.room
             .firstWhere((room) => room.roomId == widget.roomId);
+        bool isFav =
+            favourite.favourite.any((fav) => fav.roomId == roomDetail?.roomId);
+        print("isFav: ${isFav}");
+        isFavorite = isFav;
       });
     } catch (error) {
       print("Error fetching room details: $error");
@@ -54,8 +69,19 @@ class _RoomDetailScreenState extends State<RoomDetailScreen> {
           IconButton(
               icon: Icon(Icons.share, color: Colors.black), onPressed: () {}),
           IconButton(
-              icon: Icon(Icons.favorite_border, color: Colors.black),
-              onPressed: () {}),
+            icon: Icon(
+              isFavorite ? Icons.favorite : Icons.favorite_border, // Đổi icon
+              color: isFavorite ? Colors.red : Colors.black, // Đổi màu
+            ),
+            onPressed: () async {
+              await (isFavorite
+                  ? ApiFavourite.removeFavourite
+                  : ApiFavourite.addFavourite)(context, widget.roomId);
+              setState(() {
+                isFavorite = !isFavorite; // Đảo trạng thái khi bấm nút
+              });
+            },
+          )
         ],
       ),
       body: roomDetail == null
@@ -69,14 +95,14 @@ class _RoomDetailScreenState extends State<RoomDetailScreen> {
                     padding: EdgeInsets.zero,
                     children: [
                       // Hình ảnh phòng (Nếu có)
-                      if (roomDetail!.listImage.isNotEmpty)
+                      if (roomDetail!.roomImages.isNotEmpty)
                         Container(
                           height: 250,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
                             image: DecorationImage(
                               image: NetworkImage(APIConstants.api +
-                                  roomDetail!.listImage[0]['imageURL']),
+                                  roomDetail!.roomImages[0]['imageURL']),
                               fit: BoxFit.cover,
                             ),
                           ),
@@ -145,7 +171,7 @@ class _RoomDetailScreenState extends State<RoomDetailScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      "Khách sạn: ${widget.hotelId}",
+                                      "Khách sạn: ${hotel?.hotelName}",
                                       style: TextStyle(
                                           fontSize: 16,
                                           fontWeight: FontWeight.bold),
@@ -165,7 +191,7 @@ class _RoomDetailScreenState extends State<RoomDetailScreen> {
                               children: [
                                 Icon(Icons.directions_walk, size: 18),
                                 SizedBox(width: 5),
-                                Text("Cách hồ 1 phút đi bộ",
+                                Text("Vị trí: ${hotel?.hotelAddress}",
                                     style: TextStyle(fontSize: 14)),
                               ],
                             ),
