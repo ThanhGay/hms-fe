@@ -25,7 +25,7 @@ UserInformation _$UserInformationFromJson(Map<String, dynamic> json) =>
       lastName: json['lastName'] as String,
       phoneNumber: json['phoneNumber'] as String,
       citizenIdentity: json['citizenIdentity'] as String,
-      dateOfBirth: json['dateOfBirth'] as String,
+      dateOfBirth: DateTime.parse(json['dateOfBirth'] as String),
     );
 
 Map<String, dynamic> _$UserInformationToJson(UserInformation instance) =>
@@ -35,5 +35,5 @@ Map<String, dynamic> _$UserInformationToJson(UserInformation instance) =>
       'lastName': instance.lastName,
       'phoneNumber': instance.phoneNumber,
       'citizenIdentity': instance.citizenIdentity,
-      'dateOfBirth': instance.dateOfBirth,
+      'dateOfBirth': instance.dateOfBirth.toIso8601String(),
     };
