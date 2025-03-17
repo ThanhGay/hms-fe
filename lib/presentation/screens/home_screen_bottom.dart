@@ -54,7 +54,7 @@ class _HomeScreenBottomState extends State<HomeScreenBottom> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.airplane_ticket),
-            label: 'Khám phá',
+            label: 'Chuyến đi',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.message),
