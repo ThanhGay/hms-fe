@@ -7,7 +7,6 @@ class Favourite {
   final int favouriteId;
   final int hotelId;
   final int roomId;
-
   Favourite(
       {required this.favouriteId, required this.hotelId, required this.roomId});
 

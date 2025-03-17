@@ -6,7 +6,7 @@ class RoomProvider extends ChangeNotifier {
 
   List<Room> get room => _room;
 
-  void setHotels(List<Room> data) {
+  void setRooms(List<Room> data) {
     _room = data;
     notifyListeners();
   }

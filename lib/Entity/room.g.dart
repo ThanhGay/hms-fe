@@ -16,10 +16,9 @@ Room _$RoomFromJson(Map<String, dynamic> json) => Room(
       pricePerNight: (json['pricePerNight'] as num).toDouble(),
       roomTypeId: (json['roomTypeId'] as num).toInt(),
       hotelId: (json['hotelId'] as num).toInt(),
-      roomImages: (json['roomImages'] as List<dynamic>?)
-              ?.map((e) => e as Map<String, dynamic>)
-              .toList() ??
-          [], // Trả về danh sách rỗng nếu null
+      roomImages: (json['roomImages'] as List<dynamic>)
+          .map((e) => e as Map<String, dynamic>)
+          .toList(),
     );
 
 Map<String, dynamic> _$RoomToJson(Room instance) => <String, dynamic>{
@@ -32,5 +31,5 @@ Map<String, dynamic> _$RoomToJson(Room instance) => <String, dynamic>{
       'pricePerNight': instance.pricePerNight,
       'roomTypeId': instance.roomTypeId,
       'hotelId': instance.hotelId,
-      'listImage': instance.roomImages,
+      'roomImages': instance.roomImages,
     };

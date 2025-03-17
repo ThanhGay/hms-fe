@@ -20,16 +20,17 @@ class ApiRoom {
 
       rooms = allRoombyId.map((r) => Room.fromJson(r)).toList();
 
-      Provider.of<RoomProvider>(context, listen: false).setHotels(rooms);
+      Provider.of<RoomProvider>(context, listen: false).setRooms(rooms);
 
       return rooms;
     } on DioException catch (e) {
+      print("Error room: ${e.response}");
       print("${e.response}");
       return rooms;
     }
   }
 
-  static Future<Room> getRoomById(BuildContext context, int roomId) async {
+  static Future<Room?> getRoomById(int roomId) async {
     Response response;
     final String url = "${APIConstants.api}api/room/get/$roomId";
     try {
@@ -38,17 +39,7 @@ class ApiRoom {
       return Room.fromJson(response.data);
     } on DioException catch (e) {
       print("${e.response}");
-      return Room(
-          roomId: 0,
-          roomName: "fail",
-          floor: 0,
-          roomTypeName: "fail",
-          description: "fail",
-          pricePerHour: 0,
-          pricePerNight: 0,
-          roomTypeId: 0,
-          hotelId: 0,
-          roomImages: []);
+      return null;
     }
   }
 }

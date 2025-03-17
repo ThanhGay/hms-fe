@@ -6,6 +6,7 @@ import 'package:android_hms/core/services/api_room.dart';
 import 'package:android_hms/presentation/component/info_room.dart';
 import 'package:android_hms/presentation/screens/room_detail_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -31,7 +32,9 @@ class _FavouriteScreen extends State<FavouriteScreen> {
     // Ví dụ: lấy token từ SharedPreferences
     final prefs = await SharedPreferences.getInstance();
     final token = prefs.getString('token'); // hoặc từ Provider
+    print("favourite");
     if (token != null && token.isNotEmpty) {
+      print("Favourite2");
       setState(() {
         isLoggedIn = true;
       });
@@ -42,19 +45,19 @@ class _FavouriteScreen extends State<FavouriteScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    if (isLoggedIn) {
-      final proFavourite = Provider.of<FavouriteProvider>(context);
-      favoriteItems = proFavourite.favourite;
-      if (favoriteItems.isNotEmpty) {
-        List<Room> roomFav = [];
-        for (var element in favoriteItems) {
-          ApiRoom.getRoomById(context, element.roomId).then((data) {
-            roomFav.add(data);
-            setState(() {
-              rooms = roomFav;
-            });
+    final proFavourite = Provider.of<FavouriteProvider>(context);
+    favoriteItems = proFavourite.favourite;
+    if (favoriteItems.isNotEmpty) {
+      List<Room> roomFav = [];
+      for (var element in favoriteItems) {
+        ApiRoom.getRoomById(element.roomId).then((data) {
+          print("object: ${data}");
+
+          roomFav.add(data!);
+          setState(() {
+            rooms = roomFav;
           });
-        }
+        });
       }
     }
   }
@@ -63,9 +66,19 @@ class _FavouriteScreen extends State<FavouriteScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Danh sách yêu thích"),
+        title: Text(
+          "Danh sách yêu thích",
+          style: GoogleFonts.dancingScript(
+            fontSize: 30,
+            fontWeight: FontWeight.w500,
+            color: Colors.white,
+          ),
+        ),
+        backgroundColor: Colors.deepOrange,
         centerTitle: true,
+        elevation: 10, // đổ bóng
         automaticallyImplyLeading: false,
+        shadowColor: Colors.deepOrange, // Màu bóng
       ),
       body: isLoggedIn
           ? ListView.builder(
@@ -99,7 +112,7 @@ class _FavouriteScreen extends State<FavouriteScreen> {
                   ElevatedButton(
                     onPressed: () {
                       // Chuyển đến trang đăng nhập
-                      Navigator.pushNamed(context, '/login'); 
+                      Navigator.pushNamed(context, '/login');
                     },
                     child: Text("Đăng nhập"),
                   ),
