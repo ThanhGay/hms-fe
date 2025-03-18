@@ -26,7 +26,6 @@ class _HomeScreenBottomState extends State<HomeScreenBottom> {
       VoucherScreen(),
       TripScreen(),
       MessageScreen(),
-      Center(child: Text('Trang Tin Nhắn', style: TextStyle(fontSize: 20))),
       ProfileScreen()
     ];
     return Scaffold(
