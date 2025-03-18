@@ -12,10 +12,9 @@ class ApiSignup {
       String phoneNumber,
       String citizenIdentity,
       String dateOfBirth) async {
-    Response response;
     final url = "${APIConstants.api}add-customer";
     try {
-      response = await dio.post(url, data: {
+      await dio.post(url, data: {
         "email": email,
         "passWord": password,
         "firstName": firstName,
@@ -26,6 +25,7 @@ class ApiSignup {
       });
       return "Success";
     } on DioException catch (e) {
+      print("error ${e}");
       return "${e.response}";
     }
   }

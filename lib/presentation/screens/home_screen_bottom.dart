@@ -1,3 +1,4 @@
+import 'package:android_hms/presentation/screens/voucher_screen.dart';
 import 'package:android_hms/presentation/screens/favourite_screen.dart';
 import 'package:android_hms/presentation/screens/home_screen.dart';
 import 'package:android_hms/presentation/screens/profile_screen.dart';
@@ -22,8 +23,10 @@ class _HomeScreenBottomState extends State<HomeScreenBottom> {
     final List<Widget> mainPages = [
       const HomeScreen(), // Trang Khám Phá
       FavouriteScreen(),
+      VoucherScreen(),
       TripScreen(),
       MessageScreen(),
+      Center(child: Text('Trang Tin Nhắn', style: TextStyle(fontSize: 20))),
       ProfileScreen()
     ];
     return Scaffold(
@@ -45,6 +48,10 @@ class _HomeScreenBottomState extends State<HomeScreenBottom> {
           BottomNavigationBarItem(
             icon: Icon(Icons.favorite_border),
             label: 'Yêu thích',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.card_giftcard_outlined),
+            label: 'Giảm giá',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.airplane_ticket),
