@@ -26,6 +26,7 @@ class ApiSignup {
       });
       return "Success";
     } on DioException catch (e) {
+      print("error ${e}");
       return "${e.response}";
     }
   }

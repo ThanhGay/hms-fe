@@ -19,7 +19,6 @@ class ApiFavourite {
       favourites = allFavourite
           .map((favourite) => Favourite.fromJson(favourite))
           .toList();
-
       Provider.of<FavouriteProvider>(context, listen: false)
           .setFavourite(favourites);
     } on DioException catch (e) {

@@ -22,7 +22,7 @@ class UserInformation {
   final String lastName;
   final String phoneNumber;
   final String citizenIdentity;
-  final String dateOfBirth;
+  final DateTime dateOfBirth;
 
   UserInformation({
     required this.userId,

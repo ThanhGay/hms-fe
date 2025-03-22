@@ -24,7 +24,7 @@ class ApiHotel {
 
       return hotels;
     } on DioException catch (e) {
-      print("Lỗi khi gọi API: $e");
+      print("Error hotel: $e");
       return hotels;
     }
   }

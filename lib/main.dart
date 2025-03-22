@@ -1,4 +1,5 @@
 import 'package:android_hms/Data/favourite_provider.dart';
+import 'package:android_hms/Data/voucher_provider.dart';
 import 'package:android_hms/presentation/screens/room_detail_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -19,7 +20,8 @@ void main() {
     providers: [
       ChangeNotifierProvider(create: (_) => HotelProvider()),
       ChangeNotifierProvider(create: (_) => RoomProvider()),
-      ChangeNotifierProvider(create: (_) => FavouriteProvider())
+      ChangeNotifierProvider(create: (_) => FavouriteProvider()),
+      ChangeNotifierProvider(create: (_) => VoucherProvider())
     ],
     child: MyApp(),
   ));
@@ -58,13 +60,15 @@ class MyApp extends StatelessWidget {
             );
           case '/room_detail':
             if (settings.arguments is Map<String, int>) {
-              final args = settings.arguments as Map<String, int>;
+              final args = settings.arguments as Map<String, dynamic>;
               final roomId = args['roomId'] ?? 0;
               final hotelId = args['hotelId'] ?? 0;
 
               return MaterialPageRoute(
-                builder: (context) =>
-                    RoomDetailScreen(roomId: roomId, hotelId: hotelId),
+                builder: (context) => RoomDetailScreen(
+                  roomId: roomId,
+                  hotelId: hotelId,
+                ),
               );
             }
             return null;

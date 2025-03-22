@@ -14,3 +14,14 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+
+## Auto generate *.g.dart
+
+Lệnh `dart run build_runner build` là một công cụ mạnh mẽ trong hệ sinh thái Dart, đặc biệt hữu ích cho các dự án Flutter. Nó được sử dụng để tự động tạo mã nguồn từ các chú thích (annotations) hoặc các file cấu hình.
+
+### How to use
+
+Để chạy lệnh, hãy mở terminal trong thư mục gốc của dự án Dart/Flutter của bạn và nhập:
+
+```bash
+dart run build_runner build

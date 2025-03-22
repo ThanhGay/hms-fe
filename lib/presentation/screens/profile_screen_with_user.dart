@@ -284,7 +284,11 @@ class DetailProfile extends StatelessWidget {
               title: "Họ và Tên",
               value: '${user.firstName} ${user.lastName}',
             ),
-            InfoCard(icon: Icons.cake, title: "Tuổi", value: user.dateOfBirth),
+            InfoCard(
+                icon: Icons.cake,
+                title: "Tuổi",
+                value:
+                    (DateTime.now().year - user.dateOfBirth.year).toString()),
             InfoCard(
                 icon: Icons.location_on,
                 title: "Địa chỉ",
