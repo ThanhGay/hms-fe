@@ -1,3 +1,5 @@
+import 'package:android_hms/presentation/screens/booking_option_sheet_screen.dart';
+import 'package:android_hms/presentation/screens/booking_review_screen.dart';
 import 'package:android_hms/Data/favourite_provider.dart';
 import 'package:android_hms/Data/voucher_provider.dart';
 import 'package:android_hms/presentation/screens/room_detail_screen.dart';
@@ -58,6 +60,23 @@ class MyApp extends StatelessWidget {
             return MaterialPageRoute(
               builder: (context) => ChangePasswordScreen(email: args['email']!),
             );
+
+          case '/booking_review':
+            if (settings.arguments is Map<String, int>) {
+              final args = settings.arguments as Map<String, int>;
+              return MaterialPageRoute(
+                builder: (context) => BookingReviewScreen(
+                  roomId: args['roomId']!,
+                  hotelId: args['hotelId']!,
+                ),
+              );
+            }
+            return null; // Trả về null nếu không có đủ tham số
+
+          case '/booking_option':
+            return MaterialPageRoute(
+                builder: (context) => BookingOptionsSheet());
+
           case '/room_detail':
             if (settings.arguments is Map<String, int>) {
               final args = settings.arguments as Map<String, dynamic>;
