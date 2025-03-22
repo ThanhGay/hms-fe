@@ -7,11 +7,13 @@ class ApiResetPassword {
     const String url = "${APIConstants.api}update-password"; 
     final uri = Uri.parse(url);
 
-    final response = await http.post(
+    final response = await http.put(
       uri,
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({"email": email, "otp": otp, "password":password }),
     );
+  
+
 
     return response.statusCode;
   }
