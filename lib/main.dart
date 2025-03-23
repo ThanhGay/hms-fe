@@ -62,16 +62,19 @@ class MyApp extends StatelessWidget {
             );
 
           case '/booking_review':
-            if (settings.arguments is Map<String, int>) {
-              final args = settings.arguments as Map<String, int>;
+            if (settings.arguments is Map<String, dynamic>) {
+              final args = settings.arguments as Map<String, dynamic>;
+              final roomId = args['roomId'] ?? 0;
+              final hotelId = args['hotelId'] ?? 0;
               return MaterialPageRoute(
                 builder: (context) => BookingReviewScreen(
-                  roomId: args['roomId']!,
-                  hotelId: args['hotelId']!,
+                  roomDetail: roomId,
+                  hotel: hotelId,
                 ),
               );
             }
-            return null; // Trả về null nếu không có đủ tham số
+            return null;
+            ;
 
           case '/booking_option':
             return MaterialPageRoute(

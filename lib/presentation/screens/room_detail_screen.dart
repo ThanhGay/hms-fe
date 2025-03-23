@@ -113,8 +113,7 @@ class _RoomDetailScreenState extends State<RoomDetailScreen> {
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
                             image: DecorationImage(
-                              image:
-                                  AssetImage('assets/images/khung_canh_3.png'),
+                              image: AssetImage('assets/images/anhbien.png'),
                               fit: BoxFit.cover,
                             ),
                           ),
@@ -126,7 +125,7 @@ class _RoomDetailScreenState extends State<RoomDetailScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              roomDetail!.roomName,
+                              "Phòng: ${roomDetail!.roomName}",
                               style: TextStyle(
                                   fontSize: 22, fontWeight: FontWeight.bold),
                             ),
@@ -162,8 +161,8 @@ class _RoomDetailScreenState extends State<RoomDetailScreen> {
                             Row(
                               children: [
                                 CircleAvatar(
-                                  backgroundImage: AssetImage(
-                                      'assets/images/khung_canh_2.png'),
+                                  backgroundImage:
+                                      AssetImage('assets/images/logo.png'),
                                   radius: 25,
                                 ),
                                 SizedBox(width: 10),
@@ -243,12 +242,15 @@ class _RoomDetailScreenState extends State<RoomDetailScreen> {
                             padding: EdgeInsets.symmetric(vertical: 14),
                           ),
                           onPressed: () {
+                            print("roomId: ${widget.roomId}");
+                            print("hotelId: ${widget.hotelId}");
                             Navigator.push(
                               context,
                               MaterialPageRoute(
                                 builder: (context) => BookingReviewScreen(
-                                  roomId: widget.roomId,
-                                  hotelId: widget.hotelId,
+                                  roomDetail:
+                                      roomDetail!, // Truyền `roomDetail` đã có dữ liệu
+                                  hotel: hotel!,
                                 ),
                               ),
                             );

@@ -149,6 +149,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
               return GestureDetector(
                 onTap: () {
+                  
                   if (navigationButtons.isNotEmpty) {
                     int hotelId =
                         navigationButtons[selectedExploreTabIndex].hotelId;

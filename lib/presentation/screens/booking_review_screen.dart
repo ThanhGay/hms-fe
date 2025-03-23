@@ -1,10 +1,14 @@
 import 'package:android_hms/presentation/screens/booking_option_sheet_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:android_hms/core/constants/api_constants.dart';
+import 'package:android_hms/Entity/hotel.dart';
+import 'package:android_hms/Entity/room.dart';
 
 class BookingReviewScreen extends StatelessWidget {
-  final int roomId;
-  final int hotelId;
-  const BookingReviewScreen({super.key, required this.roomId, required this.hotelId});
+  final Room roomDetail;
+  final Hotel hotel;
+  const BookingReviewScreen(
+      {super.key, required this.roomDetail, required this.hotel});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,28 +46,34 @@ class BookingReviewScreen extends StatelessWidget {
                     Row(
                       children: [
                         ClipRRect(
-                          borderRadius:
-                              BorderRadius.circular(10), 
-                          child: Image.asset(
-                            "assets/images/logo.png",
-                            height: 80, 
+                          borderRadius: BorderRadius.circular(10),
+                          child: Image.network(
+                            APIConstants.api +
+                                roomDetail!.roomImages[0]['imageURL'],
+                            height: 80,
                             width: 80,
                             fit: BoxFit.cover,
                           ),
                         ),
                         SizedBox(width: 16),
-
                         Expanded(
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "Cabin không gian sâu Trên\nmột bãi biển yên tĩnh",
+                                "Phòng: ${roomDetail!.roomName}",
                                 style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                                    fontSize: 22, fontWeight: FontWeight.bold),
+                              ),
+
+                              SizedBox(height: 4),
+                              Text(
+                                "Khách sạn: ${hotel?.hotelName}",
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.grey[600]),
                               ),
                               SizedBox(height: 4),
                               // Rating
@@ -90,8 +100,8 @@ class BookingReviewScreen extends StatelessWidget {
 
                     SizedBox(height: 20),
                     Divider(
-                      color: Colors.grey, 
-                      thickness: 1, 
+                      color: Colors.grey,
+                      thickness: 1,
                       height: 1,
                     ),
                     SizedBox(height: 20),
@@ -138,19 +148,18 @@ class BookingReviewScreen extends StatelessWidget {
                               ),
                               builder: (context) {
                                 return Scaffold(
-                                  body:
-                                      BookingOptionsSheet(),
+                                  body: BookingOptionsSheet(),
                                 );
                               },
                             );
                           },
                           style: TextButton.styleFrom(
                             padding: EdgeInsets.symmetric(
-                                vertical: 8, horizontal: 12), 
-                            backgroundColor: Colors.grey[300], 
-                            foregroundColor: Colors.black, 
+                                vertical: 8, horizontal: 12),
+                            backgroundColor: Colors.grey[300],
+                            foregroundColor: Colors.black,
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8), 
+                              borderRadius: BorderRadius.circular(8),
                             ),
                           ),
                           child: Text(
@@ -162,8 +171,8 @@ class BookingReviewScreen extends StatelessWidget {
                     ),
                     SizedBox(height: 20),
                     Divider(
-                      color: Colors.grey, 
-                      thickness: 1, 
+                      color: Colors.grey,
+                      thickness: 1,
                       height: 1,
                     ),
                     SizedBox(height: 20),
@@ -195,11 +204,11 @@ class BookingReviewScreen extends StatelessWidget {
                           onPressed: () {},
                           style: TextButton.styleFrom(
                             padding: EdgeInsets.symmetric(
-                                vertical: 8, horizontal: 12), 
-                            backgroundColor: Colors.grey[300], 
+                                vertical: 8, horizontal: 12),
+                            backgroundColor: Colors.grey[300],
                             foregroundColor: Colors.black,
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8), 
+                              borderRadius: BorderRadius.circular(8),
                             ),
                           ),
                           child: Text(
@@ -211,9 +220,9 @@ class BookingReviewScreen extends StatelessWidget {
                     ),
                     SizedBox(height: 20),
                     Divider(
-                      color: Colors.grey, 
-                      thickness: 1, 
-                      height: 1, 
+                      color: Colors.grey,
+                      thickness: 1,
+                      height: 1,
                     ),
                     SizedBox(height: 20),
                     // Price
@@ -251,7 +260,9 @@ class BookingReviewScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
                   child: Text(
                     "Quay lại",
                     style: TextStyle(color: Colors.black, fontSize: 16),
