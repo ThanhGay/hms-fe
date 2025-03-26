@@ -16,6 +16,7 @@ import 'package:android_hms/presentation/screens/signup_screen.dart';
 import 'package:android_hms/presentation/screens/home_screen_bottom.dart';
 import 'package:android_hms/presentation/screens/forgot_password_screen.dart';
 import 'package:android_hms/presentation/screens/change_password_screen.dart';
+import 'package:android_hms/presentation/screens/booking_payment_screen.dart';
 
 void main() {
   runApp(MultiProvider(
@@ -38,7 +39,7 @@ class MyApp extends StatelessWidget {
       theme: AppTheme.lightTheme,
       debugShowCheckedModeBanner: false,
       home: WelcomeScreen(),
-      // home: RoomDetailScreen(roomId: 0),
+      // home: RoomDetailScreen(roomId: 0, hotelId: 0,),
 
       onGenerateRoute: (settings) {
         switch (settings.name) {
@@ -50,6 +51,9 @@ class MyApp extends StatelessWidget {
 
           case '/home':
             return MaterialPageRoute(builder: (context) => HomeScreenBottom());
+
+          case '/payment':
+            return MaterialPageRoute(builder: (context) => BookingPaymentScreen());
 
           case '/forgot-password':
             return MaterialPageRoute(

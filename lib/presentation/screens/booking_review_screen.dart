@@ -258,7 +258,9 @@ class BookingReviewScreen extends StatelessWidget {
                   ),
                 ),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/payment');
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.black,
                     padding: EdgeInsets.symmetric(horizontal: 32, vertical: 12),
@@ -269,6 +271,7 @@ class BookingReviewScreen extends StatelessWidget {
                   child: Text(
                     "Tiếp theo",
                     style: TextStyle(color: Colors.white, fontSize: 16),
+                    
                   ),
                 ),
               ],
