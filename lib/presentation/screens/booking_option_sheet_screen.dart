@@ -15,6 +15,20 @@ void showBookingOptions(BuildContext context) {
 }
 
 class BookingOptionsSheet extends StatefulWidget {
+  final DateTimeRange? initialDateRange;
+  final int initialAdults;
+  final int initialChildren;
+  final int initialBabies;
+  final int initialPets;
+
+  BookingOptionsSheet({
+    this.initialDateRange,
+    this.initialAdults = 1,
+    this.initialChildren = 0,
+    this.initialBabies = 0,
+    this.initialPets = 0,
+  });
+
   @override
   _BookingOptionsSheetState createState() => _BookingOptionsSheetState();
 }
@@ -22,12 +36,21 @@ class BookingOptionsSheet extends StatefulWidget {
 class _BookingOptionsSheetState extends State<BookingOptionsSheet> {
   DateTimeRange? selectedDateRange;
   bool isDateSelected = true;
-
   int adults = 1;
   int children = 0;
   int babies = 0;
   int pets = 0;
 
+  @override
+  void initState() {
+    super.initState();
+    selectedDateRange = widget.initialDateRange;
+    adults = widget.initialAdults;
+    children = widget.initialChildren;
+    babies = widget.initialBabies;
+    pets = widget.initialPets;
+  }
+  
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -98,23 +121,26 @@ class _BookingOptionsSheetState extends State<BookingOptionsSheet> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 TextButton(
-                  onPressed: () {
-                    setState(() {
-                      selectedDateRange = null;
-                      adults = 1;
-                      children = 0;
-                      babies = 0;
-                      pets = 0;
-                    });
-                  },
-                  child: TextButton(
-                    onPressed: () => Navigator.pop(context),
-                    child: Text("Hủy", style: TextStyle(fontSize: 16)),
-                  ),
-                ),
+                    onPressed: () {
+                      setState(() {
+                        selectedDateRange = null;
+                        adults = 1;
+                        children = 0;
+                        babies = 0;
+                        pets = 0;
+                      });
+                      Navigator.pop(context);
+                    },
+                    child: Text("Hủy", style: TextStyle(fontSize: 16))),
                 ElevatedButton(
                   onPressed: () {
-                    Navigator.pop(context);
+                    Navigator.pop(context, {
+                      "selectedDateRange": selectedDateRange,
+                      "adults": adults,
+                      "children": children,
+                      "babies": babies,
+                      "pets": pets,
+                    });
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.black,
