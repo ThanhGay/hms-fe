@@ -324,11 +324,11 @@ class _BookingReviewScreenState extends State<BookingReviewScreen> {
                                   DiscountID: null,
                                   CustomerID: 8,
                                   RoomIds: [roomDetail!.roomId]));
-                          if (result == "Success") {
+                          if (result == "Thêm thành công") {
+                            Navigator.pushNamed(context, '/payment');
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(content: Text('Đặt phòng thành công')),
                             );
-                             Navigator.pushNamed(context, '/payment');
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(content: Text(result)),
