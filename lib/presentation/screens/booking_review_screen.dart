@@ -328,7 +328,7 @@ class _BookingReviewScreenState extends State<BookingReviewScreen> {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(content: Text('Đặt phòng thành công')),
                             );
-                            Navigator.pushNamed(context, '/home');
+                             Navigator.pushNamed(context, '/payment');
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(content: Text(result)),
