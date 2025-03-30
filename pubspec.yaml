@@ -46,6 +46,7 @@ dependencies:
   intl: ^0.20.2
   crypto: ^3.0.6
   sprintf: ^7.0.0
+  skeletonizer: ^1.4.3
 
 dev_dependencies:
   flutter_test:
