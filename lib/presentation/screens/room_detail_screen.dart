@@ -3,6 +3,7 @@ import 'package:android_hms/Entity/hotel.dart';
 import 'package:android_hms/core/services/api_favourite.dart';
 import 'package:android_hms/core/services/api_hotel.dart';
 import 'package:android_hms/presentation/screens/booking_review_screen.dart';
+import 'package:android_hms/presentation/utils/util.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:android_hms/core/services/api_room.dart';
@@ -219,12 +220,12 @@ class _RoomDetailScreenState extends State<RoomDetailScreen> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Text(
-                            "₫${roomDetail!.pricePerNight} / đêm",
+                            "${formatNumber(roomDetail!.pricePerNight)} VNĐ / đêm",
                             style: TextStyle(
                                 fontSize: 18, fontWeight: FontWeight.bold),
                           ),
                           //    Text(
-                          //   "₫${roomDetail!.pricePerHour} / giờ",
+                          //   "₫${formatNumber(roomDetail!.pricePerHour)} / giờ",
                           //   style: TextStyle(fontSize: 18, fontWeight: FontWeight.normal, color: Colors.grey[600]),
                           // ),
                           Text("21 - 26 tháng 2",

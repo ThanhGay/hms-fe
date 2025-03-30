@@ -1,5 +1,6 @@
 import 'package:android_hms/Entity/room.dart';
 import 'package:android_hms/core/constants/api_constants.dart';
+import 'package:android_hms/presentation/utils/util.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -65,7 +66,7 @@ class InfoRoom extends StatelessWidget {
                 ),
                 const SizedBox(height: 5),
                 Text(
-                  "Giá qua đêm: ${room.pricePerNight.toString()} VNĐ",
+                  "Giá qua đêm: ${formatNumber(room.pricePerNight)} VNĐ",
                   style: GoogleFonts.roboto(
                     fontSize: 16,
                     fontWeight: FontWeight.w400,
@@ -75,7 +76,7 @@ class InfoRoom extends StatelessWidget {
                 ),
                 const SizedBox(height: 5),
                 Text(
-                  "Giá theo giờ: ${room.pricePerHour.toString()} VNĐ",
+                  "Giá theo giờ: ${formatNumber(room.pricePerHour)} VNĐ",
                   style: GoogleFonts.roboto(
                     fontSize: 16,
                     fontWeight: FontWeight.w400,
