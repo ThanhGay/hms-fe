@@ -2,8 +2,10 @@ import 'package:android_hms/Data/favourite_provider.dart';
 import 'package:android_hms/Entity/hotel.dart';
 import 'package:android_hms/core/services/api_favourite.dart';
 import 'package:android_hms/core/services/api_hotel.dart';
+import 'package:android_hms/presentation/screens/booking_option_sheet_screen.dart';
 import 'package:android_hms/presentation/screens/booking_review_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:android_hms/core/services/api_room.dart';
 import 'package:android_hms/Data/room_provider.dart';
@@ -25,6 +27,8 @@ class _RoomDetailScreenState extends State<RoomDetailScreen> {
   Room? roomDetail;
   Hotel? hotel;
   bool isFavorite = false;
+  DateTimeRange? selectedDateRange =
+      DateTimeRange(start: DateTime.now(), end: DateTime.now());
 
   @override
   void initState() {
@@ -35,6 +39,26 @@ class _RoomDetailScreenState extends State<RoomDetailScreen> {
         hotel = data;
       });
     });
+  }
+
+  Future<void> _openBookingOptions(BuildContext context) async {
+    final result = await showModalBottomSheet<DateTimeRange>(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.white,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      ),
+      builder: (context) {
+        return BookingOptionsSheet();
+      },
+    );
+
+    if (result != null) {
+      setState(() {
+        selectedDateRange = result; // Cập nhật ngày đã chọn
+      });
+    }
   }
 
   Future<void> _fetchRoomDetail() async {
@@ -113,7 +137,7 @@ class _RoomDetailScreenState extends State<RoomDetailScreen> {
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
                             image: DecorationImage(
-                              image: AssetImage('assets/images/anhbien.png'),
+                              image: AssetImage('assets/images/noimg.png'),
                               fit: BoxFit.cover,
                             ),
                           ),
@@ -218,7 +242,7 @@ class _RoomDetailScreenState extends State<RoomDetailScreen> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Text(
-                            "₫${roomDetail!.pricePerNight} / đêm",
+                            "₫${NumberFormat('#,###', 'vi_VN').format(roomDetail?.pricePerNight)}/ đêm",
                             style: TextStyle(
                                 fontSize: 18, fontWeight: FontWeight.bold),
                           ),
@@ -226,9 +250,13 @@ class _RoomDetailScreenState extends State<RoomDetailScreen> {
                           //   "₫${roomDetail!.pricePerHour} / giờ",
                           //   style: TextStyle(fontSize: 18, fontWeight: FontWeight.normal, color: Colors.grey[600]),
                           // ),
-                          Text("21 - 26 tháng 2",
-                              style: TextStyle(
-                                  fontSize: 14, color: Colors.grey[600])),
+                          Text(
+                            "${selectedDateRange!.start.day}/${selectedDateRange!.start.month} - ${selectedDateRange!.end.day}/${selectedDateRange!.end.month}",
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.grey[600],
+                            ),
+                          ),
                         ],
                       ),
                       SizedBox(width: 30),

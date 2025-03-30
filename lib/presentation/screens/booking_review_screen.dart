@@ -1,16 +1,59 @@
 import 'package:android_hms/presentation/screens/booking_option_sheet_screen.dart';
+import 'package:android_hms/presentation/screens/room_detail_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:android_hms/core/constants/api_constants.dart';
 import 'package:android_hms/Entity/hotel.dart';
 import 'package:android_hms/Entity/room.dart';
+import 'package:intl/intl.dart';
 
-class BookingReviewScreen extends StatelessWidget {
+class BookingReviewScreen extends StatefulWidget {
   final Room roomDetail;
   final Hotel hotel;
-  const BookingReviewScreen(
-      {super.key, required this.roomDetail, required this.hotel});
+
+  const BookingReviewScreen({
+    super.key,
+    required this.roomDetail,
+    required this.hotel,
+  });
+
+  @override
+  _BookingReviewScreenState createState() => _BookingReviewScreenState();
+}
+
+class _BookingReviewScreenState extends State<BookingReviewScreen> {
+  DateTimeRange? selectedDateRange =
+      DateTimeRange(start: DateTime.now(), end: DateTime.now());
+  int numberOfNights() {
+    int nights =
+        selectedDateRange!.end.difference(selectedDateRange!.start).inDays;
+    return nights == 0 ? 1 : nights;
+  }
+
+  Future<void> _openBookingOptions(BuildContext context) async {
+    final result = await showModalBottomSheet<DateTimeRange>(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.white,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      ),
+      builder: (context) {
+        return BookingOptionsSheet();
+      },
+    );
+
+    if (result != null) {
+      setState(() {
+        selectedDateRange = result; // Cập nhật ngày đã chọn
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    int totalPrice =
+        numberOfNights() * (widget.roomDetail.pricePerNight ?? 0).toInt();
+
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -32,7 +75,6 @@ class BookingReviewScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Card for trip details
             Card(
               elevation: 2,
               shape: RoundedRectangleBorder(
@@ -49,7 +91,7 @@ class BookingReviewScreen extends StatelessWidget {
                           borderRadius: BorderRadius.circular(10),
                           child: Image.network(
                             APIConstants.api +
-                                roomDetail!.roomImages[0]['imageURL'],
+                                widget.roomDetail.roomImages[0]['imageURL'],
                             height: 80,
                             width: 80,
                             fit: BoxFit.cover,
@@ -58,55 +100,43 @@ class BookingReviewScreen extends StatelessWidget {
                         SizedBox(width: 16),
                         Expanded(
                           child: Column(
-                            mainAxisSize: MainAxisSize.min,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "Phòng: ${roomDetail!.roomName}",
+                                "Phòng: ${widget.roomDetail.roomName}",
                                 style: TextStyle(
                                     fontSize: 22, fontWeight: FontWeight.bold),
                               ),
-
                               SizedBox(height: 4),
                               Text(
-                                "Khách sạn: ${hotel?.hotelName}",
+                                "Khách sạn: ${widget.hotel.hotelName}",
                                 style: TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
                                     color: Colors.grey[600]),
                               ),
                               SizedBox(height: 4),
-                              // Rating
-                              Align(
-                                alignment: Alignment.centerLeft,
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Icon(Icons.star,
-                                        color: Colors.orange, size: 18),
-                                    SizedBox(width: 4),
-                                    Text(
-                                      "4,83 (111)",
-                                      style: TextStyle(fontSize: 14),
-                                    ),
-                                  ],
-                                ),
+                              Row(
+                                children: [
+                                  Icon(Icons.star,
+                                      color: Colors.orange, size: 18),
+                                  SizedBox(width: 4),
+                                  Text(
+                                    "4,83 (111)",
+                                    style: TextStyle(fontSize: 14),
+                                  ),
+                                ],
                               )
                             ],
                           ),
                         ),
                       ],
                     ),
-
                     SizedBox(height: 20),
-                    Divider(
-                      color: Colors.grey,
-                      thickness: 1,
-                      height: 1,
-                    ),
+                    Divider(color: Colors.grey, thickness: 1, height: 1),
                     SizedBox(height: 20),
 
-                    // Trip info
+                    // Thông tin chuyến đi
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -121,7 +151,7 @@ class BookingReviewScreen extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              "Thứ 6, 12 Tháng 11",
+                              "${selectedDateRange!.start.day}/${selectedDateRange!.start.month} - ${selectedDateRange!.end.day}/${selectedDateRange!.end.month}",
                               style: TextStyle(
                                 fontSize: 14,
                                 color: Colors.grey[600],
@@ -137,22 +167,7 @@ class BookingReviewScreen extends StatelessWidget {
                           ],
                         ),
                         TextButton(
-                          onPressed: () {
-                            showModalBottomSheet(
-                              context: context,
-                              isScrollControlled: true,
-                              backgroundColor: Colors.white,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.vertical(
-                                    top: Radius.circular(16)),
-                              ),
-                              builder: (context) {
-                                return Scaffold(
-                                  body: BookingOptionsSheet(),
-                                );
-                              },
-                            );
-                          },
+                          onPressed: () => _openBookingOptions(context),
                           style: TextButton.styleFrom(
                             padding: EdgeInsets.symmetric(
                                 vertical: 8, horizontal: 12),
@@ -170,14 +185,10 @@ class BookingReviewScreen extends StatelessWidget {
                       ],
                     ),
                     SizedBox(height: 20),
-                    Divider(
-                      color: Colors.grey,
-                      thickness: 1,
-                      height: 1,
-                    ),
+                    Divider(color: Colors.grey, thickness: 1, height: 1),
                     SizedBox(height: 20),
-                    // Price
 
+                    // Giá
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -192,7 +203,7 @@ class BookingReviewScreen extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              "đ 10.567.215 VND",
+                              "đ ${NumberFormat('#,###', 'vi_VN').format(totalPrice)} VNĐ",
                               style: TextStyle(
                                 fontSize: 14,
                                 color: Colors.grey[600],
@@ -219,34 +230,26 @@ class BookingReviewScreen extends StatelessWidget {
                       ],
                     ),
                     SizedBox(height: 20),
-                    Divider(
-                      color: Colors.grey,
-                      thickness: 1,
-                      height: 1,
-                    ),
+                    Divider(color: Colors.grey, thickness: 1, height: 1),
                     SizedBox(height: 20),
-                    // Price
+
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Đặt phòng/đặt chỗ này không được hoàn tiền.",
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Colors.grey[600],
-                              ),
+                        Expanded(
+                          child: Text(
+                            "Đặt phòng/đặt chỗ này không được hoàn tiền.",
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.grey[600],
                             ),
-                            Text(
-                              "Thay đổi chính sách",
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Colors.blue[600],
-                              ),
-                            ),
-                          ],
+                          ),
+                        ),
+                        Text(
+                          "Thay đổi chính sách",
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.blue[600],
+                          ),
                         ),
                       ],
                     )
@@ -255,7 +258,6 @@ class BookingReviewScreen extends StatelessWidget {
               ),
             ),
             Spacer(),
-            // Bottom buttons
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [

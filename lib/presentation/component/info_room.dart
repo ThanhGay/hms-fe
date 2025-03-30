@@ -2,6 +2,7 @@ import 'package:android_hms/Entity/room.dart';
 import 'package:android_hms/core/constants/api_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 
 class InfoRoom extends StatelessWidget {
   final Room room;
@@ -11,6 +12,7 @@ class InfoRoom extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
+    // print('Room images: ${room.roomImages}');
     return Card(
       elevation: 0,
       margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
@@ -22,18 +24,27 @@ class InfoRoom extends StatelessWidget {
             height: 300,
             child: PageView.builder(
               scrollDirection: Axis.horizontal,
-              itemCount: room.roomImages.length,
+              itemCount:
+                  room.roomImages.isNotEmpty ? room.roomImages.length : 1,
               itemBuilder: (context, index) {
                 return Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 0),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
-                    child: Image.network(
-                      APIConstants.api + room.roomImages[index]['imageURL'],
-                      height: 300,
-                      width: 200,
-                      fit: BoxFit.cover,
-                    ),
+                  child: Column(
+                    children: [
+                      Container(
+                        height: 300,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          image: DecorationImage(
+                            image: room.roomImages.isNotEmpty
+                                ? NetworkImage(APIConstants.api +
+                                    room.roomImages[index]['imageURL'])
+                                : AssetImage('assets/images/noimg.png'),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 );
               },
@@ -47,8 +58,8 @@ class InfoRoom extends StatelessWidget {
                 Text(
                   "Phòng: ${room.roomName}",
                   style: GoogleFonts.roboto(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
                     height: 20.02 / 14,
                     color: Color.fromRGBO(34, 34, 34, 1),
                   ),
@@ -65,7 +76,7 @@ class InfoRoom extends StatelessWidget {
                 ),
                 const SizedBox(height: 5),
                 Text(
-                  "Giá qua đêm: ${room.pricePerNight.toString()} VNĐ",
+                  "Giá qua đêm:${NumberFormat('#,###', 'vi_VN').format(room.pricePerNight)} VNĐ",
                   style: GoogleFonts.roboto(
                     fontSize: 16,
                     fontWeight: FontWeight.w400,
@@ -75,7 +86,7 @@ class InfoRoom extends StatelessWidget {
                 ),
                 const SizedBox(height: 5),
                 Text(
-                  "Giá theo giờ: ${room.pricePerHour.toString()} VNĐ",
+                  "Giá theo giờ: ${NumberFormat('#,###', 'vi_VN').format(room.pricePerHour)} VNĐ",
                   style: GoogleFonts.roboto(
                     fontSize: 16,
                     fontWeight: FontWeight.w400,
