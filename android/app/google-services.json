@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "73192084322",
+    "project_id": "hms-db-6db29",
+    "storage_bucket": "hms-db-6db29.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:73192084322:android:8bba7e1ef9a6044461d23b",
+        "android_client_info": {
+          "package_name": "com.example.android_hms"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBZZTXvqRZFWUrWNEb4r8HQWYkMpQ1yQeo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
