@@ -32,9 +32,8 @@ class _FavouriteScreen extends State<FavouriteScreen> {
     // Ví dụ: lấy token từ SharedPreferences
     final prefs = await SharedPreferences.getInstance();
     final token = prefs.getString('token'); // hoặc từ Provider
-    print("favourite");
     if (token != null && token.isNotEmpty) {
-      print("Favourite2");
+      print("Không có token");
       setState(() {
         isLoggedIn = true;
       });

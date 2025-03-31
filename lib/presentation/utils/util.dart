@@ -9,7 +9,7 @@ import 'package:crypto/crypto.dart';
 String formatNumber(double value) {
   final formattedNumber = NumberFormat.currency(
           customPattern: "#,###",
-          locale: "vi_VN",
+          locale: "vi-VN",
           decimalDigits: 0,
           symbol: "đ")
       .format(value);
