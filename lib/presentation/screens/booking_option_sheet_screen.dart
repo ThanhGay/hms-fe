@@ -20,7 +20,7 @@ class BookingOptionsSheet extends StatefulWidget {
 }
 
 class _BookingOptionsSheetState extends State<BookingOptionsSheet> {
-  DateTimeRange? selectedDateRange;
+   DateTimeRange? selectedDateRange;
   bool isDateSelected = true;
 
   int adults = 1;
@@ -114,7 +114,7 @@ class _BookingOptionsSheetState extends State<BookingOptionsSheet> {
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    Navigator.pop(context);
+                    Navigator.pop(context,selectedDateRange);
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.black,
