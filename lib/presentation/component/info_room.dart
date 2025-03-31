@@ -1,17 +1,29 @@
-import 'package:android_hms/Entity/room.dart';
-import 'package:android_hms/core/constants/api_constants.dart';
-import 'package:android_hms/presentation/utils/util.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'package:android_hms/Entity/room.dart';
+import 'package:android_hms/presentation/utils/util.dart';
+import 'package:android_hms/core/constants/default.dart';
+import 'package:android_hms/core/constants/api_constants.dart';
+
+import 'package:android_hms/presentation/component/base/ImageNetwork.dart';
+import 'package:android_hms/presentation/component/skeletons/info_room_skeleton.dart';
+
 class InfoRoom extends StatelessWidget {
   final Room room;
+  final bool isLoading; // Thêm cờ isLoading
 
-  const InfoRoom({super.key, required this.room});
+  const InfoRoom(
+      {super.key,
+      required this.room,
+      this.isLoading = false}); // Thêm isLoading vào constructor
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
+    if (isLoading) {
+      return const InfoRoomSkeleton(); // Hiển thị skeleton nếu isLoading là true
+    }
+
     return Card(
       elevation: 0,
       margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
@@ -29,12 +41,15 @@ class InfoRoom extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 0),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(10),
-                    child: Image.network(
-                      APIConstants.api + room.roomImages[index]['imageURL'],
-                      height: 300,
-                      width: 200,
-                      fit: BoxFit.cover,
-                    ),
+                    child: room.roomImages.isNotEmpty
+                        ? ImageNetwork(
+                            imageUrl: APIConstants.api +
+                                room.roomImages[index]['imageURL'],
+                            width: 300,
+                            height: 200,
+                          )
+                        : Image.asset(DefaultConstants().defaultImageRoom,
+                            height: 300, width: 200, fit: BoxFit.cover),
                   ),
                 );
               },
@@ -51,7 +66,7 @@ class InfoRoom extends StatelessWidget {
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
                     height: 20.02 / 14,
-                    color: Color.fromRGBO(34, 34, 34, 1),
+                    color: const Color.fromRGBO(34, 34, 34, 1),
                   ),
                 ),
                 const SizedBox(height: 5),
@@ -71,7 +86,7 @@ class InfoRoom extends StatelessWidget {
                     fontSize: 16,
                     fontWeight: FontWeight.w400,
                     height: 20.02 / 14,
-                    color: Color.fromRGBO(34, 34, 34, 1),
+                    color: const Color.fromRGBO(34, 34, 34, 1),
                   ),
                 ),
                 const SizedBox(height: 5),
@@ -81,7 +96,7 @@ class InfoRoom extends StatelessWidget {
                     fontSize: 16,
                     fontWeight: FontWeight.w400,
                     height: 20.02 / 14,
-                    color: Color.fromRGBO(34, 34, 34, 1),
+                    color: const Color.fromRGBO(34, 34, 34, 1),
                   ),
                 ),
                 const SizedBox(height: 5),

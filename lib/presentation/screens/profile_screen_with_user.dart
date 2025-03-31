@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:android_hms/Entity/user.dart';
+import 'package:android_hms/core/constants/default.dart';
 import 'package:android_hms/core/services/Auth/api_logout.dart';
 import 'package:android_hms/presentation/component/info_card.dart';
 import 'package:android_hms/presentation/component/section_title.dart';
@@ -81,8 +82,7 @@ class ProfileWithUser extends StatelessWidget {
                 leading: CircleAvatar(
                   radius: 50,
                   backgroundImage:
-                      // NetworkImage('assets/images/default_avatar.png'),
-                      AssetImage('assets/images/default_avatar.png'),
+                      AssetImage(DefaultConstants().defaultAvatarUser),
                 ),
                 title: Text(
                   user.lastName,

@@ -1,15 +1,18 @@
-import 'package:android_hms/Data/favourite_provider.dart';
-import 'package:android_hms/Entity/hotel.dart';
-import 'package:android_hms/core/services/api_favourite.dart';
-import 'package:android_hms/core/services/api_hotel.dart';
-import 'package:android_hms/presentation/screens/booking_review_screen.dart';
-import 'package:android_hms/presentation/utils/util.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:android_hms/core/services/api_room.dart';
-import 'package:android_hms/Data/room_provider.dart';
-import 'package:android_hms/Entity/room.dart';
+
+import 'package:android_hms/presentation/utils/util.dart';
+import 'package:android_hms/core/constants/default.dart';
 import 'package:android_hms/core/constants/api_constants.dart';
+import 'package:android_hms/core/services/api_hotel.dart';
+import 'package:android_hms/core/services/api_favourite.dart';
+
+import 'package:android_hms/Data/room_provider.dart';
+import 'package:android_hms/Data/favourite_provider.dart';
+import 'package:android_hms/core/services/api_room.dart';
+import 'package:android_hms/Entity/room.dart';
+import 'package:android_hms/Entity/hotel.dart';
+import 'package:android_hms/presentation/screens/booking_review_screen.dart';
 
 class RoomDetailScreen extends StatefulWidget {
   final int roomId;
@@ -114,8 +117,8 @@ class _RoomDetailScreenState extends State<RoomDetailScreen> {
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
                             image: DecorationImage(
-                              image:
-                                  AssetImage('assets/images/khung_canh_3.png'),
+                              image: AssetImage(
+                                  DefaultConstants().defaultImageRoom),
                               fit: BoxFit.cover,
                             ),
                           ),
@@ -164,7 +167,7 @@ class _RoomDetailScreenState extends State<RoomDetailScreen> {
                               children: [
                                 CircleAvatar(
                                   backgroundImage: AssetImage(
-                                      'assets/images/khung_canh_2.png'),
+                                      DefaultConstants().defaultImageHotel),
                                   radius: 25,
                                 ),
                                 SizedBox(width: 10),

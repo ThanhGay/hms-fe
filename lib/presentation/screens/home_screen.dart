@@ -17,6 +17,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  bool isLoading = true;
   int selectedExploreTabIndex = 0;
 
   List<Room> roomList = [];
@@ -26,8 +27,15 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     // Gọi API để lấy danh sách khách sạn
-    ApiHotel.dsHotel(context).then((data) {}).catchError((error) {
+    ApiHotel.dsHotel(context).then((data) {
+      setState(() {
+        isLoading = true;
+      });
+    }).catchError((error) {
       print("Error fetching hotels: $error");
+      setState(() {
+        isLoading = false;
+      });
     });
   }
 
@@ -48,10 +56,16 @@ class _HomeScreenState extends State<HomeScreen> {
         ApiRoom.dsRoom(context, firstHotelId).then((_) {
           setState(() {
             roomList = roomProvider.room;
+            isLoading = false;
           });
         }).catchError((error) {
           print("Error fetching rooms: $error");
+          setState(() {
+            isLoading = false;
+          });
         });
+      } else {
+        isLoading = false;
       }
     });
   }
@@ -142,34 +156,59 @@ class _HomeScreenState extends State<HomeScreen> {
 
         // Danh sách phòng
         Expanded(
-          child: ListView.builder(
-            itemCount: roomList.length,
-            itemBuilder: (context, index) {
-              final room = roomList[index];
+          child: isLoading
+              ? ListView.builder(
+                  itemCount: 5, // Số lượng skeleton item
+                  itemBuilder: (context, index) {
+                    return InfoRoom(
+                      room: Room(
+                        floor: 0,
+                        description: '',
+                        hotelId: 0,
+                        roomTypeId: 0,
+                        roomId: 0,
+                        roomName: '',
+                        roomTypeName: '',
+                        pricePerNight: 0,
+                        pricePerHour: 0,
+                        roomImages: [],
+                      ),
+                      isLoading: true,
+                    );
+                  },
+                )
+              : ListView.builder(
+                  itemCount: roomList.length,
+                  itemBuilder: (context, index) {
+                    final room = roomList[index];
 
-              return GestureDetector(
-                onTap: () {
-                  if (navigationButtons.isNotEmpty) {
-                    int hotelId =
-                        navigationButtons[selectedExploreTabIndex].hotelId;
+                    return GestureDetector(
+                      onTap: () {
+                        if (navigationButtons.isNotEmpty) {
+                          int hotelId =
+                              navigationButtons[selectedExploreTabIndex]
+                                  .hotelId;
 
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => RoomDetailScreen(
-                          roomId: room.roomId,
-                          hotelId: hotelId,
-                        ),
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => RoomDetailScreen(
+                                roomId: room.roomId,
+                                hotelId: hotelId,
+                              ),
+                            ),
+                          );
+                        } else {
+                          debugPrint("Error: No hotel data available!");
+                        }
+                      },
+                      child: InfoRoom(
+                        room: room,
+                        isLoading: false,
                       ),
                     );
-                  } else {
-                    debugPrint("Error: No hotel data available!");
-                  }
-                },
-                child: InfoRoom(room: room),
-              );
-            },
-          ),
+                  },
+                ),
         ),
       ],
     );
