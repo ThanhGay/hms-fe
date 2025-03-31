@@ -4,6 +4,7 @@ import 'package:android_hms/Entity/user.dart';
 import 'package:android_hms/presentation/component/chat_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -62,7 +63,21 @@ class _ChatScreen extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Chat App")),
+      appBar: AppBar(
+        title: Text(
+          "Hỏi đáp",
+          style: GoogleFonts.dancingScript(
+            fontSize: 30,
+            fontWeight: FontWeight.w500,
+            color: Colors.white,
+          ),
+        ),
+        backgroundColor: Colors.deepOrange,
+        centerTitle: true,
+        elevation: 10, // đổ bóng
+        automaticallyImplyLeading: false,
+        shadowColor: Colors.deepOrange, // Màu bóng
+      ),
       body: Column(
         children: [
           Expanded(
