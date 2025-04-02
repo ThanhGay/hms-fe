@@ -8,7 +8,6 @@ import 'package:android_hms/core/constants/api_constants.dart';
 
 import 'package:android_hms/presentation/component/base/ImageNetwork.dart';
 import 'package:android_hms/presentation/component/skeletons/info_room_skeleton.dart';
-import 'package:intl/intl.dart';
 
 class InfoRoom extends StatelessWidget {
   final Room room;
@@ -49,14 +48,10 @@ class InfoRoom extends StatelessWidget {
                           borderRadius: BorderRadius.circular(10),
                           image: DecorationImage(
                             image: room.roomImages.isNotEmpty
-                        ? ImageNetwork(
-                            imageUrl: APIConstants.api +
-                                room.roomImages[index]['imageURL'],
-                            width: 300,
-                            height: 200,
-                          )
-                        : Image.asset(DefaultConstants().defaultImageRoom,
-                            height: 300, width: 200, fit: BoxFit.cover),
+                                ? NetworkImage(APIConstants.api +
+                                    room.roomImages[index]['imageURL'])
+                                : AssetImage(
+                                    DefaultConstants().defaultImageRoom),
                             fit: BoxFit.cover,
                           ),
                         ),

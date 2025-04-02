@@ -44,25 +44,6 @@ class _RoomDetailScreenState extends State<RoomDetailScreen> {
     });
   }
 
-  Future<void> _openBookingOptions(BuildContext context) async {
-    final result = await showModalBottomSheet<DateTimeRange>(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.white,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
-      ),
-      builder: (context) {
-        return BookingOptionsSheet();
-      },
-    );
-
-    if (result != null) {
-      setState(() {
-        selectedDateRange = result; // Cập nhật ngày đã chọn
-      });
-    }
-  }
 
   Future<void> _fetchRoomDetail() async {
     try {
@@ -280,9 +261,9 @@ class _RoomDetailScreenState extends State<RoomDetailScreen> {
                               context,
                               MaterialPageRoute(
                                 builder: (context) => BookingReviewScreen(
-                                  roomDetail:
-                                      roomDetail!, // Truyền `roomDetail` đã có dữ liệu
-                                  hotel: hotel!,
+                                  roomId:
+                                      widget.roomId, // Truyền `roomDetail` đã có dữ liệu
+                                  hotelId: widget.hotelId,
                                 ),
                               ),
                             );

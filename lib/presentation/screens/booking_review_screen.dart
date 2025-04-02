@@ -4,7 +4,6 @@ import 'package:android_hms/core/models/bill/ICreatePreBooking.dart';
 import 'package:android_hms/core/services/Bill/api_createPreBill.dart';
 import 'package:android_hms/core/services/api_room.dart';
 import 'package:android_hms/presentation/screens/booking_option_sheet_screen.dart';
-import 'package:android_hms/presentation/screens/room_detail_screen.dart';
 import 'package:android_hms/presentation/utils/util.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -74,9 +73,6 @@ class _BookingReviewScreenState extends State<BookingReviewScreen> {
 
   @override
   Widget build(BuildContext context) {
-    int totalPrice =
-        numberOfNights() * (widget.roomDetail.pricePerNight ?? 0).toInt();
-
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
