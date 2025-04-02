@@ -316,13 +316,14 @@ class _BookingReviewScreenState extends State<BookingReviewScreen> {
                       ),
                       ElevatedButton(
                         onPressed: () async {
+                          // Navigator.pushNamed(context, '/payment');
                           final result = await ApiBill.createPreBil(
                               ICreatePreBooking(
                                   BookingDate: DateTime.now(),
                                   ExpectedCheckIn: selectedDateRange!.start,
                                   ExpectedCheckOut: selectedDateRange!.end,
                                   DiscountID: null,
-                                  CustomerID: 8,
+                                  CustomerID: 24,
                                   RoomIds: [roomDetail!.roomId]));
                           if (result == "Thêm thành công") {
                             Navigator.pushNamed(context, '/payment');
