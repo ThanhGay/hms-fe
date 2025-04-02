@@ -34,7 +34,7 @@ class BookingOptionsSheet extends StatefulWidget {
 }
 
 class _BookingOptionsSheetState extends State<BookingOptionsSheet> {
-  DateTimeRange? selectedDateRange;
+   DateTimeRange? selectedDateRange;
   bool isDateSelected = true;
   int adults = 1;
   int children = 0;

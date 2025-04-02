@@ -1,3 +1,4 @@
+import 'package:android_hms/presentation/screens/chat_screen.dart';
 import 'package:android_hms/presentation/screens/voucher_screen.dart';
 import 'package:android_hms/presentation/screens/favourite_screen.dart';
 import 'package:android_hms/presentation/screens/home_screen.dart';
@@ -25,7 +26,7 @@ class _HomeScreenBottomState extends State<HomeScreenBottom> {
       FavouriteScreen(),
       VoucherScreen(),
       TripScreen(),
-      MessageScreen(),
+      ChatScreen(),
       ProfileScreen()
     ];
     return Scaffold(

@@ -1,18 +1,19 @@
+import 'package:android_hms/Data/favourite_provider.dart';
+import 'package:android_hms/Entity/hotel.dart';
+import 'package:android_hms/core/services/api_favourite.dart';
+import 'package:android_hms/core/services/api_hotel.dart';
+import 'package:android_hms/presentation/screens/booking_option_sheet_screen.dart';
+import 'package:android_hms/presentation/screens/booking_review_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:android_hms/presentation/utils/util.dart';
 import 'package:android_hms/core/constants/default.dart';
 import 'package:android_hms/core/constants/api_constants.dart';
-import 'package:android_hms/core/services/api_hotel.dart';
-import 'package:android_hms/core/services/api_favourite.dart';
 
 import 'package:android_hms/Data/room_provider.dart';
-import 'package:android_hms/Data/favourite_provider.dart';
 import 'package:android_hms/core/services/api_room.dart';
 import 'package:android_hms/Entity/room.dart';
-import 'package:android_hms/Entity/hotel.dart';
-import 'package:android_hms/presentation/screens/booking_review_screen.dart';
 
 class RoomDetailScreen extends StatefulWidget {
   final int roomId;
@@ -29,6 +30,8 @@ class _RoomDetailScreenState extends State<RoomDetailScreen> {
   Room? roomDetail;
   Hotel? hotel;
   bool isFavorite = false;
+  DateTimeRange? selectedDateRange =
+      DateTimeRange(start: DateTime.now(), end: DateTime.now());
 
   @override
   void initState() {
@@ -39,6 +42,26 @@ class _RoomDetailScreenState extends State<RoomDetailScreen> {
         hotel = data;
       });
     });
+  }
+
+  Future<void> _openBookingOptions(BuildContext context) async {
+    final result = await showModalBottomSheet<DateTimeRange>(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.white,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      ),
+      builder: (context) {
+        return BookingOptionsSheet();
+      },
+    );
+
+    if (result != null) {
+      setState(() {
+        selectedDateRange = result; // Cập nhật ngày đã chọn
+      });
+    }
   }
 
   Future<void> _fetchRoomDetail() async {
@@ -130,7 +153,7 @@ class _RoomDetailScreenState extends State<RoomDetailScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              roomDetail!.roomName,
+                              "Phòng: ${roomDetail!.roomName}",
                               style: TextStyle(
                                   fontSize: 22, fontWeight: FontWeight.bold),
                             ),
@@ -231,9 +254,13 @@ class _RoomDetailScreenState extends State<RoomDetailScreen> {
                           //   "₫${formatNumber(roomDetail!.pricePerHour)} / giờ",
                           //   style: TextStyle(fontSize: 18, fontWeight: FontWeight.normal, color: Colors.grey[600]),
                           // ),
-                          Text("21 - 26 tháng 2",
-                              style: TextStyle(
-                                  fontSize: 14, color: Colors.grey[600])),
+                          Text(
+                            "${selectedDateRange!.start.day}/${selectedDateRange!.start.month} - ${selectedDateRange!.end.day}/${selectedDateRange!.end.month}",
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.grey[600],
+                            ),
+                          ),
                         ],
                       ),
                       SizedBox(width: 30),
@@ -247,12 +274,15 @@ class _RoomDetailScreenState extends State<RoomDetailScreen> {
                             padding: EdgeInsets.symmetric(vertical: 14),
                           ),
                           onPressed: () {
+                            print("roomId: ${widget.roomId}");
+                            print("hotelId: ${widget.hotelId}");
                             Navigator.push(
                               context,
                               MaterialPageRoute(
                                 builder: (context) => BookingReviewScreen(
-                                  roomId: widget.roomId,
-                                  hotelId: widget.hotelId,
+                                  roomDetail:
+                                      roomDetail!, // Truyền `roomDetail` đã có dữ liệu
+                                  hotel: hotel!,
                                 ),
                               ),
                             );

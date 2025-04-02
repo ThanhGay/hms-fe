@@ -8,6 +8,7 @@ import 'package:android_hms/core/constants/api_constants.dart';
 
 import 'package:android_hms/presentation/component/base/ImageNetwork.dart';
 import 'package:android_hms/presentation/component/skeletons/info_room_skeleton.dart';
+import 'package:intl/intl.dart';
 
 class InfoRoom extends StatelessWidget {
   final Room room;
@@ -35,13 +36,19 @@ class InfoRoom extends StatelessWidget {
             height: 300,
             child: PageView.builder(
               scrollDirection: Axis.horizontal,
-              itemCount: room.roomImages.length,
+              itemCount:
+                  room.roomImages.isNotEmpty ? room.roomImages.length : 1,
               itemBuilder: (context, index) {
                 return Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 0),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
-                    child: room.roomImages.isNotEmpty
+                  child: Column(
+                    children: [
+                      Container(
+                        height: 300,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          image: DecorationImage(
+                            image: room.roomImages.isNotEmpty
                         ? ImageNetwork(
                             imageUrl: APIConstants.api +
                                 room.roomImages[index]['imageURL'],
@@ -50,6 +57,11 @@ class InfoRoom extends StatelessWidget {
                           )
                         : Image.asset(DefaultConstants().defaultImageRoom,
                             height: 300, width: 200, fit: BoxFit.cover),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 );
               },
@@ -63,8 +75,8 @@ class InfoRoom extends StatelessWidget {
                 Text(
                   "Phòng: ${room.roomName}",
                   style: GoogleFonts.roboto(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
                     height: 20.02 / 14,
                     color: const Color.fromRGBO(34, 34, 34, 1),
                   ),
