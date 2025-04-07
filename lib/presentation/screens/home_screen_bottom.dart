@@ -4,7 +4,6 @@ import 'package:android_hms/presentation/screens/favourite_screen.dart';
 import 'package:android_hms/presentation/screens/home_screen.dart';
 import 'package:android_hms/presentation/screens/profile_screen.dart';
 import 'package:android_hms/presentation/screens/trip_screen.dart';
-import 'package:android_hms/presentation/screens/message_screen.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreenBottom extends StatefulWidget {

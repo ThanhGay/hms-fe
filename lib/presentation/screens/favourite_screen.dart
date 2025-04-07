@@ -3,10 +3,10 @@ import 'package:android_hms/Entity/favourite.dart';
 import 'package:android_hms/Entity/room.dart';
 import 'package:android_hms/core/services/api_favourite.dart';
 import 'package:android_hms/core/services/api_room.dart';
+import 'package:android_hms/presentation/component/appbar_custom.dart';
 import 'package:android_hms/presentation/component/info_room.dart';
 import 'package:android_hms/presentation/screens/room_detail_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -65,21 +65,7 @@ class _FavouriteScreen extends State<FavouriteScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "Danh sách yêu thích",
-          style: GoogleFonts.dancingScript(
-            fontSize: 30,
-            fontWeight: FontWeight.w500,
-            color: Colors.white,
-          ),
-        ),
-        backgroundColor: Colors.deepOrange,
-        centerTitle: true,
-        elevation: 10, // đổ bóng
-        automaticallyImplyLeading: false,
-        shadowColor: Colors.deepOrange, // Màu bóng
-      ),
+      appBar: AppbarCustom(title: "Danh sách yêu thích"),
       body: isLoggedIn
           ? ListView.builder(
               itemCount: rooms.length,
