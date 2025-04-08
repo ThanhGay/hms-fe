@@ -44,7 +44,6 @@ class _RoomDetailScreenState extends State<RoomDetailScreen> {
     });
   }
 
-
   Future<void> _fetchRoomDetail() async {
     try {
       await ApiRoom.dsRoom(context, widget.hotelId);
@@ -261,9 +260,9 @@ class _RoomDetailScreenState extends State<RoomDetailScreen> {
                               context,
                               MaterialPageRoute(
                                 builder: (context) => BookingReviewScreen(
-                                  roomId:
-                                      widget.roomId, // Truyền `roomDetail` đã có dữ liệu
-                                  hotelId: widget.hotelId,
+                                  roomId: widget
+                                      .roomId, // Truyền `roomDetail` đã có dữ liệu
+                                  hotelId: widget.roomId,
                                 ),
                               ),
                             );

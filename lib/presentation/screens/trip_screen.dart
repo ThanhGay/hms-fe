@@ -1,6 +1,6 @@
 import 'package:android_hms/core/services/api_favourite.dart';
+import 'package:android_hms/presentation/component/appbar_custom.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class TripScreen extends StatefulWidget {
@@ -34,21 +34,7 @@ class _TripScreen extends State<TripScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "Danh sách chuyến đi",
-          style: GoogleFonts.dancingScript(
-            fontSize: 30,
-            fontWeight: FontWeight.w500,
-            color: Colors.white,
-          ),
-        ),
-        backgroundColor: Colors.deepOrange,
-        centerTitle: true,
-        elevation: 10, // đổ bóng
-        automaticallyImplyLeading: false,
-        shadowColor: Colors.deepOrange, // Màu bóng
-      ),
+      appBar: AppbarCustom(title: "Chuyến đi"),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

@@ -86,7 +86,8 @@ class _BookingPaymentScreenState extends State<BookingPaymentScreen> {
               onPressed: () => _createOrder(payAmount),
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.white, // Nền trắng
-                padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 24),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 12, horizontal: 24),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),
                   side: const BorderSide(color: Colors.black), // Viền đen
@@ -94,6 +95,25 @@ class _BookingPaymentScreenState extends State<BookingPaymentScreen> {
               ),
               child: const Text(
                 "Thanh toán bằng Zalo Pay",
+                style: TextStyle(color: Colors.black, fontSize: 16), // Chữ đen
+              ),
+            ),
+            SizedBox(
+              height: 14,
+            ),
+            ElevatedButton(
+              onPressed: () => _createOrder(payAmount),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.white, // Nền trắng
+                padding:
+                    const EdgeInsets.symmetric(vertical: 12, horizontal: 24),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                  side: const BorderSide(color: Colors.black), // Viền đen
+                ),
+              ),
+              child: const Text(
+                "Thanh toán bằng VnPay",
                 style: TextStyle(color: Colors.black, fontSize: 16), // Chữ đen
               ),
             ),
@@ -116,7 +136,8 @@ class _BookingPaymentScreenState extends State<BookingPaymentScreen> {
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.black,
-                    padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 32, vertical: 12),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8),
                     ),
@@ -132,7 +153,6 @@ class _BookingPaymentScreenState extends State<BookingPaymentScreen> {
           ],
         ),
       ),
-
     );
   }
 }

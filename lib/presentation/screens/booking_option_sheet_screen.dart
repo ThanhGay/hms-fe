@@ -34,7 +34,7 @@ class BookingOptionsSheet extends StatefulWidget {
 }
 
 class _BookingOptionsSheetState extends State<BookingOptionsSheet> {
-   DateTimeRange? selectedDateRange;
+  DateTimeRange? selectedDateRange;
   bool isDateSelected = true;
   int adults = 1;
   int children = 0;
@@ -50,7 +50,7 @@ class _BookingOptionsSheetState extends State<BookingOptionsSheet> {
     babies = widget.initialBabies;
     pets = widget.initialPets;
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -134,6 +134,8 @@ class _BookingOptionsSheetState extends State<BookingOptionsSheet> {
                     child: Text("Hủy", style: TextStyle(fontSize: 16))),
                 ElevatedButton(
                   onPressed: () {
+                    // Navigator.pop(context,selectedDateRange);
+
                     Navigator.pop(context, {
                       "selectedDateRange": selectedDateRange,
                       "adults": adults,

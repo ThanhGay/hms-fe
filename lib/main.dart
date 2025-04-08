@@ -19,6 +19,8 @@ import 'package:android_hms/presentation/screens/forgot_password_screen.dart';
 import 'package:android_hms/presentation/screens/change_password_screen.dart';
 import 'package:android_hms/presentation/screens/booking_payment_screen.dart';
 import 'firebase_options.dart';
+import 'firebase_options.dart';
+import 'package:android_hms/presentation/screens/booking_payment_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -57,7 +59,8 @@ class MyApp extends StatelessWidget {
             return MaterialPageRoute(builder: (context) => HomeScreenBottom());
 
           case '/payment':
-            return MaterialPageRoute(builder: (context) => BookingPaymentScreen());
+            return MaterialPageRoute(
+                builder: (context) => BookingPaymentScreen());
 
           case '/forgot-password':
             return MaterialPageRoute(
@@ -82,7 +85,6 @@ class MyApp extends StatelessWidget {
               );
             }
             return null;
-            
 
           case '/booking_option':
             return MaterialPageRoute(

@@ -1,3 +1,4 @@
+import 'package:android_hms/presentation/component/text_Poppins.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
@@ -66,21 +67,19 @@ class _VoucherCardState extends State<VoucherCard> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Text(
-                    "Voucher discount: ${widget.discount}",
-                    style: const TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.lightGreenAccent,
-                    ),
+                  TextPoppins(
+                    title: "Voucher discount: ${widget.discount}",
+                    size: 24,
+                    weight: FontWeight.w600,
+                    color: Colors.white,
                   ),
                   const SizedBox(height: 8),
-                  Text(
-                    "Hạn sử dụng: ${DateFormat('dd/MM/yyyy').format(widget.expiryDate)}",
-                    style: const TextStyle(
-                      fontSize: 16,
-                      color: Colors.lightGreenAccent,
-                    ),
+                  TextPoppins(
+                    title:
+                        "Hạn sử dụng: ${DateFormat('dd/MM/yyyy').format(widget.expiryDate)}",
+                    size: 16,
+                    weight: FontWeight.w500,
+                    color: Colors.white,
                   ),
                   const SizedBox(height: 8),
                   ElevatedButton.icon(
@@ -97,17 +96,16 @@ class _VoucherCardState extends State<VoucherCard> {
                     label: const Text("Sao chép mã"),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.white,
-                      foregroundColor: Colors.deepOrange,
+                      foregroundColor: Color(0xFFF25341),
                     ),
                   ),
                   const SizedBox(height: 8),
-                  Text(
-                    "Mã voucher: ${widget.code}",
-                    style: const TextStyle(
-                      fontSize: 18,
-                      color: Colors.lightGreenAccent,
-                    ),
-                  ),
+                  TextPoppins(
+                    title: "Mã voucher: ${widget.code}",
+                    size: 18,
+                    color: Colors.white,
+                    weight: FontWeight.w500,
+                  )
                 ],
               ),
             ),
