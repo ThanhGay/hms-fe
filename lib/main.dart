@@ -77,8 +77,8 @@ class MyApp extends StatelessWidget {
               final hotelId = args['hotelId'] ?? 0;
               return MaterialPageRoute(
                 builder: (context) => BookingReviewScreen(
-                  roomDetail: roomId,
-                  hotel: hotelId,
+                  roomId: roomId,
+                  hotelId: hotelId,
                 ),
               );
             }

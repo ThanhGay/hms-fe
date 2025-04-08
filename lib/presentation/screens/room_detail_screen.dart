@@ -276,9 +276,9 @@ class _RoomDetailScreenState extends State<RoomDetailScreen> {
                               context,
                               MaterialPageRoute(
                                 builder: (context) => BookingReviewScreen(
-                                  roomDetail:
-                                      roomDetail!, // Truyền `roomDetail` đã có dữ liệu
-                                  hotel: hotel!,
+                                  roomId: widget
+                                      .roomId, // Truyền `roomDetail` đã có dữ liệu
+                                  hotelId: widget.roomId,
                                 ),
                               ),
                             );
