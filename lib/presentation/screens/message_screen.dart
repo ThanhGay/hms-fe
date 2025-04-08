@@ -62,7 +62,7 @@ class _MessageScreen extends State<MessageScreen> {
               onPressed: () {
                 if (isLoggedIn) {
                   // Chuyển sang trang khám phá
-                  Navigator.pushNamed(context, '/home'); // Thay bằng route đúng
+                  Navigator.pushNamed(context, '/zlpay'); // Thay bằng route đúng
                 } else {
                   // Chuyển sang trang đăng nhập
                   Navigator.pushNamed(context, '/login');

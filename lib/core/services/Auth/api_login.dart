@@ -8,7 +8,7 @@ final dio = Dio();
 class ApiLogin {
   static Future<String> loginUser(String email, String password) async {
     Response response;
-    const String url = "${APIConstants.api}Login";
+    const String url = "${APIConstants.api}login";
 
     try {
       response =
