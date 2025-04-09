@@ -19,8 +19,6 @@ import 'package:android_hms/presentation/screens/forgot_password_screen.dart';
 import 'package:android_hms/presentation/screens/change_password_screen.dart';
 import 'package:android_hms/presentation/screens/booking_payment_screen.dart';
 import 'firebase_options.dart';
-import 'firebase_options.dart';
-import 'package:android_hms/presentation/screens/booking_payment_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
