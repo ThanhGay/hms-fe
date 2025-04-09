@@ -2,7 +2,6 @@ import 'package:android_hms/Data/favourite_provider.dart';
 import 'package:android_hms/Entity/hotel.dart';
 import 'package:android_hms/core/services/api_favourite.dart';
 import 'package:android_hms/core/services/api_hotel.dart';
-import 'package:android_hms/presentation/screens/booking_option_sheet_screen.dart';
 import 'package:android_hms/presentation/screens/booking_review_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

@@ -1,17 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import 'package:android_hms/Entity/room.dart';
-import 'package:android_hms/presentation/utils/util.dart';
-import 'package:android_hms/core/constants/default.dart';
 import 'package:android_hms/core/constants/api_constants.dart';
 
-import 'package:android_hms/presentation/component/base/ImageNetwork.dart';
 import 'package:android_hms/presentation/component/skeletons/info_room_skeleton.dart';
-import 'package:android_hms/Entity/room.dart';
-import 'package:android_hms/core/constants/api_constants.dart';
 import 'package:android_hms/presentation/component/text_Poppins.dart';
-import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class InfoRoom extends StatelessWidget {

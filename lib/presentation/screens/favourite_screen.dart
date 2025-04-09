@@ -5,6 +5,7 @@ import 'package:android_hms/core/services/api_favourite.dart';
 import 'package:android_hms/core/services/api_room.dart';
 import 'package:android_hms/presentation/component/appbar_custom.dart';
 import 'package:android_hms/presentation/component/info_room.dart';
+import 'package:android_hms/presentation/component/skeletons/info_room_skeleton.dart';
 import 'package:android_hms/presentation/screens/room_detail_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -21,6 +22,7 @@ class _FavouriteScreen extends State<FavouriteScreen> {
   List<Room> rooms = [];
   List<Favourite> favoriteItems = [];
   bool isLoggedIn = false; // Thêm biến trạng thái
+  bool isLoading = true;
 
   @override
   void initState() {
@@ -37,7 +39,11 @@ class _FavouriteScreen extends State<FavouriteScreen> {
       setState(() {
         isLoggedIn = true;
       });
-      ApiFavourite.favourite(context).then((data) {});
+      ApiFavourite.favourite(context).then((data) {
+        isLoading = false;
+      }).catchError((e) {
+        isLoading = false;
+      });
     }
   }
 
@@ -66,24 +72,33 @@ class _FavouriteScreen extends State<FavouriteScreen> {
     return Scaffold(
       appBar: AppbarCustom(title: "Danh sách yêu thích"),
       body: isLoggedIn
-          ? ListView.builder(
-              itemCount: rooms.length,
-              itemBuilder: (context, index) {
-                return GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => RoomDetailScreen(
-                          roomId: rooms[index].roomId,
-                          hotelId: rooms[index].hotelId,
-                        ),
-                      ),
-                    );
-                  },
-                  child: InfoRoom(room: rooms[index]),
-                );
-              },
+          ? Container(
+              child: isLoading
+                  ? ListView.builder(
+                      itemCount: 5,
+                      itemBuilder: (context, index) {
+                        return InfoRoomSkeleton();
+                      },
+                    )
+                  : ListView.builder(
+                      itemCount: rooms.length,
+                      itemBuilder: (context, index) {
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => RoomDetailScreen(
+                                  roomId: rooms[index].roomId,
+                                  hotelId: rooms[index].hotelId,
+                                ),
+                              ),
+                            );
+                          },
+                          child: InfoRoom(room: rooms[index]),
+                        );
+                      },
+                    ),
             )
           : Center(
               child: Column(

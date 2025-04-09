@@ -5,6 +5,7 @@ import 'package:android_hms/Data/room_provider.dart';
 import 'package:android_hms/Entity/hotel.dart';
 import 'package:android_hms/Entity/room.dart';
 import 'package:android_hms/presentation/component/info_room.dart';
+import 'package:android_hms/presentation/component/skeletons/info_room_skeleton.dart';
 import 'package:android_hms/presentation/screens/room_detail_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -160,20 +161,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ? ListView.builder(
                   itemCount: 5, // Số lượng skeleton item
                   itemBuilder: (context, index) {
-                    return InfoRoom(
-                      room: Room(
-                        floor: 0,
-                        description: '',
-                        hotelId: 0,
-                        roomTypeId: 0,
-                        roomId: 0,
-                        roomName: '',
-                        roomTypeName: '',
-                        pricePerNight: 0,
-                        pricePerHour: 0,
-                        roomImages: [],
-                      ),
-                      isLoading: true,
+                    return InfoRoomSkeleton(
                     );
                   },
                 )

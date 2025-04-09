@@ -1,6 +1,7 @@
 import 'package:android_hms/Entity/voucher.dart';
 import 'package:android_hms/core/services/api_voucher.dart';
 import 'package:android_hms/presentation/component/appbar_custom.dart';
+import 'package:android_hms/presentation/component/skeletons/voucher_card_skeleton.dart';
 import 'package:android_hms/presentation/component/voucher_card.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -14,6 +15,7 @@ class VoucherScreen extends StatefulWidget {
 class _CouponScreen extends State<VoucherScreen> {
   List<Voucher> vouchers = [];
   bool isLoggedIn = false;
+  bool isLoading = true;
   @override
   void initState() {
     // TODO: implement activate
@@ -31,8 +33,14 @@ class _CouponScreen extends State<VoucherScreen> {
       });
       ApiVoucher.getAllVoucher(context).then((data) {
         setState(() {
+          isLoading = false;
           vouchers = data;
         });
+      }).catchError((e) {
+        isLoading = false;
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Lỗi xảy ra khi: ${e['message']}')),
+        );
       });
     }
   }
@@ -45,19 +53,27 @@ class _CouponScreen extends State<VoucherScreen> {
           ? Container(
               alignment: Alignment.topCenter,
               padding: EdgeInsets.all(20),
-              child: ListView.builder(
-                itemCount: vouchers.length,
-                itemBuilder: (context, index) {
-                  final voucher = vouchers[index];
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 10),
-                    child: VoucherCard(
-                        discount: "${voucher.percent}%",
-                        code: "${voucher.voucherId}",
-                        expiryDate: voucher.expDate),
-                  );
-                },
-              ),
+              child: isLoading
+                  ? ListView.builder(
+                      itemCount: 3,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 10),
+                            child: VoucherCardSkeleton());
+                      })
+                  : ListView.builder(
+                      itemCount: vouchers.length,
+                      itemBuilder: (context, index) {
+                        final voucher = vouchers[index];
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          child: VoucherCard(
+                              discount: "${voucher.percent}%",
+                              code: "${voucher.voucherId}",
+                              expiryDate: voucher.expDate),
+                        );
+                      },
+                    ),
             )
           : Center(
               child: Column(
