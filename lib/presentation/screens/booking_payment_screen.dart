@@ -1,3 +1,4 @@
+import 'package:android_hms/core/services/Auth/api_vnpay.dart';
 import 'package:flutter/material.dart';
 import 'package:android_hms/presentation/component/payment.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -44,6 +45,34 @@ class _BookingPaymentScreenState extends State<BookingPaymentScreen> {
       }
     }
   }
+
+  Future<void> _vnpay(String value) async {
+    int orderId = 123456;
+    double amount = double.parse(value);
+    String orderDesc = "Thanh toán vnpay";
+    String orderType = "vnpay";
+
+    final response = await ApiVnpay.Vnpay(orderId, amount, orderDesc, orderType);
+
+    if (response.startsWith("https")) {
+      // Mở link thanh toán
+      final uri = Uri.parse(response);
+      if (await canLaunchUrl(uri)) {
+        await launchUrl(uri, mode: LaunchMode.externalApplication);
+      }
+
+      // Có thể thêm delay hoặc điều hướng tiếp
+      Future.delayed(const Duration(seconds: 5), () {
+        Navigator.pushNamed(context, '/home');
+      });
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Tạo đơn thanh toán thất bại!')),
+      );
+    }
+  }
+
+
 
   // Hộp thoại thông báo thành công
   void _showSuccessDialog() {
@@ -102,7 +131,7 @@ class _BookingPaymentScreenState extends State<BookingPaymentScreen> {
               height: 14,
             ),
             ElevatedButton(
-              onPressed: () => _createOrder(payAmount),
+              onPressed: () => _vnpay(payAmount),
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.white, // Nền trắng
                 padding:
