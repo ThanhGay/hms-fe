@@ -7,9 +7,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class ApiFavourite {
-  static Future<void> favourite(BuildContext context) async {
+  static Future<List<Favourite>> favourite(BuildContext context,
+      [String keyWord = '']) async {
     Response response;
-    const String url = "${APIConstants.api}get-all-favourite";
+    final String url = "${APIConstants.api}get-all-favourite?KeyWord=$keyWord";
     List<Favourite> favourites = [];
     try {
       response = await DioClient().dio.get(url);
@@ -21,8 +22,10 @@ class ApiFavourite {
           .toList();
       Provider.of<FavouriteProvider>(context, listen: false)
           .setFavourite(favourites);
+      return favourites;
     } on DioException catch (e) {
       print("${e.response}");
+      throw e;
     }
   }
 
