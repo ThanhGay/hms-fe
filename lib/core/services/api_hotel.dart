@@ -1,6 +1,8 @@
 import 'package:android_hms/Data/hotel_provider.dart';
 import 'package:android_hms/Entity/hotel.dart';
+import 'package:android_hms/Entity/room.dart';
 import 'package:android_hms/core/constants/api_constants.dart';
+import 'package:android_hms/core/services/api_room.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -19,7 +21,10 @@ class ApiHotel {
       List<dynamic> allHotel = response.data['items'];
 
       hotels = allHotel.map((h) => Hotel.fromJson(h)).toList();
-
+      for (var hotel in hotels) {
+        final rooms = await ApiRoom.dsRoom(context, hotel.hotelId);
+        hotel.rooms = rooms;
+      }
       Provider.of<HotelProvider>(context, listen: false).setHotels(hotels);
 
       return hotels;

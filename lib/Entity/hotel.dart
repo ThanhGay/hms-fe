@@ -1,3 +1,4 @@
+import 'package:android_hms/Entity/room.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'hotel.g.dart';
@@ -8,13 +9,14 @@ class Hotel {
   final int hotelId;
   final String hotelAddress;
   final String hotline;
+  List<Room> rooms;
 
-  Hotel({
-    required this.hotelName,
-    required this.hotelId,
-    required this.hotelAddress,
-    required this.hotline,
-  });
+  Hotel(
+      {required this.hotelName,
+      required this.hotelId,
+      required this.hotelAddress,
+      required this.hotline,
+      this.rooms = const []});
 
   factory Hotel.fromJson(Map<String, dynamic> json) => _$HotelFromJson(json);
 
