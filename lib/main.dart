@@ -17,6 +17,7 @@ import 'package:android_hms/presentation/screens/signup_screen.dart';
 import 'package:android_hms/presentation/screens/home_screen_bottom.dart';
 import 'package:android_hms/presentation/screens/forgot_password_screen.dart';
 import 'package:android_hms/presentation/screens/change_password_screen.dart';
+import 'package:android_hms/presentation/screens/booking_payment_screen.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -42,7 +43,7 @@ class MyApp extends StatelessWidget {
       theme: AppTheme.lightTheme,
       debugShowCheckedModeBanner: false,
       home: WelcomeScreen(),
-      // home: RoomDetailScreen(roomId: 0),
+      // home: RoomDetailScreen(roomId: 0, hotelId: 0,),
 
       onGenerateRoute: (settings) {
         switch (settings.name) {
@@ -54,6 +55,10 @@ class MyApp extends StatelessWidget {
 
           case '/home':
             return MaterialPageRoute(builder: (context) => HomeScreenBottom());
+
+          case '/payment':
+            return MaterialPageRoute(
+                builder: (context) => BookingPaymentScreen());
 
           case '/forgot-password':
             return MaterialPageRoute(
@@ -72,13 +77,12 @@ class MyApp extends StatelessWidget {
               final hotelId = args['hotelId'] ?? 0;
               return MaterialPageRoute(
                 builder: (context) => BookingReviewScreen(
-                  roomDetail: roomId,
-                  hotel: hotelId,
+                  roomId: roomId,
+                  hotelId: hotelId,
                 ),
               );
             }
             return null;
-            ;
 
           case '/booking_option':
             return MaterialPageRoute(

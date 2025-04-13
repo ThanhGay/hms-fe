@@ -1,13 +1,11 @@
 import 'package:android_hms/core/services/api_hotel.dart';
-import 'package:android_hms/core/services/api_room.dart';
-import 'package:android_hms/Data/hotel_provider.dart';
-import 'package:android_hms/Data/room_provider.dart';
 import 'package:android_hms/Entity/hotel.dart';
 import 'package:android_hms/Entity/room.dart';
 import 'package:android_hms/presentation/component/info_room.dart';
+import 'package:android_hms/presentation/component/skeletons/info_room_skeleton.dart';
+import 'package:android_hms/presentation/component/text_Poppins.dart';
 import 'package:android_hms/presentation/screens/room_detail_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -17,42 +15,31 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  bool isLoading = true;
   int selectedExploreTabIndex = 0;
 
   List<Room> roomList = [];
-  List<Hotel> navigationButtons = [];
+  List<Hotel> hotels = [];
+  late PageController _pageController;
 
   @override
   void initState() {
     super.initState();
+
+    _pageController = PageController(initialPage: 0);
+
     // Gọi API để lấy danh sách khách sạn
-    ApiHotel.dsHotel(context).then((data) {}).catchError((error) {
+    ApiHotel.dsHotel(context).then((data) {
+      setState(() {
+        isLoading = false;
+        hotels = data;
+        roomList = data[0].rooms;
+      });
+    }).catchError((error) {
       print("Error fetching hotels: $error");
-    });
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-
-    // Lấy danh sách khách sạn từ Provider
-    final hotelProvider = Provider.of<HotelProvider>(context);
-    final roomProvider = Provider.of<RoomProvider>(context, listen: false);
-
-    setState(() {
-      navigationButtons = hotelProvider.hotel;
-
-      // Gọi API để lấy danh sách phòng cho khách sạn đầu tiên nếu có
-      if (navigationButtons.isNotEmpty) {
-        int firstHotelId = navigationButtons[0].hotelId;
-        ApiRoom.dsRoom(context, firstHotelId).then((_) {
-          setState(() {
-            roomList = roomProvider.room;
-          });
-        }).catchError((error) {
-          print("Error fetching rooms: $error");
-        });
-      }
+      setState(() {
+        isLoading = true;
+      });
     });
   }
 
@@ -92,47 +79,61 @@ class _HomeScreenState extends State<HomeScreen> {
           color: Colors.white,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: navigationButtons.map((button) {
-              int index = navigationButtons.indexOf(button);
+            children: hotels.map((button) {
+              int index = hotels.indexOf(button);
               return GestureDetector(
-                onTap: () async {
-                  int hotelId = button.hotelId;
-
-                  await ApiRoom.dsRoom(context, hotelId);
+                onTap: () {
                   setState(() {
                     selectedExploreTabIndex = index;
-                    roomList =
-                        Provider.of<RoomProvider>(context, listen: false).room;
+                    roomList = button.rooms;
                   });
+                  _pageController.animateToPage(
+                    index,
+                    duration: const Duration(milliseconds: 300),
+                    curve: Curves.easeInOut,
+                  );
                 },
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(
-                      Icons.hotel,
-                      color: selectedExploreTabIndex == index
-                          ? getHotelColor(button.hotelName)
-                          : Colors.grey,
-                    ),
-                    const SizedBox(height: 5),
-                    Text(
-                      button.hotelName,
-                      style: TextStyle(
-                        fontSize: 12,
+                child: AnimatedContainer(
+                  duration: const Duration(milliseconds: 300),
+                  curve: Curves.easeInOut,
+                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      AnimatedScale(
+                        duration: const Duration(milliseconds: 300),
+                        scale: selectedExploreTabIndex == index ? 1.25 : 1.0,
+                        child: Icon(
+                          Icons.hotel,
+                          color: selectedExploreTabIndex == index
+                              ? getHotelColor(button.hotelName)
+                              : Colors.grey,
+                        ),
+                      ),
+                      const SizedBox(height: 5),
+                      AnimatedScale(
+                        duration: const Duration(milliseconds: 300),
+                        scale: selectedExploreTabIndex == index ? 1.25 : 1.0,
+                        child: TextPoppins(
+                          color: selectedExploreTabIndex == index
+                              ? getHotelColor(button.hotelName)
+                              : Colors.grey,
+                          title: button.hotelName,
+                          size: 12,
+                          weight: FontWeight.w600,
+                        ),
+                      ),
+                      const SizedBox(height: 5),
+                      AnimatedContainer(
+                        duration: const Duration(milliseconds: 300),
+                        height: 3,
+                        width: 60,
                         color: selectedExploreTabIndex == index
                             ? getHotelColor(button.hotelName)
-                            : Colors.grey,
+                            : Colors.transparent,
                       ),
-                    ),
-                    const SizedBox(height: 5),
-                    Container(
-                      height: 3,
-                      width: 60,
-                      color: selectedExploreTabIndex == index
-                          ? Colors.black // Nếu được chọn thì màu đen
-                          : Colors.transparent, // Nếu không thì ẩn đi
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               );
             }).toList(),
@@ -142,35 +143,51 @@ class _HomeScreenState extends State<HomeScreen> {
 
         // Danh sách phòng
         Expanded(
-          child: ListView.builder(
-            itemCount: roomList.length,
-            itemBuilder: (context, index) {
-              final room = roomList[index];
-
-              return GestureDetector(
-                onTap: () {
-                  
-                  if (navigationButtons.isNotEmpty) {
-                    int hotelId =
-                        navigationButtons[selectedExploreTabIndex].hotelId;
-
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => RoomDetailScreen(
-                          roomId: room.roomId,
-                          hotelId: hotelId,
-                        ),
-                      ),
+          child: isLoading
+              ? PageView.builder(
+                  itemBuilder: (context, index) {
+                    return ListView.builder(
+                      itemCount: 5, // số lượng skeleton mỗi trang
+                      itemBuilder: (context, _) => InfoRoomSkeleton(),
                     );
-                  } else {
-                    debugPrint("Error: No hotel data available!");
-                  }
-                },
-                child: InfoRoom(room: room),
-              );
-            },
-          ),
+                  },
+                )
+              : PageView.builder(
+                  controller: _pageController,
+                  onPageChanged: (index) {
+                    setState(() {
+                      selectedExploreTabIndex = index;
+                      roomList = hotels[index].rooms;
+                    });
+                  },
+                  itemCount: hotels.length,
+                  itemBuilder: (context, index) {
+                    final rooms = hotels[index].rooms;
+                    return ListView.builder(
+                      itemCount: rooms.length,
+                      itemBuilder: (context, roomIndex) {
+                        final room = rooms[roomIndex];
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => RoomDetailScreen(
+                                  roomId: room.roomId,
+                                  hotelId: hotels[index].hotelId,
+                                ),
+                              ),
+                            );
+                          },
+                          child: InfoRoom(
+                            room: room,
+                            isLoading: false,
+                          ),
+                        );
+                      },
+                    );
+                  },
+                ),
         ),
       ],
     );
@@ -180,11 +197,11 @@ class _HomeScreenState extends State<HomeScreen> {
   Color getHotelColor(String hotelName) {
     switch (hotelName) {
       case 'Eco Blue':
-        return Colors.black;
+        return Color(0xFF3469FA);
       case 'Eco Green':
-        return Colors.black;
+        return Color(0xFF00FA17);
       case 'Eco Yellow':
-        return Colors.black;
+        return Color(0xFFFAB70F);
       default:
         return Colors.black;
     }

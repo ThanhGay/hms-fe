@@ -2,15 +2,17 @@ import 'package:android_hms/Data/favourite_provider.dart';
 import 'package:android_hms/Entity/hotel.dart';
 import 'package:android_hms/core/services/api_favourite.dart';
 import 'package:android_hms/core/services/api_hotel.dart';
-import 'package:android_hms/presentation/screens/booking_option_sheet_screen.dart';
 import 'package:android_hms/presentation/screens/booking_review_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:android_hms/core/services/api_room.dart';
-import 'package:android_hms/Data/room_provider.dart';
-import 'package:android_hms/Entity/room.dart';
+
+import 'package:android_hms/presentation/utils/util.dart';
+import 'package:android_hms/core/constants/default.dart';
 import 'package:android_hms/core/constants/api_constants.dart';
+
+import 'package:android_hms/Data/room_provider.dart';
+import 'package:android_hms/core/services/api_room.dart';
+import 'package:android_hms/Entity/room.dart';
 
 class RoomDetailScreen extends StatefulWidget {
   final int roomId;
@@ -39,26 +41,6 @@ class _RoomDetailScreenState extends State<RoomDetailScreen> {
         hotel = data;
       });
     });
-  }
-
-  Future<void> _openBookingOptions(BuildContext context) async {
-    final result = await showModalBottomSheet<DateTimeRange>(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.white,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
-      ),
-      builder: (context) {
-        return BookingOptionsSheet();
-      },
-    );
-
-    if (result != null) {
-      setState(() {
-        selectedDateRange = result; // Cập nhật ngày đã chọn
-      });
-    }
   }
 
   Future<void> _fetchRoomDetail() async {
@@ -137,7 +119,8 @@ class _RoomDetailScreenState extends State<RoomDetailScreen> {
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
                             image: DecorationImage(
-                              image: AssetImage('assets/images/noimg.png'),
+                              image: AssetImage(
+                                  DefaultConstants().defaultImageRoom),
                               fit: BoxFit.cover,
                             ),
                           ),
@@ -185,8 +168,8 @@ class _RoomDetailScreenState extends State<RoomDetailScreen> {
                             Row(
                               children: [
                                 CircleAvatar(
-                                  backgroundImage:
-                                      AssetImage('assets/images/logo.png'),
+                                  backgroundImage: AssetImage(
+                                      DefaultConstants().defaultImageHotel),
                                   radius: 25,
                                 ),
                                 SizedBox(width: 10),
@@ -242,12 +225,12 @@ class _RoomDetailScreenState extends State<RoomDetailScreen> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Text(
-                            "₫${NumberFormat('#,###', 'vi_VN').format(roomDetail?.pricePerNight)}/ đêm",
+                            "${formatNumber(roomDetail!.pricePerNight)} VNĐ / đêm",
                             style: TextStyle(
                                 fontSize: 18, fontWeight: FontWeight.bold),
                           ),
                           //    Text(
-                          //   "₫${roomDetail!.pricePerHour} / giờ",
+                          //   "₫${formatNumber(roomDetail!.pricePerHour)} / giờ",
                           //   style: TextStyle(fontSize: 18, fontWeight: FontWeight.normal, color: Colors.grey[600]),
                           // ),
                           Text(
@@ -276,9 +259,9 @@ class _RoomDetailScreenState extends State<RoomDetailScreen> {
                               context,
                               MaterialPageRoute(
                                 builder: (context) => BookingReviewScreen(
-                                  roomDetail:
-                                      roomDetail!, // Truyền `roomDetail` đã có dữ liệu
-                                  hotel: hotel!,
+                                  roomId: widget
+                                      .roomId, // Truyền `roomDetail` đã có dữ liệu
+                                  hotelId: widget.roomId,
                                 ),
                               ),
                             );
