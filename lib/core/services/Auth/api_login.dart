@@ -6,13 +6,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 final dio = Dio();
 
 class ApiLogin {
-  static Future<String> loginUser(String email, String password) async {
+  static Future<String> loginUser(String email, String password,String deviceToken ) async {
     Response response;
     const String url = "${APIConstants.api}login";
 
     try {
       response =
-          await dio.post(url, data: {"email": email, "password": password});
+          await dio.post(url, data: {"email": email, "password": password,"deviceToken": deviceToken});
 
       final data = response.data;
 

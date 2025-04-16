@@ -4,14 +4,16 @@ import 'package:flutter/material.dart';
 class LoginScreen extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final TextEditingController deviceTokenController = TextEditingController();
 
   LoginScreen({super.key});
 
   Future<void> loginUser(BuildContext context) async {
     final email = emailController.text;
     final password = passwordController.text;
+    final devicetoken = deviceTokenController.text;
 
-    final response = await ApiLogin.loginUser(email, password);
+    final response = await ApiLogin.loginUser(email, password,devicetoken);
 
     if (response == "Success") {
       ScaffoldMessenger.of(context).showSnackBar(
