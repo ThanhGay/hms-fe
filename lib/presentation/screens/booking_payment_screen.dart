@@ -1,18 +1,58 @@
+import 'dart:ffi';
+
 import 'package:android_hms/core/services/Auth/api_vnpay.dart';
 import 'package:flutter/material.dart';
 import 'package:android_hms/presentation/component/payment.dart';
 import 'package:url_launcher/url_launcher.dart';
+// import 'package:uni_links/uni_links.dart';
+import 'dart:async';
 
 class BookingPaymentScreen extends StatefulWidget {
-  const BookingPaymentScreen({Key? key}) : super(key: key);
+  final int roomId;
+  final int hotelId;
+  final String totalPrice;
+
+  const BookingPaymentScreen(
+    {super.key, required this.roomId, required this.hotelId, required this.totalPrice});
 
   @override
   State<BookingPaymentScreen> createState() => _BookingPaymentScreenState();
 }
 
 class _BookingPaymentScreenState extends State<BookingPaymentScreen> {
-  String payAmount = "10000";
+  // StreamSubscription? _sub; // Biến để theo dõi luồng deeplink
 
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   _handleIncomingLinks(); // Lắng nghe deeplink khi widget được tạo
+  // }
+
+  // // Hàm lắng nghe deeplink quay về từ VNPay
+  // void _handleIncomingLinks() {
+  //   _sub = linkStream.listen((String? link) {
+  //     if (link != null) {
+  //       print("🔗 Nhận deeplink: $link");
+
+  //       Uri uri = Uri.parse(link);
+
+  //       // Ví dụ: androidhms://payment-success
+  //       if (uri.scheme == "androidhms" && uri.host == "payment-success") {
+  //         _showSuccessDialog();
+  //       }
+  //     }
+  //   }, onError: (err) {
+  //     print("❌ Lỗi khi nhận deeplink: $err");
+  //   });
+  // }
+
+  // @override
+  // void dispose() {
+  //   _sub?.cancel(); // Hủy lắng nghe khi widget bị huỷ
+  //   super.dispose();
+  // }
+
+  // String payAmount = widget.totalPrice;
   Future<void> _openOrderUrl(String url) async {
     final uri = Uri.parse(url);
     if (await canLaunchUrl(uri)) {
@@ -47,7 +87,7 @@ class _BookingPaymentScreenState extends State<BookingPaymentScreen> {
   }
 
   Future<void> _vnpay(String value) async {
-    int orderId = 123456;
+    int orderId = DateTime.now().millisecondsSinceEpoch;
     double amount = double.parse(value);
     String orderDesc = "Thanh toán vnpay";
     String orderType = "vnpay";
@@ -112,7 +152,7 @@ class _BookingPaymentScreenState extends State<BookingPaymentScreen> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             ElevatedButton(
-              onPressed: () => _createOrder(payAmount),
+              onPressed: () => _createOrder(widget.totalPrice),
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.white, // Nền trắng
                 padding:
@@ -131,7 +171,7 @@ class _BookingPaymentScreenState extends State<BookingPaymentScreen> {
               height: 14,
             ),
             ElevatedButton(
-              onPressed: () => _vnpay(payAmount),
+              onPressed: () => _vnpay(widget.totalPrice),
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.white, // Nền trắng
                 padding:
@@ -141,9 +181,10 @@ class _BookingPaymentScreenState extends State<BookingPaymentScreen> {
                   side: const BorderSide(color: Colors.black), // Viền đen
                 ),
               ),
-              child: const Text(
-                "Thanh toán bằng VnPay",
-                style: TextStyle(color: Colors.black, fontSize: 16), // Chữ đen
+              child: Text(
+                "Thanh toán bằng VnPay - RoomID: ${widget.roomId}, "
+                "HotelID: ${widget.hotelId}, Tổng tiền: ${widget.totalPrice} VNĐ",
+                style: TextStyle(color: Colors.black, fontSize: 16),
               ),
             ),
             const Spacer(), // Đẩy nội dung còn lại xuống dưới

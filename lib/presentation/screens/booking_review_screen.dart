@@ -4,6 +4,7 @@ import 'package:android_hms/core/models/bill/ICreatePreBooking.dart';
 import 'package:android_hms/core/services/Bill/api_createPreBill.dart';
 import 'package:android_hms/core/services/api_room.dart';
 import 'package:android_hms/presentation/screens/booking_option_sheet_screen.dart';
+import 'package:android_hms/presentation/screens/booking_payment_screen.dart';
 import 'package:android_hms/presentation/utils/util.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -75,6 +76,9 @@ class _BookingReviewScreenState extends State<BookingReviewScreen> {
   Widget build(BuildContext context) {
     // int totalPrice =
     //     numberOfNights() * (widget.roomDetail.pricePerNight ?? 0).toInt();
+    var totalPrice = (roomDetail != null && selectedDateRange != null)
+    ? formatNumber(roomDetail!.pricePerNight * selectedDateRange!.duration.inDays)
+    : "0";
 
     return Scaffold(
       appBar: AppBar(
@@ -243,7 +247,7 @@ class _BookingReviewScreenState extends State<BookingReviewScreen> {
                                     ),
                                   ),
                                   Text(
-                                    "${formatNumber(roomDetail!.pricePerNight * selectedDateRange!.duration.inDays)} VNĐ",
+                                    "$totalPrice VNĐ",
                                     style: TextStyle(
                                       fontSize: 14,
                                       color: Colors.grey[600],
@@ -330,7 +334,21 @@ class _BookingReviewScreenState extends State<BookingReviewScreen> {
                                   CustomerID: 24,
                                   RoomIds: [roomDetail!.roomId]));
                           if (result == "Thêm thành công") {
-                            Navigator.pushNamed(context, '/payment');
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => BookingPaymentScreen(
+                                  roomId: widget.roomId, // Truyền `roomDetail` đã có dữ liệu
+                                  hotelId: widget.hotelId, 
+                                  totalPrice: totalPrice,
+                                ),
+                              ),
+                            );
+                            // Navigator.pushNamed(context, '/payment',
+                            // arguments: {
+                            //     'totalPrice': totalPrice,
+                            //   },
+                            // );
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(content: Text('Đặt phòng thành công')),
                             );
