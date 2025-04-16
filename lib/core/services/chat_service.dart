@@ -34,6 +34,7 @@ class ChatService {
       'Sender': sender,
       'Message': message,
       'TimeStamp': FieldValue.serverTimestamp(), // Thời gian tạo tin nhắn
+      'isRead': false
     });
   }
 
@@ -43,5 +44,31 @@ class ChatService {
         .orderBy("TimeStamp", descending: true)
         .snapshots()
         .map((snapshot) => snapshot.docs.map((doc) => doc.data()).toList());
+  }
+
+  Stream<int> getUnreadMessageCountStream(String conversationId) {
+    return FirebaseFirestore.instance
+        .collection(conversationId)
+        .where('Sender', isEqualTo: "Receptionist")
+        .where('isRead', isEqualTo: false)
+        .snapshots()
+        .map((snapshot) => snapshot.docs.length);
+  }
+
+  void markMessagesAsRead(String conversationId) async {
+    final firestore = FirebaseFirestore.instance;
+    print("CONV: ${conversationId}");
+    final querySnapshot = await firestore
+        .collection(conversationId)
+        .where('Sender', isEqualTo: "Receptionist")
+        .where('isRead', isEqualTo: false)
+        .get();
+
+    for (var doc in querySnapshot.docs) {
+      await firestore
+          .collection(conversationId)
+          .doc(doc.id)
+          .update({'isRead': true});
+    }
   }
 }

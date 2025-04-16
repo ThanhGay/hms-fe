@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:android_hms/core/constants/api_constants.dart';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -6,7 +5,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 final dio = Dio();
 
 class ApiVnpay {
-  static Future<String> Vnpay(int orderId, double amount, String orderDesc, String orderType) async {
+  static Future<String> Vnpay(
+      int orderId, double amount, String orderDesc, String orderType) async {
     // final prefs = await SharedPreferences.getInstance();
     //   await prefs.remove('token');
     //   print('🧹 Token đã được xóa');
@@ -15,7 +15,8 @@ class ApiVnpay {
 
     try {
       final prefs = await SharedPreferences.getInstance();
-      String? token = prefs.getString('token'); // Token đã lưu sau khi đăng nhập
+      String? token =
+          prefs.getString('token'); // Token đã lưu sau khi đăng nhập
 
       if (token == null) {
         print(" Không tìm thấy token");
@@ -52,5 +53,4 @@ class ApiVnpay {
       return "Error: ${e.message}";
     }
   }
-
 }

@@ -17,7 +17,11 @@ class LoginScreen extends StatelessWidget {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Login successful! Welcome')),
       );
-      Navigator.pushNamed(context, '/home');
+      Navigator.pushNamed(
+        context,
+        '/home',
+        arguments: {"initialTabIndex": 0},
+      );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Login failed!!!')),

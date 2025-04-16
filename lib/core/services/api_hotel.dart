@@ -1,6 +1,5 @@
 import 'package:android_hms/Data/hotel_provider.dart';
 import 'package:android_hms/Entity/hotel.dart';
-import 'package:android_hms/Entity/room.dart';
 import 'package:android_hms/core/constants/api_constants.dart';
 import 'package:android_hms/core/services/api_room.dart';
 import 'package:dio/dio.dart';

@@ -1,3 +1,4 @@
+import 'package:android_hms/Data/hotel_provider.dart';
 import 'package:android_hms/core/services/api_hotel.dart';
 import 'package:android_hms/Entity/hotel.dart';
 import 'package:android_hms/Entity/room.dart';
@@ -6,6 +7,7 @@ import 'package:android_hms/presentation/component/skeletons/info_room_skeleton.
 import 'package:android_hms/presentation/component/text_Poppins.dart';
 import 'package:android_hms/presentation/screens/room_detail_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -45,6 +47,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // final prohotel = Provider.of<HotelProvider>(context);
+    // List<Hotel> hotels = prohotel.hotel;
+    // List<Room> roomList = prohotel.hotel[0].rooms;
     return Column(
       children: [
         const SizedBox(height: 30),
