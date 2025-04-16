@@ -6,7 +6,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 final dio = Dio();
 
 class ApiLogin {
-  static Future<String> loginUser(String email, String password) async {
+  static Future<String> loginUser(
+      String email, String password, String deviceToken) async {
     Response response;
     const String url = "${APIConstants.api}login";
     final prefs = await SharedPreferences.getInstance();

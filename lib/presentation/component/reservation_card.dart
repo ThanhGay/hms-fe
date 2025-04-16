@@ -34,7 +34,7 @@ class ReservationCard extends StatelessWidget {
                   topRight: Radius.circular(20),
                 ),
                 child: Image.network(
-                  APIConstants.api + bill.rooms[0].roomImages[0]['imageURL'],
+                  APIConstants.api + bill.rooms[0].roomImages?[0]['imageURL'],
                   height: 180,
                   width: double.infinity,
                   fit: BoxFit.cover,

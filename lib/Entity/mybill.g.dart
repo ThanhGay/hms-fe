@@ -7,25 +7,25 @@ part of 'mybill.dart';
 // **************************************************************************
 
 MyBill _$MyBillFromJson(Map<String, dynamic> json) => MyBill(
-      (json['billID'] as num).toInt(),
-      DateTime.parse(json['bookingDate'] as String),
-      DateTime.parse(json['expectedCheckIn'] as String),
-      DateTime.parse(json['expectedCheckOut'] as String),
-      json['checkIn'] == null
+      billID: (json['billID'] as num).toDouble(),
+      bookingDate: DateTime.parse(json['bookingDate'] as String),
+      expectedCheckIn: DateTime.parse(json['expectedCheckIn'] as String),
+      expectedCheckOut: DateTime.parse(json['expectedCheckOut'] as String),
+      checkIn: json['checkIn'] == null
           ? null
           : DateTime.parse(json['checkIn'] as String),
-      json['checkOut'] == null
+      checkOut: json['checkOut'] == null
           ? null
           : DateTime.parse(json['checkOut'] as String),
-      (json['prepayment'] as num).toDouble(),
-      json['status'] as String,
-      (json['discountID'] as num?)?.toInt(),
-      (json['customerID'] as num?)?.toInt(),
-      (json['receptionistID'] as num?)?.toInt(),
-      (json['rooms'] as List<dynamic>)
-          .map((e) => Room.fromJson(e as Map<String, dynamic>))
+      prepayment: (json['prepayment'] as num?)?.toDouble(),
+      status: json['status'] as String,
+      discountID: (json['discountID'] as num?)?.toDouble(),
+      customerID: (json['customerID'] as num?)?.toDouble(),
+      receptionistID: (json['receptionistID'] as num?)?.toDouble(),
+      rooms: (json['rooms'] as List<dynamic>)
+          .map((e) => RoomBill.fromJson(e as Map<String, dynamic>))
           .toList(),
-      (json['charges'] as num?)?.toInt(),
+      charges: (json['charges'] as num?)?.toDouble(),
     );
 
 Map<String, dynamic> _$MyBillToJson(MyBill instance) => <String, dynamic>{

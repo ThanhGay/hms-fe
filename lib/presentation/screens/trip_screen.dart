@@ -29,13 +29,22 @@ class _TripScreen extends State<TripScreen> {
     final prefs = await SharedPreferences.getInstance();
     final token = prefs.getString('token'); // hoặc từ Provider
     if (token != null && token.isNotEmpty) {
+      print("Token: $token");
       setState(() {
         isLoggedIn = true;
       });
       ApiBill.myBooking(context).then((data) {
-        isLoading = false;
+        setState(() {
+          print("API trả về dữ liệu: ${data[0].rooms[0].roomImages}");
+          myBookings = data;
+          isLoading = false;
+        });
+        print("Fetched bookings: ${myBookings[0].rooms[0].roomImages}");
       }).catchError((e) {
-        isLoading = false;
+        setState(() {
+          isLoading = false;
+          print("Lỗi khi gọi API: $e");
+        });
       });
     }
   }
