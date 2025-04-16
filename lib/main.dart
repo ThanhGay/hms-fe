@@ -1,3 +1,4 @@
+import 'package:android_hms/core/services/notification_service.dart';
 import 'package:android_hms/presentation/screens/booking_option_sheet_screen.dart';
 import 'package:android_hms/presentation/screens/booking_review_screen.dart';
 import 'package:android_hms/Data/favourite_provider.dart';
@@ -20,9 +21,12 @@ import 'package:android_hms/presentation/screens/change_password_screen.dart';
 import 'package:android_hms/presentation/screens/booking_payment_screen.dart';
 import 'firebase_options.dart';
 
+final navigatorKey = GlobalKey<NavigatorState>();
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await NotificationService().initNotifiactions();
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (_) => HotelProvider()),
@@ -43,10 +47,13 @@ class MyApp extends StatelessWidget {
       theme: AppTheme.lightTheme,
       debugShowCheckedModeBanner: false,
       home: WelcomeScreen(),
+      navigatorKey: navigatorKey,
       // home: RoomDetailScreen(roomId: 0, hotelId: 0,),
 
       onGenerateRoute: (settings) {
         switch (settings.name) {
+          case '/welcome_page':
+            return MaterialPageRoute(builder: (_) => WelcomeScreen());
           case '/login':
             return MaterialPageRoute(builder: (context) => LoginScreen());
 
@@ -54,7 +61,12 @@ class MyApp extends StatelessWidget {
             return MaterialPageRoute(builder: (context) => SignupScreen());
 
           case '/home':
-            return MaterialPageRoute(builder: (context) => HomeScreenBottom());
+            final args = settings.arguments as Map<String, int>;
+            int? tabIndex = args['initialTabIndex'] ?? 0;
+            return MaterialPageRoute(
+                builder: (context) => HomeScreenBottom(
+                      initialTabIndex: tabIndex,
+                    ));
 
           case '/payment':
             return MaterialPageRoute(
@@ -87,7 +99,10 @@ class MyApp extends StatelessWidget {
           case '/booking_option':
             return MaterialPageRoute(
                 builder: (context) => BookingOptionsSheet());
-
+          // case '/chat_page':
+          //   final args = settings.arguments as Map<String, int>;
+          //   int? chatId = args['initialTabIndex'] ?? 0;
+          //   return MaterialPageRoute(builder: (context) => HomeScreenBottom(initialTabIndex: ,));
           case '/room_detail':
             if (settings.arguments is Map<String, int>) {
               final args = settings.arguments as Map<String, dynamic>;

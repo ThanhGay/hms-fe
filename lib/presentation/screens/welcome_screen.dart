@@ -92,6 +92,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     Navigator.pushNamed(
                       context,
                       '/home',
+                      arguments: {"initialTabIndex": 0},
                     );
                   },
                   child: Text('Bỏ qua'),

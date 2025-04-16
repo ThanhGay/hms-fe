@@ -1,5 +1,5 @@
+import 'package:android_hms/main.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class DioClient {
@@ -28,13 +28,13 @@ class DioClient {
       onResponse: (response, handler) {
         return handler.next(response);
       },
-      onError: (DioException e, handler) async{
-            final prefs = await SharedPreferences.getInstance();
+      onError: (DioException e, handler) async {
+        final prefs = await SharedPreferences.getInstance();
 
-        if(e.response?.statusCode == 401){
+        if (e.response?.statusCode == 401) {
           print("UNAUTHORIZE");
-            prefs.clear();
-
+          prefs.clear();
+          navigatorKey.currentState?.pushNamed("/welcome_page");
         }
         return handler.next(e);
       },
