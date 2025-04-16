@@ -50,6 +50,7 @@ dependencies:
   crypto: ^3.0.6
   sprintf: ^7.0.0
   skeletonizer: ^1.4.3
+  app_links: ^6.4.0
 
 
 dev_dependencies:

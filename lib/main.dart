@@ -57,8 +57,23 @@ class MyApp extends StatelessWidget {
             return MaterialPageRoute(builder: (context) => HomeScreenBottom());
 
           case '/payment':
-            return MaterialPageRoute(
-                builder: (context) => BookingPaymentScreen());
+            if (settings.arguments is Map<String, dynamic>) {
+              final args = settings.arguments as Map<String, dynamic>;
+              final roomId = args['roomId'] ?? 0;
+              final hotelId = args['hotelId'] ?? 0;
+              final totalPrice = args['totalPrice'] ?? 0;
+              return MaterialPageRoute(
+                builder: (context) => BookingPaymentScreen(
+                  roomId: roomId,
+                  hotelId: hotelId, 
+                  totalPrice: totalPrice,
+                ),
+              );
+            }
+            return null;
+            // return MaterialPageRoute(
+
+            //     builder: (context) => BookingPaymentScreen());
 
           case '/forgot-password':
             return MaterialPageRoute(

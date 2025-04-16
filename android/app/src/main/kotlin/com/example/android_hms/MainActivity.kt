@@ -14,6 +14,7 @@ import vn.zalopay.sdk.Environment
 import vn.zalopay.sdk.ZaloPayError
 import vn.zalopay.sdk.ZaloPaySDK
 import vn.zalopay.sdk.listeners.PayOrderListener
+import android.net.Uri
 
 class MainActivity: FlutterActivity() {
 
@@ -26,6 +27,12 @@ class MainActivity: FlutterActivity() {
         super.onNewIntent(intent)
         Log.d("newIntent", intent.toString())
         ZaloPaySDK.getInstance().onResult(intent)
+        // Lấy dữ liệu từ Intent
+        val data: Uri? = intent.data
+        if (data != null) {
+            Log.d("DeepLink", "Received deep link: ${data.toString()}")
+            // Xử lý dữ liệu Intent tại đây
+        }
     }
 
     override fun configureFlutterEngine(@NonNull flutterEngine: FlutterEngine) {
