@@ -86,7 +86,11 @@ class _FavouriteScreen extends State<FavouriteScreen> {
             size: 30,
           ),
           onPressed: () {
-            Navigator.pushNamed(context, '/home');
+            Navigator.pushNamed(
+              context,
+              '/home',
+              arguments: {"initialTabIndex": 0},
+            );
           },
         ),
         title: Padding(

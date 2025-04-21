@@ -198,7 +198,10 @@ class _ChatScreen extends State<ChatScreen> {
                       if (isLoggedIn) {
                         // Chuyển sang trang khám phá
                         Navigator.pushNamed(
-                            context, '/home'); // Thay bằng route đúng
+                          context,
+                          '/home',
+                          arguments: {"initialTabIndex": 0},
+                        ); // Thay bằng route đúng
                       } else {
                         // Chuyển sang trang đăng nhập
                         Navigator.pushNamed(context, '/login');

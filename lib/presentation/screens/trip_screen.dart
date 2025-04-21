@@ -30,9 +30,11 @@ class _TripScreen extends State<TripScreen> {
     final token = prefs.getString('token'); // hoặc từ Provider
     if (token != null && token.isNotEmpty) {
       print("Token: $token");
+
       setState(() {
         isLoggedIn = true;
       });
+
       ApiBill.myBooking(context).then((data) {
         setState(() {
           print("API trả về dữ liệu: ${data[0].rooms[0].roomImages}");
@@ -59,39 +61,42 @@ class _TripScreen extends State<TripScreen> {
                 child: myBookings.isNotEmpty
                     ? Container(
                         child: isLoading
-                            ? ListView.builder(
-                                itemCount: 3,
-                                itemBuilder: (context, index) {
-                                  return ReservationCardSkeleton();
-                                })
+                            ? Center(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      "Bạn chưa có chuyến đi nào!",
+                                      style: TextStyle(
+                                          fontSize: 18, color: Colors.black),
+                                    ),
+                                    SizedBox(height: 16),
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        Navigator.pushNamed(
+                                          context,
+                                          '/home',
+                                          arguments: {"initialTabIndex": 0},
+                                        ); // Thay bằng route đúng
+                                      },
+                                      child: Text("Khám phá"),
+                                    ),
+                                  ],
+                                ),
+                              )
                             : ListView.builder(
                                 itemCount: myBookings.length,
                                 itemBuilder: (context, index) {
                                   return ReservationCard(
                                       bill: myBookings[index]);
                                 },
-                              ))
-                    : Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              "Bạn chưa có chuyến đi nào!",
-                              style:
-                                  TextStyle(fontSize: 18, color: Colors.black),
-                            ),
-                            SizedBox(height: 16),
-                            ElevatedButton(
-                              onPressed: () {
-                                Navigator.pushNamed(
-                                    context, '/home'); // Thay bằng route đúng
-                              },
-                              child: Text("Khám phá"),
-                            ),
-                          ],
-                        ),
-                      ),
-              )
+                              ),
+                      )
+                    : ListView.builder(
+                        itemCount: 3,
+                        itemBuilder: (context, index) {
+                          return ReservationCardSkeleton();
+                        }))
             : Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,

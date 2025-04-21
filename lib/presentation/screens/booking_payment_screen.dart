@@ -13,7 +13,10 @@ class BookingPaymentScreen extends StatefulWidget {
   final String totalPrice;
 
   const BookingPaymentScreen(
-    {super.key, required this.roomId, required this.hotelId, required this.totalPrice});
+      {super.key,
+      required this.roomId,
+      required this.hotelId,
+      required this.totalPrice});
 
   @override
   State<BookingPaymentScreen> createState() => _BookingPaymentScreenState();
@@ -92,7 +95,8 @@ class _BookingPaymentScreenState extends State<BookingPaymentScreen> {
     String orderDesc = "Thanh toán vnpay";
     String orderType = "vnpay";
 
-    final response = await ApiVnpay.Vnpay(orderId, amount, orderDesc, orderType);
+    final response =
+        await ApiVnpay.Vnpay(orderId, amount, orderDesc, orderType);
 
     if (response.startsWith("https")) {
       // Mở link thanh toán
@@ -103,7 +107,11 @@ class _BookingPaymentScreenState extends State<BookingPaymentScreen> {
 
       // Có thể thêm delay hoặc điều hướng tiếp
       Future.delayed(const Duration(seconds: 5), () {
-        Navigator.pushNamed(context, '/home');
+        Navigator.pushNamed(
+          context,
+          '/home',
+          arguments: {"initialTabIndex": 0},
+        );
       });
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -111,8 +119,6 @@ class _BookingPaymentScreenState extends State<BookingPaymentScreen> {
       );
     }
   }
-
-
 
   // Hộp thoại thông báo thành công
   void _showSuccessDialog() {
@@ -127,7 +133,11 @@ class _BookingPaymentScreenState extends State<BookingPaymentScreen> {
             TextButton(
               onPressed: () {
                 Navigator.pop(context); // Đóng hộp thoại
-                Navigator.pushNamed(context, '/home'); // Chuyển về trang chủ
+                Navigator.pushNamed(
+                  context,
+                  '/home',
+                  arguments: {"initialTabIndex": 0},
+                ); // Chuyển về trang chủ
               },
               child: const Text("OK"),
             ),
@@ -202,7 +212,11 @@ class _BookingPaymentScreenState extends State<BookingPaymentScreen> {
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, '/home');
+                    Navigator.pushNamed(
+                      context,
+                      '/home',
+                      arguments: {"initialTabIndex": 0},
+                    );
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.black,
