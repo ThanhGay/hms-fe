@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:android_hms/core/services/Auth/api_signUp.dart';
+import 'package:android_hms/presentation/component/base/InputTextField.dart';
 
 class SignupScreen extends StatefulWidget {
   SignupScreen({super.key});
@@ -21,8 +22,10 @@ class _SignupScreenState extends State<SignupScreen> {
       TextEditingController();
 
   DateTime? selectedDate; // Lưu trữ ngày đã chọn
+  bool obscurePassword = true;
+  bool obscureRepassword = true;
 
-  Future<void> _selectDate(BuildContext context) async {
+  Future<void> selectDate(BuildContext context) async {
     DateTime? pickedDate = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
@@ -38,6 +41,20 @@ class _SignupScreenState extends State<SignupScreen> {
             "${pickedDate.year}";
       });
     }
+  }
+
+  // ẩn/hiện mật khẩu
+  void togglePasswordVisibility() {
+    setState(() {
+      obscurePassword = !obscurePassword;
+    });
+  }
+
+  // ẩn/hiện nhập lại mật khẩu
+  void toggleRePasswordVisibility() {
+    setState(() {
+      obscureRepassword = !obscureRepassword;
+    });
   }
 
   Future<void> registerUser(BuildContext context) async {
@@ -59,19 +76,19 @@ class _SignupScreenState extends State<SignupScreen> {
           lastName, phoneNumber, citizenIdentity, dateOfBirth);
       if (response == "Success") {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Registration successful!')),
+          const SnackBar(content: Text('Đăng ký thành công!')),
         );
         Navigator.pushNamed(context, '/login');
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-              content: Text(
-                  'Registration failed! ${response}, Please try again!!!')),
+              content:
+                  Text('Đăng ký thất bại! ${response}, vui lòng thử lại!!!')),
         );
       }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Mật khẩu không trùng nhau.')),
+        const SnackBar(content: Text('Mật khẩu không trùng nhau.')),
       );
     }
   }
@@ -79,88 +96,155 @@ class _SignupScreenState extends State<SignupScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text('Register'),
+        title: const Text('Đăng ký'),
+        backgroundColor: Colors.blue.shade100,
+        iconTheme: const IconThemeData(color: Colors.blue),
+        titleTextStyle: const TextStyle(
+            color: Colors.blue, fontWeight: FontWeight.bold, fontSize: 20),
+        elevation: 0,
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(24.0),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              TextField(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              // Tiêu đề
+              const Text(
+                'Tạo tài khoản',
+                style: TextStyle(
+                  fontSize: 28,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black87,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 8),
+              // Mô tả
+              Text(
+                'Vui lòng cung cấp những thông tin sau \n để tạo tài khoản mới',
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Colors.grey.shade600,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 24),
+              // Ô nhập Họ
+              InputTextField(
                 controller: firstNameController,
-                decoration: InputDecoration(
-                  labelText: 'First name',
-                  border: OutlineInputBorder(),
-                ),
+                labelText: 'Họ',
               ),
-              SizedBox(height: 10),
-              TextField(
+              const SizedBox(height: 16),
+              // Ô nhập Tên
+              InputTextField(
                 controller: lastNameController,
-                decoration: InputDecoration(
-                  labelText: 'Last name',
-                  border: OutlineInputBorder(),
-                ),
+                labelText: 'Tên',
               ),
-              SizedBox(height: 10),
-              TextField(
+              const SizedBox(height: 16),
+              // Ô nhập Email
+              InputTextField(
                 controller: emailController,
-                decoration: InputDecoration(
-                  labelText: 'Email',
-                  border: OutlineInputBorder(),
-                ),
+                labelText: 'Email',
+                keyboardType: TextInputType.emailAddress,
               ),
-              SizedBox(height: 10),
-              TextField(
+              const SizedBox(height: 16),
+              // Ô nhập Mật khẩu
+              InputTextField(
                 controller: passwordController,
-                decoration: InputDecoration(
-                  labelText: 'Password',
-                  border: OutlineInputBorder(),
+                labelText: 'Mật khẩu',
+                obscureText: obscurePassword,
+                suffixIcon: IconButton(
+                  icon: Icon(
+                    obscurePassword
+                        ? Icons.visibility_off_outlined
+                        : Icons.visibility_outlined,
+                  ),
+                  onPressed: togglePasswordVisibility,
                 ),
-                obscureText: true,
               ),
-              SizedBox(height: 10),
-              TextField(
+              const SizedBox(height: 16),
+              // Ô nhập lại Mật khẩu
+              InputTextField(
                 controller: reEnterPasswordController,
-                decoration: InputDecoration(
-                  labelText: 'Nhập lại mật khẩu',
-                  border: OutlineInputBorder(),
+                labelText: 'Nhập lại mật khẩu',
+                hintText: 'Nhập lại mật khẩu',
+                obscureText: obscureRepassword,
+                suffixIcon: IconButton(
+                  icon: Icon(
+                    obscureRepassword
+                        ? Icons.visibility_off_outlined
+                        : Icons.visibility_outlined,
+                  ),
+                  onPressed: toggleRePasswordVisibility,
                 ),
-                obscureText: true,
               ),
-              SizedBox(height: 10),
-              TextField(
+              const SizedBox(height: 16),
+              // Ô nhập Số điện thoại
+              InputTextField(
                 controller: phoneNumberController,
-                decoration: InputDecoration(
-                  labelText: 'Phone number',
-                  border: OutlineInputBorder(),
-                ),
+                labelText: 'Số điện thoại',
+                keyboardType: TextInputType.phone,
               ),
-              SizedBox(height: 10),
-              TextField(
+              const SizedBox(height: 16),
+              // Ô nhập Căn cước công dân
+              InputTextField(
                 controller: citizenIdentityController,
-                decoration: InputDecoration(
-                  labelText: 'Căn cước công dân',
-                  border: OutlineInputBorder(),
-                ),
+                labelText: 'Căn cước công dân',
+                keyboardType: TextInputType.number,
               ),
-              SizedBox(height: 10),
-              TextField(
+              const SizedBox(height: 16),
+              // Ô nhập Ngày sinh
+              InputTextField(
                 controller: dateOfBirthController,
-                decoration: InputDecoration(
-                  labelText: 'Ngày/tháng/năm sinh',
-                  border: OutlineInputBorder(),
-                ),
+                labelText: 'Ngày sinh',
+                hintText: 'DD/MM/YYYY',
                 readOnly: true,
-                onTap: () => _selectDate(context),
+                onTap: () => selectDate(context),
+                suffixIcon: const Icon(Icons.calendar_today_outlined),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 32),
+              // Nút Đăng ký
               ElevatedButton(
                 onPressed: () async {
                   await registerUser(context);
                 },
-                child: Text('Register'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.blue,
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12.0),
+                  ),
+                ),
+                child: const Text(
+                  'Đăng ký',
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 18),
+
+              Center(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    const Text("Đã có tài khoản? "),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/login');
+                      },
+                      child: const Text(
+                        'Đăng nhập',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ],
           ),

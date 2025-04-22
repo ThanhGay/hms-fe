@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 
 class ImageNetwork extends StatelessWidget {
-  final String imageUrl;
-  final double? height;
-  final double? width;
-  final BoxFit? fit;
-  final Color? errorIconColor;
-
   const ImageNetwork({
-    Key? key,
+    super.key,
     required this.imageUrl,
     this.height,
     this.width,
     this.fit = BoxFit.cover,
     this.errorIconColor,
-  }) : super(key: key);
+  });
+
+  final String imageUrl;
+  final double? height;
+  final double? width;
+  final BoxFit fit;
+  final Color? errorIconColor;
 
   @override
   Widget build(BuildContext context) {
