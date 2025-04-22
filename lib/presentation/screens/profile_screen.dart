@@ -18,6 +18,7 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   UserInformation? userData;
+  bool isLoading = true;
 
   @override
   void initState() {
@@ -34,10 +35,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
         userData = UserInformation.fromJson(jsonDecode(jsonData));
       });
     }
+
+    setState(() {
+      isLoading = false;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    if (isLoading) {
+      return Scaffold(
+        body: Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
+
     if (userData == null) {
       return ProfileDefault();
     } else {

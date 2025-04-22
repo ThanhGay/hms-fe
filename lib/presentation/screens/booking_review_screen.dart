@@ -315,13 +315,7 @@ class _BookingReviewScreenState extends State<BookingReviewScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      TextButton(
-                        onPressed: () {},
-                        child: Text(
-                          "Quay lại",
-                          style: TextStyle(color: Colors.black, fontSize: 16),
-                        ),
-                      ),
+                      SizedBox.shrink(),
                       ElevatedButton(
                         onPressed: () async {
                           // Navigator.pushNamed(context, '/payment');
