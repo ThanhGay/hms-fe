@@ -80,6 +80,8 @@ class _BookingReviewScreenState extends State<BookingReviewScreen> {
     ? formatNumber(roomDetail!.pricePerNight * selectedDateRange!.duration.inDays)
     : "0";
 
+    String cleaned = totalPrice.replaceAll('.', '').replaceAll(',', '');
+
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -334,7 +336,7 @@ class _BookingReviewScreenState extends State<BookingReviewScreen> {
                                 builder: (context) => BookingPaymentScreen(
                                   roomId: widget.roomId, // Truyền `roomDetail` đã có dữ liệu
                                   hotelId: widget.hotelId, 
-                                  totalPrice: totalPrice,
+                                  totalPrice: cleaned,
                                 ),
                               ),
                             );
