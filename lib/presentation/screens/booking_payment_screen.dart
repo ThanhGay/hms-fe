@@ -66,7 +66,7 @@ class _BookingPaymentScreenState extends State<BookingPaymentScreen> {
 
   Future<void> _createOrder(String value) async {
     int amount = int.parse(value);
-    if (amount < 1000 || amount > 1000000) {
+    if (amount < 1000 || amount > 100000000) {
       print("Invalid Amount");
     } else {
       showDialog(
@@ -191,8 +191,7 @@ class _BookingPaymentScreenState extends State<BookingPaymentScreen> {
                 ),
               ),
               child: Text(
-                "Thanh toán bằng VnPay - RoomID: ${widget.roomId}, "
-                "HotelID: ${widget.hotelId}, Tổng tiền: ${widget.totalPrice} VNĐ",
+                "Thanh toán bằng VnPay - RoomID",
                 style: TextStyle(color: Colors.black, fontSize: 16),
               ),
             ),
