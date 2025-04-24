@@ -1,4 +1,5 @@
 import 'package:android_hms/presentation/component/text_Poppins.dart';
+import 'package:android_hms/presentation/utils/toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
@@ -91,6 +92,10 @@ class _VoucherCardState extends State<VoucherCard> {
                           duration: const Duration(seconds: 2),
                         ),
                       );
+                      // showToast(
+                      //   msg: ("Đã sao chép mã: ${widget.code}"),
+                      //   backgroundColor: Colors.red,
+                      //   textColor: Colors.white);
                     },
                     icon: const Icon(Icons.copy),
                     label: const Text("Sao chép mã"),
