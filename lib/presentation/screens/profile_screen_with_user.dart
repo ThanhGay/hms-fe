@@ -1,3 +1,4 @@
+import 'package:android_hms/presentation/utils/toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -298,9 +299,13 @@ class DetailProfile extends StatelessWidget {
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text("Chức năng đang phát triển")),
-                );
+                showToast(
+                  msg: ("Chức năng đang phát triển"),
+                  backgroundColor: Colors.red,
+                  textColor: Colors.white);
+                // ScaffoldMessenger.of(context).showSnackBar(
+                //   SnackBar(content: Text("Chức năng đang phát triển")),
+                // );
               },
               child: Text("Chỉnh sửa"),
             ),
