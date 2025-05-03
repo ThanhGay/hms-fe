@@ -208,6 +208,10 @@ class _RoomDetailScreenState extends State<RoomDetailScreen> {
                     ],
                   ),
                 ),
+                
+
+
+
 
                 // Thanh đặt phòng
                 Container(
