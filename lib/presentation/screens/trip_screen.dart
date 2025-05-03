@@ -84,7 +84,7 @@ class _TripScreen extends State<TripScreen> {
                             ElevatedButton(
                               onPressed: () {
                                 Navigator.pushNamed(
-                                    context, '/home'); // Thay bằng route đúng
+                                    context, '/home'); 
                               },
                               child: Text("Khám phá"),
                             ),
