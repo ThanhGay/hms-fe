@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:android_hms/Entity/user.dart';
 import 'package:android_hms/presentation/component/appbar_custom.dart';
-import 'package:android_hms/presentation/component/chat_service.dart';
+import 'package:android_hms/core/services/chat_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -23,16 +23,22 @@ class _ChatScreen extends State<ChatScreen> {
     super.initState();
     checkLogin();
     SetConversationId();
+    makeAsSend();
+  }
+
+  Future<void> makeAsSend() async {
+    final prefs = await SharedPreferences.getInstance();
+    String? convId = prefs.getString('conversationId');
+    chatService.markMessagesAsRead(convId!);
   }
 
   Future<void> SetConversationId() async {
     final prefs = await SharedPreferences.getInstance();
-    String? jsonData = prefs.getString('user');
+    String? convId = prefs.getString('conversationId');
 
-    if (jsonData != null) {
+    if (convId != null) {
       setState(() {
-        conversationId =
-            "receptionist-${UserInformation.fromJson(jsonDecode(jsonData)).userId}";
+        conversationId = convId;
       });
       // Kiểm tra nếu conversationId không phải là rỗng
       if (conversationId.isNotEmpty) {
@@ -192,7 +198,10 @@ class _ChatScreen extends State<ChatScreen> {
                       if (isLoggedIn) {
                         // Chuyển sang trang khám phá
                         Navigator.pushNamed(
-                            context, '/home'); // Thay bằng route đúng
+                          context,
+                          '/home',
+                          arguments: {"initialTabIndex": 0},
+                        ); // Thay bằng route đúng
                       } else {
                         // Chuyển sang trang đăng nhập
                         Navigator.pushNamed(context, '/login');

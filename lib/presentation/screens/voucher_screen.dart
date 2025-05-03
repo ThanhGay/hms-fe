@@ -16,31 +16,42 @@ class _CouponScreen extends State<VoucherScreen> {
   List<Voucher> vouchers = [];
   bool isLoggedIn = false;
   bool isLoading = true;
+  String? errorMessage;
+
   @override
   void initState() {
-    // TODO: implement activate
     super.initState();
     checkLogin();
   }
 
   Future<void> checkLogin() async {
-    // Ví dụ: lấy token từ SharedPreferences
     final prefs = await SharedPreferences.getInstance();
-    final token = prefs.getString('token'); // hoặc từ Provider
+    final token = prefs.getString('token');
     if (token != null && token.isNotEmpty) {
       setState(() {
         isLoggedIn = true;
       });
-      ApiVoucher.getAllVoucher(context).then((data) {
+      try {
+        final data = await ApiVoucher.getAllVoucher(context);
         setState(() {
           isLoading = false;
           vouchers = data;
         });
-      }).catchError((e) {
-        isLoading = false;
+      } catch (err) {
+        setState(() {
+          isLoading = false;
+          errorMessage =
+              err is Map ? err['message'] : 'Đã xảy ra lỗi khi tải voucher.';
+        });
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Lỗi xảy ra khi: ${e['message']}')),
+          SnackBar(
+              content: Text('Lỗi xảy ra khi load vouchers: $errorMessage')),
         );
+      }
+    } else {
+      setState(() {
+        isLoggedIn = false;
+        isLoading = false;
       });
     }
   }
@@ -48,52 +59,87 @@ class _CouponScreen extends State<VoucherScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppbarCustom(title: "Thẻ giảm giá"),
-      body: isLoggedIn
-          ? Container(
+      appBar: const AppbarCustom(
+        title: "Thẻ giảm giá",
+      ),
+      body: Builder(
+        builder: (context) {
+          if (isLoading) {
+            return Container(
               alignment: Alignment.topCenter,
-              padding: EdgeInsets.all(20),
-              child: isLoading
-                  ? ListView.builder(
-                      itemCount: 3,
-                      itemBuilder: (context, index) {
-                        return Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 10),
-                            child: VoucherCardSkeleton());
-                      })
-                  : ListView.builder(
-                      itemCount: vouchers.length,
-                      itemBuilder: (context, index) {
-                        final voucher = vouchers[index];
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 10),
-                          child: VoucherCard(
-                              discount: "${voucher.percent}%",
-                              code: "${voucher.voucherId}",
-                              expiryDate: voucher.expDate),
-                        );
-                      },
-                    ),
-            )
-          : Center(
+              padding: const EdgeInsets.all(20),
+              child: ListView.builder(
+                  itemCount: 3,
+                  itemBuilder: (context, index) {
+                    return const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 10),
+                        child: VoucherCardSkeleton());
+                  }),
+            );
+          } else if (errorMessage != null) {
+            return Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    "Bạn chưa đăng nhập!",
-                    style: TextStyle(fontSize: 18, color: Colors.black),
+                    errorMessage!,
+                    style: const TextStyle(fontSize: 16, color: Colors.red),
+                    textAlign: TextAlign.center,
                   ),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
                   ElevatedButton(
                     onPressed: () {
-                      // Chuyển đến trang đăng nhập
-                      Navigator.pushNamed(context, '/login');
+                      checkLogin();
                     },
-                    child: Text("Đăng nhập"),
+                    child: const Text("Thử lại"),
                   ),
                 ],
               ),
-            ),
+            );
+          } else {
+            return Container(
+              alignment: Alignment.topCenter,
+              padding: const EdgeInsets.all(20),
+              child: isLoggedIn
+                  ? vouchers.isEmpty
+                      ? const Center(
+                          child: Text("Hiện tại không có thẻ giảm giá nào."),
+                        )
+                      : ListView.builder(
+                          itemCount: vouchers.length,
+                          itemBuilder: (context, index) {
+                            final voucher = vouchers[index];
+                            return Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 10),
+                              child: VoucherCard(
+                                  discount: "${voucher.percent}%",
+                                  code: "${voucher.voucherId}",
+                                  expiryDate: voucher.expDate),
+                            );
+                          },
+                        )
+                  : Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text(
+                            "Bạn chưa đăng nhập!",
+                            style: TextStyle(fontSize: 18, color: Colors.black),
+                          ),
+                          const SizedBox(height: 16),
+                          ElevatedButton(
+                            onPressed: () {
+                              Navigator.pushNamed(context, '/login');
+                            },
+                            child: const Text("Đăng nhập"),
+                          ),
+                        ],
+                      ),
+                    ),
+            );
+          }
+        },
+      ),
     );
   }
 }

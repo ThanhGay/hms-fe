@@ -6,19 +6,25 @@ import 'package:shared_preferences/shared_preferences.dart';
 final dio = Dio();
 
 class ApiLogin {
-  static Future<String> loginUser(String email, String password,String deviceToken ) async {
+  static Future<String> loginUser(
+      String email, String password, String deviceToken) async {
     Response response;
     const String url = "${APIConstants.api}login";
+    final prefs = await SharedPreferences.getInstance();
 
     try {
-      response =
-          await dio.post(url, data: {"email": email, "password": password,"deviceToken": deviceToken});
-
+      response = await dio.post(url, data: {
+        "email": email,
+        "password": password,
+        "deviceToken": prefs.getString("deviceToken")
+      });
+      print("toke longi ${prefs.getString("deviceToken")}");
       final data = response.data;
 
-      final prefs = await SharedPreferences.getInstance();
       final user = json.encode(data['user']);
 
+      prefs.setString(
+          "conversationId", "receptionist-${data['user']['userId']}");
       prefs.setString('user', user);
       prefs.setString('token', data['token']);
       prefs.setString('role', data['role']);

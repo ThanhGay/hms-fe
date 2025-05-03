@@ -14,25 +14,26 @@ class TripScreen extends StatefulWidget {
 }
 
 class _TripScreen extends State<TripScreen> {
-  bool isLoggedIn = false; // Thêm biến trạng thái
+  bool isLoggedIn = false;
   bool isLoading = true;
   List<MyBill> myBookings = [];
 
   @override
   void initState() {
     super.initState();
-    checkLogin(); // Kiểm tra đăng nhập
+    checkLogin();
   }
 
   Future<void> checkLogin() async {
-    // Ví dụ: lấy token từ SharedPreferences
     final prefs = await SharedPreferences.getInstance();
-    final token = prefs.getString('token'); // hoặc từ Provider
+    final token = prefs.getString('token');
     if (token != null && token.isNotEmpty) {
       print("Token: $token");
+
       setState(() {
         isLoggedIn = true;
       });
+
       ApiBill.myBooking(context).then((data) {
         setState(() {
           print("API trả về dữ liệu: ${data[0].rooms[0].roomImages}");
@@ -46,72 +47,78 @@ class _TripScreen extends State<TripScreen> {
           print("Lỗi khi gọi API: $e");
         });
       });
+    } else {
+      setState(() {
+        isLoggedIn = false;
+        isLoading = false;
+      });
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppbarCustom(title: "Chuyến đi"),
-      body: Container(
-        child: isLoggedIn
-            ? Container(
-                child: myBookings.isNotEmpty
+        appBar: AppbarCustom(title: "Chuyến đi"),
+        body: isLoading
+            ? ListView.builder(
+                itemCount: 3,
+                itemBuilder: (context, index) {
+                  return ReservationCardSkeleton();
+                })
+            : Container(
+                alignment: Alignment.topCenter,
+                padding: EdgeInsets.all(20),
+                child: isLoggedIn
                     ? Container(
-                        child: isLoading
+                        child: myBookings.isNotEmpty
                             ? ListView.builder(
-                                itemCount: 3,
-                                itemBuilder: (context, index) {
-                                  return ReservationCardSkeleton();
-                                })
-                            : ListView.builder(
                                 itemCount: myBookings.length,
                                 itemBuilder: (context, index) {
                                   return ReservationCard(
                                       bill: myBookings[index]);
                                 },
+                              )
+                            : Center(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      "Bạn chưa có chuyến đi nào!",
+                                      style: TextStyle(
+                                          fontSize: 18, color: Colors.black),
+                                    ),
+                                    SizedBox(height: 16),
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        Navigator.pushNamed(
+                                          context,
+                                          '/home',
+                                          arguments: {"initialTabIndex": 0},
+                                        );
+                                      },
+                                      child: Text("Khám phá"),
+                                    ),
+                                  ],
+                                ),
                               ))
                     : Center(
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              "Bạn chưa có chuyến đi nào!",
+                              "Bạn chưa đăng nhập!",
                               style:
                                   TextStyle(fontSize: 18, color: Colors.black),
                             ),
                             SizedBox(height: 16),
                             ElevatedButton(
                               onPressed: () {
-                                Navigator.pushNamed(
-                                    context, '/home'); 
+                                Navigator.pushNamed(context, '/login');
                               },
-                              child: Text("Khám phá"),
+                              child: Text("Đăng nhập"),
                             ),
                           ],
                         ),
-                      ),
-              )
-            : Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Bạn chưa đăng nhập!",
-                      style: TextStyle(fontSize: 18, color: Colors.black),
-                    ),
-                    SizedBox(height: 16),
-                    ElevatedButton(
-                      onPressed: () {
-                        // Chuyển đến trang đăng nhập
-                        Navigator.pushNamed(context, '/login');
-                      },
-                      child: Text("Đăng nhập"),
-                    ),
-                  ],
-                ),
-              ),
-      ),
-    );
+                      )));
   }
 }

@@ -22,27 +22,67 @@ class FavouriteScreen extends StatefulWidget {
 class _FavouriteScreen extends State<FavouriteScreen> {
   List<Room> rooms = [];
   List<Favourite> favoriteItems = [];
-  bool isLoggedIn = false; // Thêm biến trạng thái
+  bool isLoggedIn = false;
   bool isLoading = true;
+  String? errorMessage;
 
   @override
   void initState() {
     super.initState();
-    checkLogin(); // Kiểm tra đăng nhập
+    checkLogin();
   }
 
   Future<void> checkLogin() async {
-    // Ví dụ: lấy token từ SharedPreferences
     final prefs = await SharedPreferences.getInstance();
-    final token = prefs.getString('token'); // hoặc từ Provider
+    final token = prefs.getString('token');
     if (token != null && token.isNotEmpty) {
-      print("Không có token");
       setState(() {
         isLoggedIn = true;
       });
-      ApiFavourite.favourite(context).then((data) {
+      try {
+        await ApiFavourite.favourite(context);
+      } catch (e) {
+        setState(() {
+          errorMessage = "Không thể tải danh sách yêu thích.";
+        });
+        print("Lỗi tải danh sách yêu thích: $e");
+      } finally {
+        setState(() {
+          isLoading = false;
+        });
+      }
+    } else {
+      setState(() {
+        isLoggedIn = false;
         isLoading = false;
-      }).catchError((e) {
+      });
+    }
+  }
+
+  Future<void> _loadFavoriteRooms() async {
+    setState(() {
+      isLoading = true;
+      rooms = [];
+      errorMessage = null;
+    });
+    List<Room> tempRooms = [];
+    try {
+      for (var element in favoriteItems) {
+        Room? room = await ApiRoom.getRoomById(element.roomId);
+        if (room != null) {
+          tempRooms.add(room);
+        }
+      }
+      setState(() {
+        rooms = tempRooms;
+      });
+    } catch (e) {
+      setState(() {
+        errorMessage = "Không thể tải thông tin phòng yêu thích.";
+        print("Lỗi tải thông tin phòng yêu thích: $e");
+      });
+    } finally {
+      setState(() {
         isLoading = false;
       });
     }
@@ -52,24 +92,20 @@ class _FavouriteScreen extends State<FavouriteScreen> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     final proFavourite = Provider.of<FavouriteProvider>(context);
-    favoriteItems = proFavourite.favourite;
-
-    if (favoriteItems.isNotEmpty) {
-      List<Room> roomFav = [];
-      for (var element in favoriteItems) {
-        ApiRoom.getRoomById(element.roomId).then((data) {
-          print("object: ${data}");
-
-          roomFav.add(data!);
-          setState(() {
-            rooms = roomFav;
-          });
+    if (favoriteItems != proFavourite.favourite) {
+      favoriteItems = proFavourite.favourite;
+      if (isLoggedIn && favoriteItems.isNotEmpty) {
+        _loadFavoriteRooms();
+      } else if (!isLoggedIn) {
+        setState(() {
+          rooms = [];
+        });
+      } else {
+        setState(() {
+          rooms = [];
+          isLoading = false;
         });
       }
-    } else {
-      setState(() {
-        rooms = [];
-      });
     }
   }
 
@@ -80,17 +116,21 @@ class _FavouriteScreen extends State<FavouriteScreen> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(
+          icon: const Icon(
             Icons.chevron_left_rounded,
             color: Colors.black,
             size: 30,
           ),
           onPressed: () {
-            Navigator.pushNamed(context, '/home');
+            Navigator.pushNamed(
+              context,
+              '/home',
+              arguments: {"initialTabIndex": 0},
+            );
           },
         ),
-        title: Padding(
-          padding: const EdgeInsets.only(left: 8.0),
+        title: const Padding(
+          padding: EdgeInsets.only(left: 8.0),
           child: Text(
             "Danh sách yêu thích",
             style: TextStyle(
@@ -109,21 +149,34 @@ class _FavouriteScreen extends State<FavouriteScreen> {
             padding: const EdgeInsets.only(right: 16.0),
             child: PopupMenuButton<String>(
               tooltip: 'Chọn khách sạn',
-              offset: Offset(0, 50),
+              offset: const Offset(0, 50),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16),
               ),
               color: Colors.white,
               elevation: 8,
-              onSelected: (selectedHotel) {
-                ApiFavourite.favourite(
-                  context,
-                  selectedHotel.isEmpty ? '' : selectedHotel,
-                ).then((data) {
-                  setState(() {
-                    favoriteItems = data;
-                  });
+              onSelected: (selectedHotel) async {
+                setState(() {
+                  isLoading = true;
+                  favoriteItems = [];
+                  rooms = [];
+                  errorMessage = null;
                 });
+                try {
+                  await ApiFavourite.favourite(
+                    context,
+                    selectedHotel.isEmpty ? '' : selectedHotel,
+                  );
+                } catch (e) {
+                  setState(() {
+                    errorMessage = "Không thể lọc danh sách yêu thích.";
+                    print("Lỗi lọc danh sách yêu thích: $e");
+                  });
+                } finally {
+                  setState(() {
+                    isLoading = false;
+                  });
+                }
               },
               itemBuilder: (BuildContext context) {
                 return [
@@ -150,8 +203,8 @@ class _FavouriteScreen extends State<FavouriteScreen> {
                   color: Colors.blue.shade50,
                   shape: BoxShape.circle,
                 ),
-                padding: EdgeInsets.all(8),
-                child: Icon(
+                padding: const EdgeInsets.all(8),
+                child: const Icon(
                   Icons.filter_list_rounded,
                   color: Colors.blueAccent,
                   size: 24,
@@ -161,54 +214,90 @@ class _FavouriteScreen extends State<FavouriteScreen> {
           ),
         ],
       ),
-      body: isLoggedIn
-          ? Container(
-              child: isLoading
-                  ? ListView.builder(
-                      itemCount: 5,
-                      itemBuilder: (context, index) {
-                        return InfoRoomSkeleton();
-                      },
-                    )
-                  : ListView.builder(
-                      itemCount: rooms.length,
-                      itemBuilder: (context, index) {
-                        return GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => RoomDetailScreen(
-                                  roomId: rooms[index].roomId,
-                                  hotelId: rooms[index].hotelId,
-                                ),
-                              ),
-                            );
-                          },
-                          child: InfoRoom(room: rooms[index]),
-                        );
-                      },
-                    ),
-            )
-          : Center(
+      body: Builder(
+        builder: (context) {
+          if (isLoading) {
+            return ListView.builder(
+              itemCount: 5,
+              itemBuilder: (context, index) {
+                return const InfoRoomSkeleton();
+              },
+            );
+          } else if (errorMessage != null) {
+            return Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    "Bạn chưa đăng nhập!",
-                    style: TextStyle(fontSize: 18, color: Colors.black),
+                    errorMessage!,
+                    style: const TextStyle(fontSize: 16, color: Colors.red),
+                    textAlign: TextAlign.center,
                   ),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
                   ElevatedButton(
                     onPressed: () {
-                      // Chuyển đến trang đăng nhập
-                      Navigator.pushNamed(context, '/login');
+                      if (isLoggedIn) {
+                        _loadFavoriteRooms();
+                      } else {
+                        checkLogin();
+                      }
                     },
-                    child: Text("Đăng nhập"),
+                    child: const Text("Thử lại"),
                   ),
                 ],
               ),
-            ),
+            );
+          } else {
+            return Container(
+              alignment: Alignment.topCenter,
+              padding: const EdgeInsets.all(20),
+              child: isLoggedIn
+                  ? rooms.isEmpty
+                      ? const Center(
+                          child:
+                              Text("Danh sách yêu thích của bạn đang trống."),
+                        )
+                      : ListView.builder(
+                          itemCount: rooms.length,
+                          itemBuilder: (context, index) {
+                            return GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => RoomDetailScreen(
+                                      roomId: rooms[index].roomId,
+                                      hotelId: rooms[index].hotelId,
+                                    ),
+                                  ),
+                                );
+                              },
+                              child: InfoRoom(room: rooms[index]),
+                            );
+                          },
+                        )
+                  : Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text(
+                            "Bạn chưa đăng nhập!",
+                            style: TextStyle(fontSize: 18, color: Colors.black),
+                          ),
+                          const SizedBox(height: 16),
+                          ElevatedButton(
+                            onPressed: () {
+                              Navigator.pushNamed(context, '/login');
+                            },
+                            child: const Text("Đăng nhập"),
+                          ),
+                        ],
+                      ),
+                    ),
+            );
+          }
+        },
+      ),
     );
   }
 }

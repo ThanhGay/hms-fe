@@ -50,6 +50,11 @@ dependencies:
   crypto: ^3.0.6
   sprintf: ^7.0.0
   skeletonizer: ^1.4.3
+  app_links: ^6.4.0
+  firebase_messaging: ^15.2.5
+  badges: ^3.1.2
+  font_awesome_flutter: ^10.8.0
+  fluttertoast: ^8.2.12
 
 
 dev_dependencies:

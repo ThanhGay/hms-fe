@@ -17,7 +17,11 @@ class AppbarCustom extends StatelessWidget implements PreferredSizeWidget {
           ),
         ),
         onPressed: () {
-          Navigator.pushNamed(context, '/home'); // quay lại trang trước
+          Navigator.pushNamed(
+            context,
+            '/home',
+            arguments: {"initialTabIndex": 0},
+          ); // quay lại trang trước
         },
       ),
       title: Padding(

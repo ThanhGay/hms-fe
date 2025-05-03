@@ -14,13 +14,12 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   @override
   void initState() {
     super.initState();
-    checkLogin(); // Kiểm tra đăng nhập
+    checkLogin();
   }
 
   Future<void> checkLogin() async {
-    // Ví dụ: lấy token từ SharedPreferences
     final prefs = await SharedPreferences.getInstance();
-    final token = prefs.getString('token'); // hoặc từ Provider
+    final token = prefs.getString('token');
     if (token != null && token.isNotEmpty) {
       setState(() {
         isLoggedIn = true;
@@ -54,8 +53,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
             Padding(
-              padding: EdgeInsets.symmetric(
-                  horizontal: 20, vertical: 10), // Thêm padding bên ngoài
+              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               child: SizedBox(
                 width: 150,
                 height: 50,
@@ -63,13 +61,12 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   onPressed: () {
                     Navigator.pushNamed(context, '/login');
                   },
-                  child: Text('Login'),
+                  child: Text('Đăng nhập'),
                 ),
               ),
             ),
             Padding(
-              padding: EdgeInsets.symmetric(
-                  horizontal: 20, vertical: 10), // Thêm padding bên ngoài
+              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               child: SizedBox(
                 width: 150,
                 height: 50,
@@ -77,13 +74,12 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   onPressed: () {
                     Navigator.pushNamed(context, '/register');
                   },
-                  child: Text('Register'),
+                  child: Text('Đăng ký'),
                 ),
               ),
             ),
             Padding(
-              padding: EdgeInsets.symmetric(
-                  horizontal: 20, vertical: 10), // Thêm padding bên ngoài
+              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               child: SizedBox(
                 width: 150,
                 height: 50,
@@ -92,6 +88,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     Navigator.pushNamed(
                       context,
                       '/home',
+                      arguments: {"initialTabIndex": 0},
                     );
                   },
                   child: Text('Bỏ qua'),
