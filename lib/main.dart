@@ -3,7 +3,9 @@ import 'package:android_hms/presentation/screens/booking_option_sheet_screen.dar
 import 'package:android_hms/presentation/screens/booking_review_screen.dart';
 import 'package:android_hms/Data/favourite_provider.dart';
 import 'package:android_hms/Data/voucher_provider.dart';
+import 'package:android_hms/presentation/screens/otp_check_screen.dart';
 import 'package:android_hms/presentation/screens/room_detail_screen.dart';
+import 'package:android_hms/presentation/screens/vote_room_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -67,6 +69,11 @@ class MyApp extends StatelessWidget {
                 builder: (context) => HomeScreenBottom(
                       initialTabIndex: tabIndex,
                     ));
+          case '/vote_room':
+            final args = settings.arguments as Map<String, int>;
+            final roomId = args['roomId']!;
+            return MaterialPageRoute(
+                builder: (context) => VoteRoomScreen(roomId: roomId));
 
           case '/payment':
             if (settings.arguments is Map<String, dynamic>) {
@@ -77,15 +84,15 @@ class MyApp extends StatelessWidget {
               return MaterialPageRoute(
                 builder: (context) => BookingPaymentScreen(
                   roomId: roomId,
-                  hotelId: hotelId, 
+                  hotelId: hotelId,
                   totalPrice: totalPrice,
                 ),
               );
             }
             return null;
-            // return MaterialPageRoute(
+          // return MaterialPageRoute(
 
-            //     builder: (context) => BookingPaymentScreen());
+          //     builder: (context) => BookingPaymentScreen());
 
           case '/forgot-password':
             return MaterialPageRoute(
@@ -94,7 +101,7 @@ class MyApp extends StatelessWidget {
           case '/change-password':
             final args = settings.arguments as Map<String, String>;
             return MaterialPageRoute(
-              builder: (context) => ChangePasswordScreen(email: args['email']!),
+              builder: (context) => ChangePasswordScreen(email: args['email']!, otp: args['otp']!),
             );
 
           case '/booking_review':
@@ -110,7 +117,12 @@ class MyApp extends StatelessWidget {
               );
             }
             return null;
-
+          case '/otp-check':
+            final args = settings.arguments as Map<String, String>;
+            final email = args['email']!;
+            return MaterialPageRoute(
+              builder: (context) => OtpCheckScreen(email: email),
+            );
           case '/booking_option':
             return MaterialPageRoute(
                 builder: (context) => BookingOptionsSheet());
