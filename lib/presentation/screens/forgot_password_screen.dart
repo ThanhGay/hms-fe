@@ -1,6 +1,8 @@
+import 'package:android_hms/presentation/component/base/InputTextField.dart';
+import 'package:android_hms/presentation/screens/otp_check_screen.dart';
+import 'package:android_hms/presentation/themes/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:android_hms/core/services/Auth/api_sendOTP.dart';
-import 'change_password_screen.dart'; 
 
 class ForgotPasswordScreen extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
@@ -25,10 +27,10 @@ class ForgotPasswordScreen extends StatelessWidget {
       );
 
       Navigator.push(
-        context,
+     context,
         MaterialPageRoute(
-          builder: (context) => ChangePasswordScreen(email: email),
-        ),
+          builder: (context) =>OtpCheckScreen (email: email),
+        ),   
       );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -46,19 +48,31 @@ class ForgotPasswordScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            TextField(
+            InputTextField(
               controller: emailController,
-              decoration: InputDecoration(
-                labelText: 'Enter your email',
-                border: OutlineInputBorder(),
-              ),
+              labelText: 'Nhập email của bạn',
+              prefixIcon: Icon(Icons.email_outlined),
             ),
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () async {
                 await sendOTP(context);
               },
-              child: Text('Send OTP'),
+                  style: ElevatedButton.styleFrom(
+                  backgroundColor: ColorConstants.secondaryColor,
+                  padding: EdgeInsets.symmetric(vertical: 12, horizontal: 24),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(18.0),
+                  ),
+                ),
+                 child: Text(
+                  'Send OTP',
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
             ),
           ],
         ),
