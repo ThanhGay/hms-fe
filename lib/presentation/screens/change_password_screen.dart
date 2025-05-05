@@ -1,79 +1,34 @@
-import 'package:android_hms/presentation/component/base/InputTextField.dart';
-import 'package:android_hms/presentation/screens/login_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:android_hms/core/services/Auth/api_reset_password.dart';
+import 'package:android_hms/core/services/Auth/api_reset_password.dart'; 
 
-class ChangePasswordScreen extends StatefulWidget {
-  final String email;
-  final String otp;
-
-  const ChangePasswordScreen({Key? key, required this.email, required this.otp})
-      : super(key: key);
-
-  @override
-  _ChangePasswordScreenState createState() => _ChangePasswordScreenState();
-}
-
-class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
+class ChangePasswordScreen extends StatelessWidget {
+  final String email; 
+  final TextEditingController otpController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final TextEditingController confirmPasswordController =
-      TextEditingController();
 
-  bool obscurePassword = true;
-  bool obscureConfirmPassword = true;
+  ChangePasswordScreen({super.key, required this.email});
 
-  void togglePasswordVisibility() {
-    setState(() {
-      obscurePassword = !obscurePassword;
-    });
-  }
-
-  void toggleConfirmPasswordVisibility() {
-    setState(() {
-      obscureConfirmPassword = !obscureConfirmPassword;
-    });
-  }
-
-  Future<void> resetPassword() async {
+  Future<void> resetPassword(BuildContext context) async {
+    final otp = otpController.text;
     final password = passwordController.text;
-    final confirmPassword = confirmPasswordController.text;
 
-    if (password.isEmpty || confirmPassword.isEmpty) {
+    if (otp.isEmpty || password.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Vui lòng điền đầy đủ thông tin')),
+        SnackBar(content: Text('Please fill all fields')),
       );
       return;
     }
 
-    if (password != confirmPassword) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Mật khẩu không khớp')),
-      );
-      return;
-    }
-
-    final response = await ApiResetPassword.resetPassword(
-      widget.email,
-      widget.otp,
-      password,
-    );
+    final response = await ApiResetPassword.resetPassword(email, otp, password);
 
     if (response == 200) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-            content: Text('Đổi mật khẩu thành công! Vui lòng đăng nhập.')),
+        SnackBar(content: Text('Password changed successfully! Please login.')),
       );
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => LoginScreen(),
-        ),
-      );
-    } else if (response == 400) {
+      Navigator.pop(context); 
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-            content: Text('Đổi mật khẩu thất bại. Vui lòng thử lại.')),
+        SnackBar(content: Text('Failed to reset password. Please try again.')),
       );
     }
   }
@@ -81,42 +36,43 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Đổi mật khẩu')),
+      appBar: AppBar(title: Text('Reset Password')),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            InputTextField(
+            TextField(
+              controller: TextEditingController(text: email),
+              enabled: false, 
+              decoration: InputDecoration(
+                labelText: 'Email',
+                border: OutlineInputBorder(),
+              ),
+            ),
+            SizedBox(height: 10),
+            TextField(
+              controller: otpController,
+              decoration: InputDecoration(
+                labelText: 'Enter OTP',
+                border: OutlineInputBorder(),
+              ),
+            ),
+            SizedBox(height: 10),
+            TextField(
               controller: passwordController,
-              obscureText: obscurePassword,
-              labelText: 'Mật khẩu mới',
-              hintText: 'Nhập mật khẩu mới',
-              prefixIcon: const Icon(Icons.lock_outline),
-              suffixIcon: IconButton(
-                icon: Icon(
-                    obscurePassword ? Icons.visibility_off : Icons.visibility),
-                onPressed: togglePasswordVisibility,
+              decoration: InputDecoration(
+                labelText: 'New Password',
+                border: OutlineInputBorder(),
               ),
+              obscureText: true,
             ),
-            const SizedBox(height: 10),
-            InputTextField(
-              controller: confirmPasswordController,
-              obscureText: obscureConfirmPassword,
-              labelText: 'Xác nhận mật khẩu',
-              hintText: 'Nhập lại mật khẩu mới',
-              prefixIcon: const Icon(Icons.lock_outline),
-              suffixIcon: IconButton(
-                icon: Icon(obscureConfirmPassword
-                    ? Icons.visibility_off
-                    : Icons.visibility),
-                onPressed: toggleConfirmPasswordVisibility,
-              ),
-            ),
-            const SizedBox(height: 20),
+            SizedBox(height: 20),
             ElevatedButton(
-              onPressed: resetPassword,
-              child: const Text('Xác nhận'),
+              onPressed: () async {
+                await resetPassword(context);
+              },
+              child: Text('Confirm'),
             ),
           ],
         ),
