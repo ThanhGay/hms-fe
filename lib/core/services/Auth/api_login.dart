@@ -6,12 +6,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 final dio = Dio();
 
 class ApiLogin {
-  static Future<String> loginUser(
-      String email, String password, String deviceToken) async {
+  static Future<String> loginUser(String email, String password) async {
     Response response;
     const String url = "${APIConstants.api}login";
     final prefs = await SharedPreferences.getInstance();
-
+    print("toke longi ${prefs.getString("deviceToken")}");
+    print("${url}");
     try {
       response = await dio.post(url, data: {
         "email": email,
@@ -31,6 +31,7 @@ class ApiLogin {
 
       return "Success";
     } on DioException catch (e) {
+      print("ERROR: ${e}");
       return "${e.response} ";
     }
   }

@@ -101,7 +101,8 @@ class MyApp extends StatelessWidget {
           case '/change-password':
             final args = settings.arguments as Map<String, String>;
             return MaterialPageRoute(
-              builder: (context) => ChangePasswordScreen(email: args['email']!, otp: args['otp']!),
+              builder: (context) => ChangePasswordScreen(
+                  email: args['email']!, otp: args['otp']!),
             );
 
           case '/booking_review':

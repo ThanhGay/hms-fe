@@ -21,9 +21,8 @@ class _LoginScreenState extends State<LoginScreen> {
   Future<void> loginUser(BuildContext context) async {
     final email = emailController.text;
     final password = passwordController.text;
-    final devicetoken = deviceTokenController.text;
 
-    final response = await ApiLogin.loginUser(email, password, devicetoken);
+    final response = await ApiLogin.loginUser(email, password);
 
     if (response == "Success") {
       ScaffoldMessenger.of(context).showSnackBar(
