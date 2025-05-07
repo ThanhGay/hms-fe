@@ -40,16 +40,24 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
     final confirmPassword = confirmPasswordController.text;
 
     if (password.isEmpty || confirmPassword.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Vui lòng điền đầy đủ thông tin')),
-      );
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //   const SnackBar(content: Text('Vui lòng điền đầy đủ thông tin')),
+      // );
+      showToast(
+        msg: ('Vui lòng điền đầy đủ thông tin'),
+        backgroundColor: Colors.orange[400],
+        textColor: Colors.white);
       return;
     }
 
     if (password != confirmPassword) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Mật khẩu không khớp')),
-      );
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //   const SnackBar(content: Text('Mật khẩu không khớp')),
+      // );
+      showToast(
+        msg: ('Mật khẩu không khớp'),
+        backgroundColor: Colors.orange[400],
+        textColor: Colors.white);
       return;
     }
 
@@ -60,10 +68,14 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
     );
 
     if (response == 200) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-            content: Text('Đổi mật khẩu thành công! Vui lòng đăng nhập.')),
-      );
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //   const SnackBar(
+      //       content: Text('Đổi mật khẩu thành công! Vui lòng đăng nhập.')),
+      // );
+      showToast(
+        msg: ('Đổi mật khẩu thành công! Vui lòng đăng nhập.'),
+        backgroundColor: Colors.green[400],
+        textColor: Colors.white);
       Navigator.push(
         context,
         MaterialPageRoute(
