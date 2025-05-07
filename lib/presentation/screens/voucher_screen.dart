@@ -3,6 +3,7 @@ import 'package:android_hms/core/services/api_voucher.dart';
 import 'package:android_hms/presentation/component/appbar_custom.dart';
 import 'package:android_hms/presentation/component/skeletons/voucher_card_skeleton.dart';
 import 'package:android_hms/presentation/component/voucher_card.dart';
+import 'package:android_hms/presentation/utils/toast.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -43,10 +44,14 @@ class _CouponScreen extends State<VoucherScreen> {
           errorMessage =
               err is Map ? err['message'] : 'Đã xảy ra lỗi khi tải voucher.';
         });
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-              content: Text('Lỗi xảy ra khi load vouchers: $errorMessage')),
-        );
+        // ScaffoldMessenger.of(context).showSnackBar(
+        //   SnackBar(
+        //       content: Text('Lỗi xảy ra khi load vouchers: $errorMessage')),
+        // );
+        showToast(
+          msg: ('Lỗi xảy ra khi load vouchers: $errorMessage'),
+          backgroundColor: Colors.red[400],
+          textColor: Colors.white);
       }
     } else {
       setState(() {

@@ -1,5 +1,6 @@
 
 import 'package:android_hms/core/services/Auth/api_vnpay.dart';
+import 'package:android_hms/presentation/utils/toast.dart';
 import 'package:flutter/material.dart';
 import 'package:android_hms/presentation/component/payment.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -113,9 +114,14 @@ class _BookingPaymentScreenState extends State<BookingPaymentScreen> {
         );
       });
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Tạo đơn thanh toán thất bại!')),
-      );
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //   const SnackBar(content: Text('Tạo đơn thanh toán thất bại!')),
+      // );
+      showToast(
+        msg: ("Tạo đơn thanh toán thất bại!"),
+        backgroundColor: Colors.red,
+        textColor: Colors.white);
+
     }
   }
 

@@ -86,16 +86,16 @@ class _VoucherCardState extends State<VoucherCard> {
                   ElevatedButton.icon(
                     onPressed: () {
                       Clipboard.setData(ClipboardData(text: "${widget.code}"));
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text("Đã sao chép mã: ${widget.code}"),
-                          duration: const Duration(seconds: 2),
-                        ),
-                      );
-                      // showToast(
-                      //   msg: ("Đã sao chép mã: ${widget.code}"),
-                      //   backgroundColor: Colors.red,
-                      //   textColor: Colors.white);
+                      // ScaffoldMessenger.of(context).showSnackBar(
+                      //   SnackBar(
+                      //     content: Text("Đã sao chép mã: ${widget.code}"),
+                      //     duration: const Duration(seconds: 2),
+                      //   ),
+                      // );
+                      showToast(
+                        msg: ("Đã sao chép mã: ${widget.code}"),
+                        backgroundColor: Colors.green[400],
+                        textColor: Colors.white);
                     },
                     icon: const Icon(Icons.copy),
                     label: const Text("Sao chép mã"),

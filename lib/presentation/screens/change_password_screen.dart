@@ -1,5 +1,6 @@
 import 'package:android_hms/presentation/component/base/InputTextField.dart';
 import 'package:android_hms/presentation/screens/login_screen.dart';
+import 'package:android_hms/presentation/utils/toast.dart';
 import 'package:flutter/material.dart';
 import 'package:android_hms/core/services/Auth/api_reset_password.dart';
 
@@ -39,16 +40,24 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
     final confirmPassword = confirmPasswordController.text;
 
     if (password.isEmpty || confirmPassword.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Vui lòng điền đầy đủ thông tin')),
-      );
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //   const SnackBar(content: Text('Vui lòng điền đầy đủ thông tin')),
+      // );
+      showToast(
+        msg: ('Vui lòng điền đầy đủ thông tin'),
+        backgroundColor: Colors.orange[400],
+        textColor: Colors.white);
       return;
     }
 
     if (password != confirmPassword) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Mật khẩu không khớp')),
-      );
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //   const SnackBar(content: Text('Mật khẩu không khớp')),
+      // );
+      showToast(
+        msg: ('Mật khẩu không khớp'),
+        backgroundColor: Colors.orange[400],
+        textColor: Colors.white);
       return;
     }
 
@@ -59,10 +68,14 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
     );
 
     if (response == 200) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-            content: Text('Đổi mật khẩu thành công! Vui lòng đăng nhập.')),
-      );
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //   const SnackBar(
+      //       content: Text('Đổi mật khẩu thành công! Vui lòng đăng nhập.')),
+      // );
+      showToast(
+        msg: ('Đổi mật khẩu thành công! Vui lòng đăng nhập.'),
+        backgroundColor: Colors.green[400],
+        textColor: Colors.white);
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -71,10 +84,13 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
       );
     } else if (response == 400) {
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-            content: Text('Đổi mật khẩu thất bại. Vui lòng thử lại.')),
-      );
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //   SnackBar(content: Text('Failed to reset password. Please try again.')),
+      // );
+      showToast(
+        msg: ('Failed to reset password. Please try again.'),
+        backgroundColor: Colors.red[400],
+        textColor: Colors.white);
     }
   }
 
