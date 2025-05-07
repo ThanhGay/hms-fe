@@ -5,6 +5,7 @@ class AppTheme {
     return ThemeData(
       primaryColor: Colors.orange,
       scaffoldBackgroundColor: Colors.white,
+      fontFamily: 'Poppins',
     );
   }
 
@@ -12,6 +13,7 @@ class AppTheme {
     return ThemeData(
       primaryColor: Colors.grey[900],
       scaffoldBackgroundColor: Colors.black,
+      fontFamily: 'Poppins',
     );
   }
 }

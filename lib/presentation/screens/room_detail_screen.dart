@@ -1,9 +1,14 @@
 import 'package:android_hms/Data/favourite_provider.dart';
 import 'package:android_hms/Entity/hotel.dart';
+import 'package:android_hms/core/models/votes/vote_model.dart';
 import 'package:android_hms/core/services/api_favourite.dart';
 import 'package:android_hms/core/services/api_hotel.dart';
+import 'package:android_hms/core/services/api_view_vote.dart';
+import 'package:android_hms/presentation/component/base/InputTextField.dart';
 import 'package:android_hms/presentation/screens/booking_review_screen.dart';
+import 'package:android_hms/presentation/screens/vote_room_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import 'package:android_hms/presentation/utils/util.dart';
@@ -13,6 +18,7 @@ import 'package:android_hms/core/constants/api_constants.dart';
 import 'package:android_hms/Data/room_provider.dart';
 import 'package:android_hms/core/services/api_room.dart';
 import 'package:android_hms/Entity/room.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class RoomDetailScreen extends StatefulWidget {
   final int roomId;
@@ -28,7 +34,10 @@ class RoomDetailScreen extends StatefulWidget {
 class _RoomDetailScreenState extends State<RoomDetailScreen> {
   Room? roomDetail;
   Hotel? hotel;
+  VoteData? voteData;
+  final TextEditingController _reviewController = TextEditingController();
   bool isFavorite = false;
+  bool showAllReviews = false;
   DateTimeRange? selectedDateRange =
       DateTimeRange(start: DateTime.now(), end: DateTime.now());
 
@@ -40,6 +49,13 @@ class _RoomDetailScreenState extends State<RoomDetailScreen> {
       setState(() {
         hotel = data;
       });
+    });
+    ApiViewVote.viewVote(widget.roomId).then((data) {
+      if (data != null) {
+        setState(() {
+          voteData = data;
+        });
+      }
     });
   }
 
@@ -154,14 +170,22 @@ class _RoomDetailScreenState extends State<RoomDetailScreen> {
                                 Icon(Icons.star,
                                     color: Colors.orange, size: 20),
                                 SizedBox(width: 5),
-                                Text("4.94",
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold)),
+                                Text(
+                                  voteData != null
+                                      ? voteData!.value.toStringAsFixed(1)
+                                      : "Chưa có",
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold),
+                                ),
                                 SizedBox(width: 10),
-                                Text("67 đánh giá",
-                                    style: TextStyle(
-                                        fontSize: 14, color: Colors.blue[700])),
+                                Text(
+                                  voteData != null
+                                      ? "${voteData!.total} đánh giá"
+                                      : "Đang tải...",
+                                  style: TextStyle(
+                                      fontSize: 14, color: Colors.blue[700]),
+                                ),
                               ],
                             ),
                             Divider(height: 30),
@@ -201,7 +225,185 @@ class _RoomDetailScreenState extends State<RoomDetailScreen> {
                                     style: TextStyle(fontSize: 14)),
                               ],
                             ),
-                            SizedBox(height: 100),
+                            SizedBox(height: 20),
+                            Padding(
+                              padding: const EdgeInsets.all(2),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.grey.shade100,
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                child: SingleChildScrollView(
+                                  padding: const EdgeInsets.all(16),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Align(
+                                        alignment: Alignment.topRight,
+                                        child: TextButton(
+                                          onPressed: () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        VoteRoomScreen(
+                                                          roomId: widget.roomId,
+                                                        )));
+                                          },
+                                          child: Text('Đánh giá ngay',
+                                              style: TextStyle(
+                                                  color: Colors.blue[700],
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 14)),
+                                        ),
+                                      ),
+
+                                      Center(
+                                        child: Column(
+                                          children: [
+                                            Text(
+                                              voteData != null
+                                                  ? voteData!.value
+                                                      .toStringAsFixed(1)
+                                                  : "0.0",
+                                              style: const TextStyle(
+                                                  fontSize: 30,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                            const SizedBox(height: 4),
+                                            Text(
+                                              voteData != null &&
+                                                      voteData!.total > 0
+                                                  ? "Được khách yêu thích"
+                                                  : "Chưa có đánh giá",
+                                              style:
+                                                  const TextStyle(fontSize: 16),
+                                            ),
+                                            const SizedBox(height: 4),
+                                            Text(
+                                              voteData != null
+                                                  ? "${voteData!.total} đánh giá"
+                                                  : "",
+                                              style: const TextStyle(
+                                                  color: Colors.grey),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+
+                                      const SizedBox(height: 20),
+
+                                      // Danh sách bình luận
+                                      if (voteData != null &&
+                                          voteData!.detailReviews.isNotEmpty)
+                                        ...(showAllReviews
+                                                ? voteData!.detailReviews
+                                                : voteData!.detailReviews
+                                                    .take(2))
+                                            .map((review) => Padding(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(vertical: 10),
+                                                  child: Container(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            12),
+                                                    decoration: BoxDecoration(
+                                                      color: Colors.white,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              12),
+                                                      boxShadow: [
+                                                        BoxShadow(
+                                                          color: Colors.black12,
+                                                          blurRadius: 4,
+                                                          offset: Offset(0, 2),
+                                                        )
+                                                      ],
+                                                    ),
+                                                    child: Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        // Sao và thời gian
+                                                        Row(
+                                                          children: [
+                                                            Row(
+                                                              children:
+                                                                  List.generate(
+                                                                review.star,
+                                                                (index) => const Icon(
+                                                                    Icons.star,
+                                                                    size: 16,
+                                                                    color: Colors
+                                                                        .orange),
+                                                              ),
+                                                            ),
+                                                            const SizedBox(
+                                                                width: 10),
+                                                            Text(
+                                                              DateFormat(
+                                                                      'dd/MM/yyyy - HH:mm')
+                                                                  .format(review
+                                                                      .create),
+                                                              style: const TextStyle(
+                                                                  color: Colors
+                                                                      .grey,
+                                                                  fontSize: 12),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                        const SizedBox(
+                                                            height: 6),
+                                                        // Nội dung bình luận
+                                                        Text(
+                                                          review.commemt,
+                                                          style:
+                                                              const TextStyle(
+                                                                  fontSize: 14),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                )),
+                                      // Nút xem thêm / ẩn bớt
+
+                                      if (voteData != null &&
+                                          voteData!.detailReviews.length >= 3)
+                                        Center(
+                                          child: TextButton(
+                                            onPressed: () {
+                                              setState(() {
+                                                showAllReviews =
+                                                    !showAllReviews;
+                                              });
+                                            },
+                                            child: Column(
+                                              children: [
+                                                Text(
+                                                  showAllReviews
+                                                      ? 'Ẩn bớt bình luận'
+                                                      : 'Hiển thị tất cả bình luận',
+                                                  style: const TextStyle(
+                                                      fontSize: 14),
+                                                ),
+                                                Icon(
+                                                  showAllReviews
+                                                      ? Icons.keyboard_arrow_up
+                                                      : Icons
+                                                          .keyboard_arrow_down,
+                                                  size: 20,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
                           ],
                         ),
                       ),
