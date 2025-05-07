@@ -5,6 +5,7 @@ import 'package:android_hms/core/services/Bill/api_createPreBill.dart';
 import 'package:android_hms/core/services/api_room.dart';
 import 'package:android_hms/presentation/screens/booking_option_sheet_screen.dart';
 import 'package:android_hms/presentation/screens/booking_payment_screen.dart';
+import 'package:android_hms/presentation/utils/toast.dart';
 import 'package:android_hms/presentation/utils/util.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -345,13 +346,21 @@ class _BookingReviewScreenState extends State<BookingReviewScreen> {
                             //     'totalPrice': totalPrice,
                             //   },
                             // );
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text('Đặt phòng thành công')),
-                            );
+                            // ScaffoldMessenger.of(context).showSnackBar(
+                            //   SnackBar(content: Text('Đặt phòng thành công')),
+                            // );
+                            // showToast(
+                            //   msg: ("Đặt phòng thành công"),
+                            //   backgroundColor: Colors.green[400],
+                            //   textColor: Colors.white);
                           } else {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text(result)),
-                            );
+                            // ScaffoldMessenger.of(context).showSnackBar(
+                            //   SnackBar(content: Text(result)),
+                            // );
+                            showToast(
+                              msg: (result),
+                              backgroundColor: Colors.red[400],
+                              textColor: Colors.white);
                           }
                         },
                         style: ElevatedButton.styleFrom(

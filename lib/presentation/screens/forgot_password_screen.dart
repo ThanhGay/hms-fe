@@ -1,3 +1,4 @@
+import 'package:android_hms/presentation/utils/toast.dart';
 import 'package:flutter/material.dart';
 import 'package:android_hms/core/services/Auth/api_sendOTP.dart';
 import 'change_password_screen.dart'; 
@@ -11,19 +12,26 @@ class ForgotPasswordScreen extends StatelessWidget {
     final email = emailController.text;
 
     if (email.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Please enter your email')),
-      );
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //   SnackBar(content: Text('Please enter your email')),
+      // );
+      showToast(
+        msg: ('Please enter your email'),
+        backgroundColor: Colors.orange[400],
+        textColor: Colors.white);
       return;
     }
 
     final response = await ApiSendOTP.sendOtp(email);
 
     if (response == 200) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('OTP has been sent to your email!')),
-      );
-
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //   SnackBar(content: Text('OTP has been sent to your email!')),
+      // );
+      showToast(
+        msg: ('OTP has been sent to your email!'),
+        backgroundColor: Colors.green[400],
+        textColor: Colors.white);
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -31,9 +39,13 @@ class ForgotPasswordScreen extends StatelessWidget {
         ),
       );
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to send OTP. Please try again.')),
-      );
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //   SnackBar(content: Text('Failed to send OTP. Please try again.')),
+      // );
+      showToast(
+        msg: ('Failed to send OTP. Please try again.'),
+        backgroundColor: Colors.red[400],
+        textColor: Colors.white);
     }
   }
 

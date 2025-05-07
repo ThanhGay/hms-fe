@@ -10,7 +10,7 @@ Future<dynamic> showToast({
     msg: msg,
     toastLength: Toast.LENGTH_SHORT,
     fontSize: 16,
-    gravity: ToastGravity.BOTTOM,
+    gravity: ToastGravity.TOP,
     backgroundColor: backgroundColor ?? Colors.blue[100],
     textColor: textColor ?? Colors.white,
   );

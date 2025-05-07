@@ -1,3 +1,4 @@
+import 'package:android_hms/presentation/utils/toast.dart';
 import 'package:flutter/material.dart';
 import 'package:android_hms/core/services/Auth/api_reset_password.dart'; 
 
@@ -13,23 +14,36 @@ class ChangePasswordScreen extends StatelessWidget {
     final password = passwordController.text;
 
     if (otp.isEmpty || password.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Please fill all fields')),
-      );
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //   SnackBar(content: Text('Please fill all fields')),
+      // );
+      showToast(
+        msg: ('Please fill all fields'),
+        backgroundColor: Colors.orange[400],
+        textColor: Colors.white);
+      
       return;
     }
 
     final response = await ApiResetPassword.resetPassword(email, otp, password);
 
     if (response == 200) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Password changed successfully! Please login.')),
-      );
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //   SnackBar(content: Text('Password changed successfully! Please login.')),
+      // );
+      showToast(
+        msg: ('Password changed successfully! Please login.'),
+        backgroundColor: Colors.green[400],
+        textColor: Colors.white);
       Navigator.pop(context); 
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to reset password. Please try again.')),
-      );
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //   SnackBar(content: Text('Failed to reset password. Please try again.')),
+      // );
+      showToast(
+        msg: ('Failed to reset password. Please try again.'),
+        backgroundColor: Colors.red[400],
+        textColor: Colors.white);
     }
   }
 

@@ -18,9 +18,13 @@ class ProfileWithUser extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     void pending() {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Chức năng đang phát triển")),
-      );
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //   SnackBar(content: Text("Chức năng đang phát triển")),
+      // );
+      showToast(
+        msg: ("Chức năng đang phát triển"),
+        backgroundColor: Colors.orange[400],
+        textColor: Colors.white);
     }
 
     Future<void> logoutUser(BuildContext context) async {
@@ -47,25 +51,33 @@ class ProfileWithUser extends StatelessWidget {
         final statusCode = await ApiLogout.logoutUser();
 
         if (statusCode == "Success") {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text("Đăng xuất thành công!"),
-              backgroundColor: Colors.green,
-              duration: Duration(seconds: 1), // Hiển thị trong 1 giây
-            ),
-          );
+          // ScaffoldMessenger.of(context).showSnackBar(
+          //   SnackBar(
+          //     content: Text("Đăng xuất thành công!"),
+          //     backgroundColor: Colors.green,
+          //     duration: Duration(seconds: 1), // Hiển thị trong 1 giây
+          //   ),
+          // );
+          showToast(
+            msg: ("Đăng xuất thành công!"),
+            backgroundColor: Colors.green[400],
+            textColor: Colors.white);
 
           Future.delayed(Duration(seconds: 1), () {
             Navigator.pushNamedAndRemoveUntil(
                 context, '/login', (route) => false);
           });
         } else {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text("Đăng xuất thất bại! Vui lòng thử lại."),
-              backgroundColor: Colors.red,
-            ),
-          );
+          // ScaffoldMessenger.of(context).showSnackBar(
+          //   SnackBar(
+          //     content: Text("Đăng xuất thất bại! Vui lòng thử lại."),
+          //     backgroundColor: Colors.red,
+          //   ),
+          // );
+          showToast(
+            msg: ("Đăng xuất thất bại! Vui lòng thử lại."),
+            backgroundColor: Colors.orange[400],
+            textColor: Colors.white);
         }
       }
     }
@@ -301,11 +313,8 @@ class DetailProfile extends StatelessWidget {
               onPressed: () {
                 showToast(
                   msg: ("Chức năng đang phát triển"),
-                  backgroundColor: Colors.red,
+                  backgroundColor: Colors.orange,
                   textColor: Colors.white);
-                // ScaffoldMessenger.of(context).showSnackBar(
-                //   SnackBar(content: Text("Chức năng đang phát triển")),
-                // );
               },
               child: Text("Chỉnh sửa"),
             ),
