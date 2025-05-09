@@ -1,3 +1,4 @@
+import 'package:android_hms/presentation/utils/toast.dart';
 import 'package:flutter/material.dart';
 import 'package:android_hms/core/services/Auth/api_signUp.dart';
 import 'package:android_hms/presentation/component/base/InputTextField.dart';
@@ -75,21 +76,33 @@ class _SignupScreenState extends State<SignupScreen> {
       final response = await ApiSignup.signUp(email, password, firstName,
           lastName, phoneNumber, citizenIdentity, dateOfBirth);
       if (response == "Success") {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Đăng ký thành công!')),
-        );
+        // ScaffoldMessenger.of(context).showSnackBar(
+        //   const SnackBar(content: Text('Đăng ký thành công!')),
+        // );
+        showToast(
+          msg: ('Đăng ký thành công!'),
+          backgroundColor: Colors.green[400],
+          textColor: Colors.white);
         Navigator.pushNamed(context, '/login');
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-              content:
-                  Text('Đăng ký thất bại! ${response}, vui lòng thử lại!!!')),
-        );
+        // ScaffoldMessenger.of(context).showSnackBar(
+        //   SnackBar(
+        //       content:
+        //           Text('Đăng ký thất bại! ${response}, vui lòng thử lại!!!')),
+        // );
+        showToast(
+          msg: ('Đăng ký thất bại! ${response}, vui lòng thử lại!!!'),
+          backgroundColor: Colors.green[400],
+          textColor: Colors.white);
       }
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Mật khẩu không trùng nhau.')),
-      );
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //   const SnackBar(content: Text('Mật khẩu không trùng nhau.')),
+      // );
+        showToast(
+          msg: ('Mật khẩu không trùng nhau.'),
+          backgroundColor: Colors.orange[400],
+          textColor: Colors.white);
     }
   }
 

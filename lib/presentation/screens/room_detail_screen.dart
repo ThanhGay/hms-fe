@@ -368,7 +368,9 @@ class _RoomDetailScreenState extends State<RoomDetailScreen> {
                                                   ),
                                                 )),
                                       // Nút xem thêm / ẩn bớt
-                                      if (voteData!.detailReviews.length > 1)
+
+                                      if (voteData != null &&
+                                          voteData!.detailReviews.length >= 3)
                                         Center(
                                           child: TextButton(
                                             onPressed: () {

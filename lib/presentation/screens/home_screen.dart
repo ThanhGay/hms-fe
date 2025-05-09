@@ -174,6 +174,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         final room = rooms[roomIndex];
                         return GestureDetector(
                           onTap: () {
+                            print(
+                                "RooomId: ${room.roomId} hotelId: ${hotels[index].hotelId}");
                             Navigator.push(
                               context,
                               MaterialPageRoute(

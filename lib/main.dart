@@ -26,9 +26,9 @@ import 'firebase_options.dart';
 final navigatorKey = GlobalKey<NavigatorState>();
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  await NotificationService().initNotifiactions();
+  // WidgetsFlutterBinding.ensureInitialized();
+  // await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  // await NotificationService().initNotifiactions();
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (_) => HotelProvider()),
@@ -101,7 +101,8 @@ class MyApp extends StatelessWidget {
           case '/change-password':
             final args = settings.arguments as Map<String, String>;
             return MaterialPageRoute(
-              builder: (context) => ChangePasswordScreen(email: args['email']!, otp: args['otp']!),
+              builder: (context) => ChangePasswordScreen(
+                  email: args['email']!, otp: args['otp']!),
             );
 
           case '/booking_review':

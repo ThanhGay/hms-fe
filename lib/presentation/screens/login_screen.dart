@@ -1,3 +1,4 @@
+import 'package:android_hms/presentation/utils/toast.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:android_hms/core/services/Auth/api_login.dart';
@@ -21,23 +22,30 @@ class _LoginScreenState extends State<LoginScreen> {
   Future<void> loginUser(BuildContext context) async {
     final email = emailController.text;
     final password = passwordController.text;
-    final devicetoken = deviceTokenController.text;
 
-    final response = await ApiLogin.loginUser(email, password, devicetoken);
+    final response = await ApiLogin.loginUser(email, password);
 
     if (response == "Success") {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Đăng nhập thành công!')),
-      );
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //   SnackBar(content: Text('Đăng nhập thành công!')),
+      // );
+      showToast(
+        msg: ('Đăng nhập thành công!'),
+        backgroundColor: Colors.green[400],
+        textColor: Colors.white);
       Navigator.pushNamed(
         context,
         '/home',
         arguments: {"initialTabIndex": 0},
       );
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Đăng nhập thất bại!!!')),
-      );
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //   SnackBar(content: Text('Đăng nhập thất bại!!!')),
+      // );
+      showToast(
+        msg: ('Đăng nhập thất bại!!!'),
+        backgroundColor: Colors.red[400],
+        textColor: Colors.white);
     }
   }
 
