@@ -47,11 +47,14 @@ class _VoteRoomState extends State<VoteRoomScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text("Đánh giá thành công"),
-          duration: Duration(seconds: 2),
+          duration: Duration(seconds: 1),
         ),
       );
-      await Future.delayed(const Duration(seconds: 2));
-      Navigator.pop(context);
+      await Future.delayed(const Duration(seconds: 1));
+      Navigator.pop(context, {
+        'rating': rating,
+        'comment': _commentController.text,
+      });
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Đánh giá thất bại")),
