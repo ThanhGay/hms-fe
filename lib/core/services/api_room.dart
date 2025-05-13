@@ -9,7 +9,7 @@ final dio = Dio();
 
 class ApiRoom {
   static Future<List<Room>> dsRoom(
-    BuildContext context,
+    RoomProvider roomProvider,
     int hotelId, {
     required bool isLowHigh,
     required bool isHighLow,
@@ -24,6 +24,7 @@ class ApiRoom {
       print('isDoubleRoom: $isDoubleRoom');
       print('isSingleRoom: $isSingleRoom');
       print('search: $search');
+      
     Response response;
     final String url =
         "${APIConstants.api}api/room/all?hotelId=$hotelId&isHighLow=$isHighLow&isLowHigh=$isLowHigh&Search=$search&isDoubleRoom=$isDoubleRoom&isSingleRoom=$isSingleRoom";
@@ -37,7 +38,8 @@ class ApiRoom {
 
       rooms = allRoombyId.map((r) => Room.fromJson(r)).toList();
 
-      Provider.of<RoomProvider>(context, listen: false).setRooms(rooms);
+      // Cập nhật RoomProvider
+      roomProvider.setRooms(rooms);
 
       return rooms;
     } on DioException catch (e) {

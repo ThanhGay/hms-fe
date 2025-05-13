@@ -61,8 +61,12 @@ class _RoomDetailScreenState extends State<RoomDetailScreen> {
 
   Future<void> _fetchRoomDetail() async {
     try {
-      await ApiRoom.dsRoom(context, widget.hotelId, isLowHigh: false, isHighLow: false, isDoubleRoom: false, isSingleRoom: false);
+      // Lấy RoomProvider và FavouriteProvider trước khi gọi hàm async
       final roomProvider = Provider.of<RoomProvider>(context, listen: false);
+      final favouriteProvider = Provider.of<FavouriteProvider>(context, listen: false);
+
+      // Lấy danh sách phòng từ API
+      await ApiRoom.dsRoom(roomProvider, widget.hotelId, isLowHigh: false, isHighLow: false, isDoubleRoom: false, isSingleRoom: false);
       final favourite = Provider.of<FavouriteProvider>(context, listen: false);
       setState(() {
         roomDetail = roomProvider.room
