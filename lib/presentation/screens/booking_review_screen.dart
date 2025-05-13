@@ -78,8 +78,9 @@ class _BookingReviewScreenState extends State<BookingReviewScreen> {
     // int totalPrice =
     //     numberOfNights() * (widget.roomDetail.pricePerNight ?? 0).toInt();
     var totalPrice = (roomDetail != null && selectedDateRange != null)
-    ? formatNumber(roomDetail!.pricePerNight * selectedDateRange!.duration.inDays)
-    : "0";
+        ? formatCurrency(
+            roomDetail!.pricePerNight * selectedDateRange!.duration.inDays)
+        : "0";
 
     String cleaned = totalPrice.replaceAll('.', '').replaceAll(',', '');
 
@@ -335,8 +336,9 @@ class _BookingReviewScreenState extends State<BookingReviewScreen> {
                               context,
                               MaterialPageRoute(
                                 builder: (context) => BookingPaymentScreen(
-                                  roomId: widget.roomId, // Truyền `roomDetail` đã có dữ liệu
-                                  hotelId: widget.hotelId, 
+                                  roomId: widget
+                                      .roomId, // Truyền `roomDetail` đã có dữ liệu
+                                  hotelId: widget.hotelId,
                                   totalPrice: cleaned,
                                 ),
                               ),
@@ -358,9 +360,9 @@ class _BookingReviewScreenState extends State<BookingReviewScreen> {
                             //   SnackBar(content: Text(result)),
                             // );
                             showToast(
-                              msg: (result),
-                              backgroundColor: Colors.red[400],
-                              textColor: Colors.white);
+                                msg: (result),
+                                backgroundColor: Colors.red[400],
+                                textColor: Colors.white);
                           }
                         },
                         style: ElevatedButton.styleFrom(

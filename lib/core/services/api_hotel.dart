@@ -1,10 +1,11 @@
-import 'package:android_hms/Data/hotel_provider.dart';
-import 'package:android_hms/Entity/hotel.dart';
-import 'package:android_hms/core/constants/api_constants.dart';
-import 'package:android_hms/core/services/api_room.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import 'package:android_hms/core/constants/api_constants.dart';
+import 'package:android_hms/core/services/api_room.dart';
+import 'package:android_hms/Data/hotel_provider.dart';
+import 'package:android_hms/Entity/hotel.dart';
 
 final dio = Dio();
 
@@ -33,10 +34,9 @@ class ApiHotel {
     }
   }
 
-  static Future<Hotel> getHotelById(BuildContext context, int roomId) async {
+  static Future<Hotel> getHotelById(int roomId) async {
     Response response;
     final String url = "${APIConstants.api}api/hotel/get/$roomId";
-    print("url: ${url}");
     try {
       response = await dio.get(url);
 

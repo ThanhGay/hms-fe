@@ -1,34 +1,36 @@
-import 'package:android_hms/core/services/notification_service.dart';
-import 'package:android_hms/presentation/screens/booking_option_sheet_screen.dart';
-import 'package:android_hms/presentation/screens/booking_review_screen.dart';
-import 'package:android_hms/Data/favourite_provider.dart';
-import 'package:android_hms/Data/voucher_provider.dart';
-import 'package:android_hms/presentation/screens/otp_check_screen.dart';
-import 'package:android_hms/presentation/screens/room_detail_screen.dart';
-import 'package:android_hms/presentation/screens/vote_room_screen.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:android_hms/Data/hotel_provider.dart';
-import 'package:android_hms/Data/room_provider.dart';
+import 'firebase_options.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 import 'package:android_hms/presentation/themes/app_theme.dart';
-import 'package:android_hms/presentation/screens/welcome_screen.dart';
+import 'package:android_hms/core/services/notification_service.dart';
+
+import 'package:android_hms/Data/room_provider.dart';
+import 'package:android_hms/Data/hotel_provider.dart';
+import 'package:android_hms/Data/voucher_provider.dart';
+import 'package:android_hms/Data/favourite_provider.dart';
+
 import 'package:android_hms/presentation/screens/login_screen.dart';
 import 'package:android_hms/presentation/screens/signup_screen.dart';
+import 'package:android_hms/presentation/screens/welcome_screen.dart';
+import 'package:android_hms/presentation/screens/otp_check_screen.dart';
+import 'package:android_hms/presentation/screens/vote_room_screen.dart';
+import 'package:android_hms/presentation/screens/room_detail_screen.dart';
 import 'package:android_hms/presentation/screens/home_screen_bottom.dart';
+import 'package:android_hms/presentation/screens/booking_review_screen.dart';
 import 'package:android_hms/presentation/screens/forgot_password_screen.dart';
 import 'package:android_hms/presentation/screens/change_password_screen.dart';
 import 'package:android_hms/presentation/screens/booking_payment_screen.dart';
-import 'firebase_options.dart';
+import 'package:android_hms/presentation/screens/booking_option_sheet_screen.dart';
 
 final navigatorKey = GlobalKey<NavigatorState>();
 
 void main() async {
-  // WidgetsFlutterBinding.ensureInitialized();
-  // await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  // await NotificationService().initNotifiactions();
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await NotificationService().initNotifiactions();
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (_) => HotelProvider()),
@@ -56,6 +58,7 @@ class MyApp extends StatelessWidget {
         switch (settings.name) {
           case '/welcome_page':
             return MaterialPageRoute(builder: (_) => WelcomeScreen());
+
           case '/login':
             return MaterialPageRoute(builder: (context) => LoginScreen());
 
@@ -69,6 +72,7 @@ class MyApp extends StatelessWidget {
                 builder: (context) => HomeScreenBottom(
                       initialTabIndex: tabIndex,
                     ));
+
           case '/vote_room':
             final args = settings.arguments as Map<String, int>;
             final roomId = args['roomId']!;
@@ -90,9 +94,6 @@ class MyApp extends StatelessWidget {
               );
             }
             return null;
-          // return MaterialPageRoute(
-
-          //     builder: (context) => BookingPaymentScreen());
 
           case '/forgot-password':
             return MaterialPageRoute(
@@ -118,19 +119,18 @@ class MyApp extends StatelessWidget {
               );
             }
             return null;
+
           case '/otp-check':
             final args = settings.arguments as Map<String, String>;
             final email = args['email']!;
             return MaterialPageRoute(
               builder: (context) => OtpCheckScreen(email: email),
             );
+
           case '/booking_option':
             return MaterialPageRoute(
                 builder: (context) => BookingOptionsSheet());
-          // case '/chat_page':
-          //   final args = settings.arguments as Map<String, int>;
-          //   int? chatId = args['initialTabIndex'] ?? 0;
-          //   return MaterialPageRoute(builder: (context) => HomeScreenBottom(initialTabIndex: ,));
+
           case '/room_detail':
             if (settings.arguments is Map<String, int>) {
               final args = settings.arguments as Map<String, dynamic>;
@@ -145,6 +145,7 @@ class MyApp extends StatelessWidget {
               );
             }
             return null;
+
           default:
             return null;
         }

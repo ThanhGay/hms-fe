@@ -1,24 +1,23 @@
-import 'package:android_hms/Data/favourite_provider.dart';
-import 'package:android_hms/Entity/hotel.dart';
-import 'package:android_hms/core/models/votes/vote_model.dart';
-import 'package:android_hms/core/services/api_favourite.dart';
-import 'package:android_hms/core/services/api_hotel.dart';
-import 'package:android_hms/core/services/api_view_vote.dart';
-import 'package:android_hms/presentation/component/base/InputTextField.dart';
-import 'package:android_hms/presentation/screens/booking_review_screen.dart';
-import 'package:android_hms/presentation/screens/vote_room_screen.dart';
-import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:android_hms/presentation/utils/util.dart';
+import 'package:android_hms/core/models/votes/vote_model.dart';
+import 'package:android_hms/core/services/api_room.dart';
+import 'package:android_hms/core/services/api_hotel.dart';
+import 'package:android_hms/core/services/api_favourite.dart';
+import 'package:android_hms/core/services/api_view_vote.dart';
 import 'package:android_hms/core/constants/default.dart';
 import 'package:android_hms/core/constants/api_constants.dart';
 
+import 'package:android_hms/presentation/screens/booking_review_screen.dart';
+import 'package:android_hms/presentation/screens/vote_room_screen.dart';
+import 'package:android_hms/presentation/utils/util.dart';
+
 import 'package:android_hms/Data/room_provider.dart';
-import 'package:android_hms/core/services/api_room.dart';
+import 'package:android_hms/Data/favourite_provider.dart';
 import 'package:android_hms/Entity/room.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:android_hms/Entity/hotel.dart';
 
 class RoomDetailScreen extends StatefulWidget {
   final int roomId;
@@ -35,7 +34,6 @@ class _RoomDetailScreenState extends State<RoomDetailScreen> {
   Room? roomDetail;
   Hotel? hotel;
   VoteData? voteData;
-  final TextEditingController _reviewController = TextEditingController();
   bool isFavorite = false;
   bool showAllReviews = false;
   DateTimeRange? selectedDateRange =
@@ -45,7 +43,7 @@ class _RoomDetailScreenState extends State<RoomDetailScreen> {
   void initState() {
     super.initState();
     _fetchRoomDetail();
-    ApiHotel.getHotelById(context, widget.hotelId).then((data) {
+    ApiHotel.getHotelById(widget.hotelId).then((data) {
       setState(() {
         hotel = data;
       });
@@ -135,8 +133,8 @@ class _RoomDetailScreenState extends State<RoomDetailScreen> {
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
                             image: DecorationImage(
-                              image: AssetImage(
-                                  DefaultConstants().defaultImageRoom),
+                              image:
+                                  AssetImage(DefaultConstants.defaultImageRoom),
                               fit: BoxFit.cover,
                             ),
                           ),
@@ -193,7 +191,7 @@ class _RoomDetailScreenState extends State<RoomDetailScreen> {
                               children: [
                                 CircleAvatar(
                                   backgroundImage: AssetImage(
-                                      DefaultConstants().defaultImageHotel),
+                                      DefaultConstants.defaultImageHotel),
                                   radius: 25,
                                 ),
                                 SizedBox(width: 10),
@@ -427,7 +425,7 @@ class _RoomDetailScreenState extends State<RoomDetailScreen> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Text(
-                            "${formatNumber(roomDetail!.pricePerNight)} VNĐ / đêm",
+                            "${formatCurrency(roomDetail!.pricePerNight)} VNĐ / đêm",
                             style: TextStyle(
                                 fontSize: 18, fontWeight: FontWeight.bold),
                           ),

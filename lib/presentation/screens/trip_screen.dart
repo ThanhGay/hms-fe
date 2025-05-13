@@ -1,10 +1,12 @@
+import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 import 'package:android_hms/Entity/mybill.dart';
 import 'package:android_hms/core/services/Bill/api_myBooking.dart';
+
 import 'package:android_hms/presentation/component/appbar_custom.dart';
 import 'package:android_hms/presentation/component/reservation_card.dart';
 import 'package:android_hms/presentation/component/skeletons/reservation_card_skeleton.dart';
-import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class TripScreen extends StatefulWidget {
   const TripScreen({Key? key}) : super(key: key);
@@ -44,7 +46,7 @@ class _TripScreen extends State<TripScreen> {
       }).catchError((e) {
         setState(() {
           isLoading = false;
-          print("Lỗi khi gọi API: $e");
+          print("Lỗi khi gọi API my-booking: $e");
         });
       });
     } else {
@@ -67,7 +69,7 @@ class _TripScreen extends State<TripScreen> {
                 })
             : Container(
                 alignment: Alignment.topCenter,
-                padding: EdgeInsets.all(20),
+                padding: EdgeInsets.all(8),
                 child: isLoggedIn
                     ? Container(
                         child: myBookings.isNotEmpty

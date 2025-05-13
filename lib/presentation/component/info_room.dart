@@ -1,3 +1,4 @@
+import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 
 import 'package:android_hms/Entity/room.dart';
@@ -5,7 +6,6 @@ import 'package:android_hms/core/constants/api_constants.dart';
 
 import 'package:android_hms/presentation/component/skeletons/info_room_skeleton.dart';
 import 'package:android_hms/presentation/component/text_Poppins.dart';
-import 'package:intl/intl.dart';
 
 class InfoRoom extends StatelessWidget {
   final Room room;
@@ -18,8 +18,6 @@ class InfoRoom extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    // print('Room images: ${room.roomImages}');
     if (isLoading) {
       return const InfoRoomSkeleton(); // Hiển thị skeleton nếu isLoading là true
     }
@@ -35,7 +33,7 @@ class InfoRoom extends StatelessWidget {
       ),
       child: Card(
         elevation: 0,
-        margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+        margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
         color: Colors.white,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -99,7 +97,6 @@ class InfoRoom extends StatelessWidget {
                     size: 16,
                     weight: FontWeight.w500,
                   ),
-                  const SizedBox(height: 5),
                 ],
               ),
             ),

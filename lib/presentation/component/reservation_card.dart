@@ -1,20 +1,21 @@
-import 'package:android_hms/Entity/mybill.dart';
-import 'package:android_hms/core/constants/api_constants.dart';
-import 'package:flutter/material.dart';
+import 'dart:math' as math;
 import 'package:intl/intl.dart';
+import 'package:flutter/material.dart';
+import 'package:android_hms/core/constants/api_constants.dart';
+
+import 'package:android_hms/Entity/mybill.dart';
+import 'package:android_hms/presentation/component/base/ImageNetwork.dart';
+import 'package:android_hms/presentation/screens/trip_detail_screen.dart';
 
 class ReservationCard extends StatelessWidget {
   final MyBill bill;
 
-  const ReservationCard({
-    super.key,
-    required this.bill
-  });
+  const ReservationCard({super.key, required this.bill});
 
   String getMonthGapText() {
-    final now = DateTime.now();
-    final diff = bill.expectedCheckIn.difference(now).inDays ~/ 30;
-    return 'In ${diff > 0 ? diff : 0} month${diff > 1 ? 's' : ''}';
+    final diff = bill.expectedCheckOut.difference(bill.expectedCheckIn).inDays;
+    return 'Trong ${diff > 0 ? '$diff ' : ''}ngày';
+    // return 'In ${diff > 0 ? diff : 0} day${diff > 1 ? 's' : ''}';
   }
 
   @override
@@ -33,11 +34,11 @@ class ReservationCard extends StatelessWidget {
                   topLeft: Radius.circular(20),
                   topRight: Radius.circular(20),
                 ),
-                child: Image.network(
-                  APIConstants.api + bill.rooms[0].roomImages?[0]['imageURL'],
+                child: ImageNetwork(
+                  imageUrl: APIConstants.api +
+                      bill.rooms[0].roomImages?[0]['imageURL'],
                   height: 180,
                   width: double.infinity,
-                  fit: BoxFit.cover,
                 ),
               ),
               Positioned(
@@ -53,12 +54,33 @@ class ReservationCard extends StatelessWidget {
                   child: Text(
                     getMonthGapText(),
                     style: const TextStyle(
-                      fontWeight: FontWeight.bold,
                       color: Colors.black87,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
-              )
+              ),
+              Positioned(
+                  top: 24,
+                  right: -24,
+                  child: Transform.rotate(
+                    angle: math.pi / 4,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 24, vertical: 2),
+                      decoration: BoxDecoration(
+                          color: bill.status == "PreBooking"
+                              ? Colors.red
+                              : Colors.green),
+                      child: Text(
+                        bill.status,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                  )),
             ],
           ),
           Padding(
@@ -67,7 +89,7 @@ class ReservationCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  bill.rooms[0].roomName,
+                  'Phòng ${bill.rooms[0].roomName}',
                   style: const TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.w700,
@@ -117,20 +139,26 @@ class ReservationCard extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    Text(
-                      'Floor ${bill.rooms[0].floor}',
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  TripDetailScreen(billId: bill.billID),
+                            ));
+                      },
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.black),
+                      child: Text(
+                        'Xem',
+                        style: const TextStyle(
+                          fontSize: 16,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
                     ),
-                    // Text(
-                    //   country,
-                    //   style: TextStyle(
-                    //     color: Colors.grey[600],
-                    //     fontSize: 14,
-                    //   ),
-                    // ),
                   ],
                 )
               ],
