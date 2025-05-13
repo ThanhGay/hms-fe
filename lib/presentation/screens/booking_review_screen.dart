@@ -86,7 +86,7 @@ class _BookingReviewScreenState extends State<BookingReviewScreen> {
   }
 
   void _showPriceDetailsDialog() {
-    final totalPrice = formatNumber(
+    final totalPrice = formatCurrency(
         roomDetail!.pricePerNight * selectedDateRange!.duration.inDays);
     showDialog(
       context: context,
@@ -113,7 +113,7 @@ class _BookingReviewScreenState extends State<BookingReviewScreen> {
                 SizedBox(height: 16),
                 // Thêm chi tiết giá vào đây
                 Text(
-                  "Giá mỗi đêm: ${formatNumber(roomDetail!.pricePerNight)} VNĐ",
+                  "Giá mỗi đêm: ${formatCurrency(roomDetail!.pricePerNight)} VNĐ",
                   style: TextStyle(fontSize: 16),
                 ),
                 SizedBox(height: 8),
