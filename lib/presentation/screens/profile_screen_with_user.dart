@@ -1,12 +1,14 @@
-import 'package:android_hms/presentation/utils/toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:android_hms/Entity/user.dart';
 import 'package:android_hms/core/constants/default.dart';
 import 'package:android_hms/core/services/Auth/api_logout.dart';
-import 'package:android_hms/presentation/component/info_card.dart';
+
+import 'package:android_hms/presentation/utils/toast.dart';
 import 'package:android_hms/presentation/component/section_title.dart';
+import 'package:android_hms/presentation/screens/detail_profile_screen.dart';
 
 class ProfileWithUser extends StatelessWidget {
   final UserInformation user;
@@ -22,9 +24,9 @@ class ProfileWithUser extends StatelessWidget {
       //   SnackBar(content: Text("Chức năng đang phát triển")),
       // );
       showToast(
-        msg: ("Chức năng đang phát triển"),
-        backgroundColor: Colors.orange[400],
-        textColor: Colors.white);
+          msg: ("Chức năng đang phát triển"),
+          backgroundColor: Colors.orange[400],
+          textColor: Colors.white);
     }
 
     Future<void> logoutUser(BuildContext context) async {
@@ -48,36 +50,26 @@ class ProfileWithUser extends StatelessWidget {
           false;
 
       if (confirm) {
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.clear();
+
         final statusCode = await ApiLogout.logoutUser();
 
         if (statusCode == "Success") {
-          // ScaffoldMessenger.of(context).showSnackBar(
-          //   SnackBar(
-          //     content: Text("Đăng xuất thành công!"),
-          //     backgroundColor: Colors.green,
-          //     duration: Duration(seconds: 1), // Hiển thị trong 1 giây
-          //   ),
-          // );
           showToast(
-            msg: ("Đăng xuất thành công!"),
-            backgroundColor: Colors.green[400],
-            textColor: Colors.white);
+              msg: ("Đăng xuất thành công!"),
+              backgroundColor: Colors.green[400],
+              textColor: Colors.white);
 
           Future.delayed(Duration(seconds: 1), () {
             Navigator.pushNamedAndRemoveUntil(
                 context, '/login', (route) => false);
           });
         } else {
-          // ScaffoldMessenger.of(context).showSnackBar(
-          //   SnackBar(
-          //     content: Text("Đăng xuất thất bại! Vui lòng thử lại."),
-          //     backgroundColor: Colors.red,
-          //   ),
-          // );
           showToast(
-            msg: ("Đăng xuất thất bại! Vui lòng thử lại."),
-            backgroundColor: Colors.orange[400],
-            textColor: Colors.white);
+              msg: ("Đăng xuất thất bại! Vui lòng thử lại."),
+              backgroundColor: Colors.orange[400],
+              textColor: Colors.white);
         }
       }
     }
@@ -95,14 +87,14 @@ class ProfileWithUser extends StatelessWidget {
                 leading: CircleAvatar(
                   radius: 50,
                   backgroundImage:
-                      AssetImage(DefaultConstants().defaultAvatarUser),
+                      AssetImage(DefaultConstants.defaultAvatarUser),
                 ),
                 title: Text(
                   user.lastName,
                   style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20),
                 ),
                 subtitle: Text(
-                  'Show profile',
+                  'Xem chi tiết',
                   style: TextStyle(color: Colors.grey.shade500),
                 ),
                 trailing: Icon(Icons.arrow_forward_ios_rounded),
@@ -260,63 +252,6 @@ class ProfileWithUser extends StatelessWidget {
                   Divider(),
                 ],
               ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class DetailProfile extends StatelessWidget {
-  const DetailProfile({
-    super.key,
-    required this.user,
-  });
-
-  final UserInformation user;
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Detail profile"),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            // CircleAvatar(
-            //   radius: 50,
-            //   backgroundImage: NetworkImage(user.avatarUrl),
-            // ),
-            SizedBox(height: 16),
-            InfoCard(
-              icon: Icons.person,
-              title: "Họ và Tên",
-              value: '${user.firstName} ${user.lastName}',
-            ),
-            InfoCard(
-                icon: Icons.cake,
-                title: "Tuổi",
-                value:
-                    (DateTime.now().year - user.dateOfBirth.year).toString()),
-            InfoCard(
-                icon: Icons.location_on,
-                title: "Địa chỉ",
-                value: user.citizenIdentity),
-            InfoCard(
-                icon: Icons.phone, title: "Phone", value: user.phoneNumber),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                showToast(
-                  msg: ("Chức năng đang phát triển"),
-                  backgroundColor: Colors.orange,
-                  textColor: Colors.white);
-              },
-              child: Text("Chỉnh sửa"),
             ),
           ],
         ),
