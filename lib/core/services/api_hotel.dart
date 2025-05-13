@@ -9,7 +9,14 @@ import 'package:provider/provider.dart';
 final dio = Dio();
 
 class ApiHotel {
-  static Future<List<Hotel>> dsHotel(BuildContext context) async {
+  static Future<List<Hotel>> dsHotel(
+    BuildContext context, {
+    String keyword = '',
+    bool lowToHigh = false,
+    bool highToLow = false,
+    bool doubleRoom = false,
+    bool singleRoom = false,
+  }) async {
     Response response;
     const String url = "${APIConstants.api}api/hotel/all";
     List<Hotel> hotels = [];
@@ -21,7 +28,12 @@ class ApiHotel {
 
       hotels = allHotel.map((h) => Hotel.fromJson(h)).toList();
       for (var hotel in hotels) {
-        final rooms = await ApiRoom.dsRoom(context, hotel.hotelId);
+        final rooms = await ApiRoom.dsRoom(context, hotel.hotelId, 
+            isLowHigh: lowToHigh,
+            isHighLow: highToLow,
+            isDoubleRoom: doubleRoom,
+            isSingleRoom: singleRoom,
+            search: keyword);
         hotel.rooms = rooms;
       }
       Provider.of<HotelProvider>(context, listen: false).setHotels(hotels);

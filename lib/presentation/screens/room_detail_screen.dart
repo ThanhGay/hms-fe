@@ -61,7 +61,7 @@ class _RoomDetailScreenState extends State<RoomDetailScreen> {
 
   Future<void> _fetchRoomDetail() async {
     try {
-      await ApiRoom.dsRoom(context, widget.hotelId);
+      await ApiRoom.dsRoom(context, widget.hotelId, isLowHigh: false, isHighLow: false, isDoubleRoom: false, isSingleRoom: false);
       final roomProvider = Provider.of<RoomProvider>(context, listen: false);
       final favourite = Provider.of<FavouriteProvider>(context, listen: false);
       setState(() {
