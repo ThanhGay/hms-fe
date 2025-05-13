@@ -8,6 +8,7 @@ import 'package:android_hms/presentation/component/text_Poppins.dart';
 import 'package:android_hms/presentation/screens/room_detail_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:android_hms/presentation/component/searchOverlay.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -55,26 +56,69 @@ class _HomeScreenState extends State<HomeScreen> {
         const SizedBox(height: 30),
 
         // Thanh tìm kiếm
-        Padding(
-          padding: const EdgeInsets.all(10.0),
+        // Thanh tìm kiếm
+      Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: GestureDetector(
+          onTap: () {
+            showDialog(
+              context: context,
+              barrierDismissible: false,
+              useSafeArea: false,
+              builder: (context) => SearchOverlay(
+                onSearch: ({
+                  required bool lowToHigh,
+                  required bool highToLow,
+                  required bool doubleRoom,
+                  required bool singleRoom,
+                  required String keyword,
+                }) async {
+                  setState(() {
+                    isLoading = true;
+                  });
+
+                  final newHotels = await ApiHotel.dsHotel(
+                    context,
+                    keyword: keyword,
+                    lowToHigh: lowToHigh,
+                    highToLow: highToLow,
+                    doubleRoom: doubleRoom,
+                    singleRoom: singleRoom,
+                  );
+
+                  setState(() {
+                    hotels = newHotels;
+                    selectedExploreTabIndex = 0;
+                    roomList = newHotels.isNotEmpty ? newHotels[0].rooms : [];
+                    isLoading = false;
+                  });
+                },
+              ),
+            );
+          },
           child: Material(
-            elevation: 5, // Độ cao (bóng)
-            borderRadius: BorderRadius.circular(30), // Bo góc
-            shadowColor: Colors.black.withOpacity(0.9), // Màu bóng
-            child: TextField(
-              decoration: InputDecoration(
-                filled: true, // Đổ màu nền
-                fillColor: Colors.white, // Màu nền
-                prefixIcon: const Icon(Icons.search),
-                hintText: 'Bắt đầu tìm kiếm',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(30),
-                  borderSide: BorderSide.none, // Ẩn viền ngoài
-                ),
+            elevation: 5,
+            borderRadius: BorderRadius.circular(30),
+            shadowColor: Colors.black.withOpacity(0.9),
+            child: Container(
+              height: 50,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(30),
+              ),
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              alignment: Alignment.centerLeft,
+              child: Row(
+                children: const [
+                  Icon(Icons.search, color: Colors.grey),
+                  SizedBox(width: 10),
+                  Text('Bắt đầu tìm kiếm', style: TextStyle(color: Colors.grey)),
+                ],
               ),
             ),
           ),
         ),
+      ),
 
         // const Divider(height: 1, color: Colors.grey),
 

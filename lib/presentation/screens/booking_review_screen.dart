@@ -1,10 +1,13 @@
 import 'package:android_hms/Entity/room.dart';
 import 'package:android_hms/core/constants/api_constants.dart';
 import 'package:android_hms/core/models/bill/ICreatePreBooking.dart';
+import 'package:android_hms/core/models/votes/vote_model.dart';
 import 'package:android_hms/core/services/Bill/api_createPreBill.dart';
 import 'package:android_hms/core/services/api_room.dart';
+import 'package:android_hms/core/services/api_view_vote.dart';
 import 'package:android_hms/presentation/screens/booking_option_sheet_screen.dart';
 import 'package:android_hms/presentation/screens/booking_payment_screen.dart';
+import 'package:android_hms/presentation/screens/policy_screen.dart';
 import 'package:android_hms/presentation/utils/toast.dart';
 import 'package:android_hms/presentation/utils/util.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +26,7 @@ class BookingReviewScreen extends StatefulWidget {
 
 class _BookingReviewScreenState extends State<BookingReviewScreen> {
   Room? roomDetail;
+  VoteData? voteData;
   DateTimeRange? selectedDateRange =
       DateTimeRange(start: DateTime.now(), end: DateTime.now());
   int adults = 1;
@@ -38,10 +42,18 @@ class _BookingReviewScreenState extends State<BookingReviewScreen> {
         roomDetail = data;
       });
     });
+    ApiViewVote.viewVote(widget.roomId).then((data) {
+      if (data != null) {
+        setState(() {
+          voteData = data;
+        });
+      }
+    });
   }
 
-  String formatedDateNow =
-      DateFormat('EEE, MMMM dd', 'en-US').format(DateTime.now());
+  String formatDateTime() {
+    return "${DateFormat('dd/MM').format(selectedDateRange!.start)} - ${DateFormat('dd/MM').format(selectedDateRange!.end)}";
+  }
 
   void _openBookingOptions() async {
     // Mở popup và chờ kết quả trả về
@@ -71,6 +83,77 @@ class _BookingReviewScreenState extends State<BookingReviewScreen> {
         pets = result['pets'];
       });
     }
+  }
+
+  void _showPriceDetailsDialog() {
+    final totalPrice = formatNumber(
+        roomDetail!.pricePerNight * selectedDateRange!.duration.inDays);
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16.0),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Center(
+                  child: Text(
+                    "Chi tiết giá",
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                SizedBox(height: 16),
+                // Thêm chi tiết giá vào đây
+                Text(
+                  "Giá mỗi đêm: ${formatNumber(roomDetail!.pricePerNight)} VNĐ",
+                  style: TextStyle(fontSize: 16),
+                ),
+                SizedBox(height: 8),
+                Text(
+                  "Số đêm: ${selectedDateRange!.duration.inDays}",
+                  style: TextStyle(fontSize: 16),
+                ),
+                SizedBox(height: 8),
+                Text(
+                  "Tổng cộng: $totalPrice VNĐ",
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(height: 16),
+                // Nút đóng
+                Align(
+                  alignment: Alignment.center,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.pop(context); // Đóng dialog
+                    },
+                    style: ElevatedButton.styleFrom(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
+                    child: Text(
+                      "Đóng",
+                      style:
+                          TextStyle(color: Colors.orangeAccent, fontSize: 16),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
   }
 
   @override
@@ -154,12 +237,32 @@ class _BookingReviewScreenState extends State<BookingReviewScreen> {
                                       child: Row(
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
-                                          Icon(Icons.star,
-                                              color: Colors.orange, size: 18),
-                                          SizedBox(width: 4),
-                                          Text(
-                                            "4,83 (111)",
-                                            style: TextStyle(fontSize: 14),
+                                          Row(
+                                            children: [
+                                              Icon(Icons.star,
+                                                  color: Colors.orange,
+                                                  size: 20),
+                                              SizedBox(width: 5),
+                                              Text(
+                                                voteData != null
+                                                    ? voteData!.value
+                                                        .toStringAsFixed(1)
+                                                    : "Chưa có",
+                                                style: TextStyle(
+                                                    fontSize: 16,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                              SizedBox(width: 10),
+                                              Text(
+                                                voteData != null
+                                                    ? "${voteData!.total} đánh giá"
+                                                    : "Đang tải...",
+                                                style: TextStyle(
+                                                    fontSize: 14,
+                                                    color: Colors.blue[700]),
+                                              ),
+                                            ],
                                           ),
                                         ],
                                       ),
@@ -193,7 +296,7 @@ class _BookingReviewScreenState extends State<BookingReviewScreen> {
                                     ),
                                   ),
                                   Text(
-                                    formatedDateNow,
+                                    formatDateTime(),
                                     style: TextStyle(
                                       fontSize: 14,
                                       color: Colors.grey[600],
@@ -260,7 +363,7 @@ class _BookingReviewScreenState extends State<BookingReviewScreen> {
                                 ],
                               ),
                               TextButton(
-                                onPressed: () {},
+                                onPressed: _showPriceDetailsDialog,
                                 style: TextButton.styleFrom(
                                   padding: EdgeInsets.symmetric(
                                       vertical: 8, horizontal: 12),
@@ -287,29 +390,39 @@ class _BookingReviewScreenState extends State<BookingReviewScreen> {
 
                           // Price note
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "Đặt phòng/đặt chỗ này không được hoàn tiền.",
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                      color: Colors.grey[600],
-                                    ),
-                                  ),
-                                  Text(
-                                    "Thay đổi chính sách",
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                      color: Colors.blue[600],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          )
+  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  children: [
+    Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          "Đặt phòng/đặt chỗ này không được hoàn tiền.",
+          style: TextStyle(
+            fontSize: 14,
+            color: Colors.grey[600],
+          ),
+        ),
+        GestureDetector(
+          onTap: () {
+            // Chuyển sang màn hình chính sách khi người dùng nhấn vào "Xem chính sách"
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => PolicyScreen()),
+            );
+          },
+          child: Text(
+            "Xem chính sách",
+            style: TextStyle(
+              fontSize: 14,
+              color: Colors.blue[600],
+            ),
+          ),
+        ),
+      ],
+    ),
+  ],
+)
+
                         ],
                       ),
                     ),

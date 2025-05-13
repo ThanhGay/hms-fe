@@ -78,7 +78,8 @@ class NotificationService {
     final fCMToken = await _fcm.getToken();
     final prefs = await SharedPreferences.getInstance();
     prefs.setString('deviceToken', fCMToken!);
-    print("Token: ${fCMToken}");
+    print("Token device: ${fCMToken}");
+    print("Token device2: ${prefs.getString("deviceToken")}");
     initPushNotifications();
     // initLocalNotifications();
   }

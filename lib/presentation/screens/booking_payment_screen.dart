@@ -23,39 +23,7 @@ class BookingPaymentScreen extends StatefulWidget {
 }
 
 class _BookingPaymentScreenState extends State<BookingPaymentScreen> {
-  // StreamSubscription? _sub; // Biến để theo dõi luồng deeplink
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   _handleIncomingLinks(); // Lắng nghe deeplink khi widget được tạo
-  // }
-
-  // // Hàm lắng nghe deeplink quay về từ VNPay
-  // void _handleIncomingLinks() {
-  //   _sub = linkStream.listen((String? link) {
-  //     if (link != null) {
-  //       print("🔗 Nhận deeplink: $link");
-
-  //       Uri uri = Uri.parse(link);
-
-  //       // Ví dụ: androidhms://payment-success
-  //       if (uri.scheme == "androidhms" && uri.host == "payment-success") {
-  //         _showSuccessDialog();
-  //       }
-  //     }
-  //   }, onError: (err) {
-  //     print("❌ Lỗi khi nhận deeplink: $err");
-  //   });
-  // }
-
-  // @override
-  // void dispose() {
-  //   _sub?.cancel(); // Hủy lắng nghe khi widget bị huỷ
-  //   super.dispose();
-  // }
-
-  // String payAmount = widget.totalPrice;
   Future<void> _openOrderUrl(String url) async {
     final uri = Uri.parse(url);
     if (await canLaunchUrl(uri)) {
@@ -154,7 +122,13 @@ class _BookingPaymentScreenState extends State<BookingPaymentScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return WillPopScope(
+      onWillPop: () async {
+        Navigator.pop(context); // Lùi 1 lần
+        Navigator.pop(context); // Lùi thêm 1 lần nữa
+        return false; // Ngăn Flutter pop mặc định
+      },
+      child: Scaffold(
       appBar: AppBar(
         title: const Text("Thanh toán"),
         centerTitle: true,
@@ -197,49 +171,19 @@ class _BookingPaymentScreenState extends State<BookingPaymentScreen> {
                 ),
               ),
               child: Text(
-                "Thanh toán bằng VnPay - RoomID",
+                "  Thanh toán bằng VnPay  ",
                 style: TextStyle(color: Colors.black, fontSize: 16),
               ),
             ),
             const Spacer(), // Đẩy nội dung còn lại xuống dưới
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: const Text(
-                    "Quay lại",
-                    style: TextStyle(color: Colors.black, fontSize: 16),
-                  ),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.pushNamed(
-                      context,
-                      '/home',
-                      arguments: {"initialTabIndex": 0},
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.black,
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 32, vertical: 12),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                  child: const Text(
-                    "Tiếp theo",
-                    style: TextStyle(color: Colors.white, fontSize: 16),
-                  ),
-                ),
-              ],
+              children: [],
             ),
             const SizedBox(height: 20),
           ],
         ),
+      ),
       ),
     );
   }

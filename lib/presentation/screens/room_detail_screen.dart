@@ -59,8 +59,12 @@ class _RoomDetailScreenState extends State<RoomDetailScreen> {
 
   Future<void> _fetchRoomDetail() async {
     try {
-      await ApiRoom.dsRoom(context, widget.hotelId);
+      // Lấy RoomProvider và FavouriteProvider trước khi gọi hàm async
       final roomProvider = Provider.of<RoomProvider>(context, listen: false);
+      final favouriteProvider = Provider.of<FavouriteProvider>(context, listen: false);
+
+      // Lấy danh sách phòng từ API
+      await ApiRoom.dsRoom(roomProvider, widget.hotelId, isLowHigh: false, isHighLow: false, isDoubleRoom: false, isSingleRoom: false);
       final favourite = Provider.of<FavouriteProvider>(context, listen: false);
       setState(() {
         roomDetail = roomProvider.room
@@ -119,7 +123,7 @@ class _RoomDetailScreenState extends State<RoomDetailScreen> {
                         Container(
                           height: 250,
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
+                            borderRadius: BorderRadius.circular(2),
                             image: DecorationImage(
                               image: NetworkImage(APIConstants.api +
                                   roomDetail!.roomImages[0]['imageURL']),
@@ -240,14 +244,24 @@ class _RoomDetailScreenState extends State<RoomDetailScreen> {
                                       Align(
                                         alignment: Alignment.topRight,
                                         child: TextButton(
-                                          onPressed: () {
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        VoteRoomScreen(
-                                                          roomId: widget.roomId,
-                                                        )));
+                                          onPressed: () async {
+                                            await Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    VoteRoomScreen(
+                                                        roomId: widget.roomId),
+                                              ),
+                                            );
+                                            // Gọi lại API sau khi người dùng đánh giá xong
+                                            final updatedVoteData =
+                                                await ApiViewVote.viewVote(
+                                                    widget.roomId);
+                                            if (updatedVoteData != null) {
+                                              setState(() {
+                                                voteData = updatedVoteData;
+                                              });
+                                            }
                                           },
                                           child: Text('Đánh giá ngay',
                                               style: TextStyle(

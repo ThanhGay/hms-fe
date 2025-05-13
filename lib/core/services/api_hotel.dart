@@ -5,34 +5,57 @@ import 'package:provider/provider.dart';
 import 'package:android_hms/core/constants/api_constants.dart';
 import 'package:android_hms/core/services/api_room.dart';
 import 'package:android_hms/Data/hotel_provider.dart';
+import 'package:android_hms/Data/room_provider.dart';
 import 'package:android_hms/Entity/hotel.dart';
 
 final dio = Dio();
 
 class ApiHotel {
-  static Future<List<Hotel>> dsHotel(BuildContext context) async {
-    Response response;
-    const String url = "${APIConstants.api}api/hotel/all";
-    List<Hotel> hotels = [];
+  static Future<List<Hotel>> dsHotel(
+  BuildContext context, {
+  String keyword = '',
+  bool lowToHigh = false,
+  bool highToLow = false,
+  bool doubleRoom = false,
+  bool singleRoom = false,
+}) async {
+  Response response;
+  const String url = "${APIConstants.api}api/hotel/all";
+  List<Hotel> hotels = [];
 
-    try {
-      response = await dio.get(url);
+  // Lấy HotelProvider và RoomProvider trước khi gọi hàm async
+  final hotelProvider = Provider.of<HotelProvider>(context, listen: false);
+  final roomProvider = Provider.of<RoomProvider>(context, listen: false);
 
-      List<dynamic> allHotel = response.data['items'];
+  try {
+    response = await dio.get(url);
 
-      hotels = allHotel.map((h) => Hotel.fromJson(h)).toList();
-      for (var hotel in hotels) {
-        final rooms = await ApiRoom.dsRoom(context, hotel.hotelId);
-        hotel.rooms = rooms;
-      }
-      Provider.of<HotelProvider>(context, listen: false).setHotels(hotels);
+    List<dynamic> allHotel = response.data['items'];
 
-      return hotels;
-    } on DioException catch (e) {
-      print("Error hotel: $e");
-      return hotels;
+    hotels = allHotel.map((h) => Hotel.fromJson(h)).toList();
+    for (var hotel in hotels) {
+      // Truyền roomProvider trực tiếp vào ApiRoom.dsRoom
+      final rooms = await ApiRoom.dsRoom(
+        roomProvider,
+        hotel.hotelId,
+        isLowHigh: lowToHigh,
+        isHighLow: highToLow,
+        isDoubleRoom: doubleRoom,
+        isSingleRoom: singleRoom,
+        search: keyword,
+      );
+      hotel.rooms = rooms;
     }
+
+    // Cập nhật HotelProvider
+    hotelProvider.setHotels(hotels);
+
+    return hotels;
+  } on DioException catch (e) {
+    print("Error hotel: $e");
+    return hotels;
   }
+}
 
   static Future<Hotel> getHotelById(int roomId) async {
     Response response;
