@@ -250,7 +250,7 @@ class _FavouriteScreen extends State<FavouriteScreen> {
           } else {
             return Container(
               alignment: Alignment.topCenter,
-              padding: const EdgeInsets.all(20),
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
               child: isLoggedIn
                   ? rooms.isEmpty
                       ? const Center(
