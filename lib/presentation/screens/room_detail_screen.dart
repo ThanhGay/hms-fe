@@ -4,21 +4,17 @@ import 'package:android_hms/core/models/votes/vote_model.dart';
 import 'package:android_hms/core/services/api_favourite.dart';
 import 'package:android_hms/core/services/api_hotel.dart';
 import 'package:android_hms/core/services/api_view_vote.dart';
-import 'package:android_hms/presentation/component/base/InputTextField.dart';
 import 'package:android_hms/presentation/screens/booking_review_screen.dart';
 import 'package:android_hms/presentation/screens/vote_room_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-
 import 'package:android_hms/presentation/utils/util.dart';
 import 'package:android_hms/core/constants/default.dart';
 import 'package:android_hms/core/constants/api_constants.dart';
-
 import 'package:android_hms/Data/room_provider.dart';
 import 'package:android_hms/core/services/api_room.dart';
 import 'package:android_hms/Entity/room.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class RoomDetailScreen extends StatefulWidget {
   final int roomId;
@@ -35,7 +31,6 @@ class _RoomDetailScreenState extends State<RoomDetailScreen> {
   Room? roomDetail;
   Hotel? hotel;
   VoteData? voteData;
-  final TextEditingController _reviewController = TextEditingController();
   bool isFavorite = false;
   bool showAllReviews = false;
   DateTimeRange? selectedDateRange =
@@ -121,7 +116,7 @@ class _RoomDetailScreenState extends State<RoomDetailScreen> {
                         Container(
                           height: 250,
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
+                            borderRadius: BorderRadius.circular(2),
                             image: DecorationImage(
                               image: NetworkImage(APIConstants.api +
                                   roomDetail!.roomImages[0]['imageURL']),
@@ -242,14 +237,24 @@ class _RoomDetailScreenState extends State<RoomDetailScreen> {
                                       Align(
                                         alignment: Alignment.topRight,
                                         child: TextButton(
-                                          onPressed: () {
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        VoteRoomScreen(
-                                                          roomId: widget.roomId,
-                                                        )));
+                                          onPressed: () async {
+                                            await Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    VoteRoomScreen(
+                                                        roomId: widget.roomId),
+                                              ),
+                                            );
+                                            // Gọi lại API sau khi người dùng đánh giá xong
+                                            final updatedVoteData =
+                                                await ApiViewVote.viewVote(
+                                                    widget.roomId);
+                                            if (updatedVoteData != null) {
+                                              setState(() {
+                                                voteData = updatedVoteData;
+                                              });
+                                            }
                                           },
                                           child: Text('Đánh giá ngay',
                                               style: TextStyle(
