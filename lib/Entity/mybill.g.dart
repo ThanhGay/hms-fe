@@ -7,7 +7,7 @@ part of 'mybill.dart';
 // **************************************************************************
 
 MyBill _$MyBillFromJson(Map<String, dynamic> json) => MyBill(
-      billID: (json['billID'] as num).toDouble(),
+      billID: (json['billID'] as num).toInt(),
       bookingDate: DateTime.parse(json['bookingDate'] as String),
       expectedCheckIn: DateTime.parse(json['expectedCheckIn'] as String),
       expectedCheckOut: DateTime.parse(json['expectedCheckOut'] as String),
@@ -25,7 +25,7 @@ MyBill _$MyBillFromJson(Map<String, dynamic> json) => MyBill(
       rooms: (json['rooms'] as List<dynamic>)
           .map((e) => RoomBill.fromJson(e as Map<String, dynamic>))
           .toList(),
-      charges: (json['charges'] as num?)?.toDouble(),
+      charges: json['charges'] as List<dynamic>?,
     );
 
 Map<String, dynamic> _$MyBillToJson(MyBill instance) => <String, dynamic>{

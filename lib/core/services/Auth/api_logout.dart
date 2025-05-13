@@ -15,9 +15,9 @@ class ApiLogout {
 
     try {
       response = await DioClient().dio.postUri(uri);
+      await prefs.clear();
 
       if (response.statusCode == 200) {
-        await prefs.clear();
         return "Success";
       } else {
         print("Lỗi khi logout: ${response.statusCode}");

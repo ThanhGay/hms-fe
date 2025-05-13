@@ -161,7 +161,7 @@ class _BookingReviewScreenState extends State<BookingReviewScreen> {
     // int totalPrice =
     //     numberOfNights() * (widget.roomDetail.pricePerNight ?? 0).toInt();
     var totalPrice = (roomDetail != null && selectedDateRange != null)
-        ? formatNumber(
+        ? formatCurrency(
             roomDetail!.pricePerNight * selectedDateRange!.duration.inDays)
         : "0";
 

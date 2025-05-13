@@ -1,12 +1,12 @@
 import 'dart:convert';
-
 import 'package:intl/intl.dart';
-import 'package:android_hms/presentation/component/payment.dart';
-import 'package:sprintf/sprintf.dart';
 import 'package:crypto/crypto.dart';
+import 'package:sprintf/sprintf.dart';
 
-/// Function Format DateTime to String with layout string
-String formatNumber(double value) {
+import 'package:android_hms/presentation/component/payment.dart';
+
+/// Function Format Double to String Currency
+String formatCurrency(double value) {
   final formattedNumber = NumberFormat.currency(
           customPattern: "#,###",
           locale: "vi-VN",
@@ -16,9 +16,9 @@ String formatNumber(double value) {
   return formattedNumber;
 }
 
-/// Function Format DateTime to String with layout string
-String formatDateTime(DateTime dateTime, String layout) {
-  return DateFormat(layout).format(dateTime).toString();
+/// Function Format DateTime to String with pattern string
+String formatDateTime(DateTime dateTime, String pattern) {
+  return DateFormat(pattern).format(dateTime).toString();
 }
 
 int transIdDefault = 1;
