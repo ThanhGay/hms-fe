@@ -86,7 +86,7 @@ class _BookingReviewScreenState extends State<BookingReviewScreen> {
   }
 
   void _showPriceDetailsDialog() {
-    final totalPrice = formatNumber(
+    final totalPrice = formatCurrency(
         roomDetail!.pricePerNight * selectedDateRange!.duration.inDays);
     showDialog(
       context: context,
@@ -113,7 +113,7 @@ class _BookingReviewScreenState extends State<BookingReviewScreen> {
                 SizedBox(height: 16),
                 // Thêm chi tiết giá vào đây
                 Text(
-                  "Giá mỗi đêm: ${formatNumber(roomDetail!.pricePerNight)} VNĐ",
+                  "Giá mỗi đêm: ${formatCurrency(roomDetail!.pricePerNight)} VNĐ",
                   style: TextStyle(fontSize: 16),
                 ),
                 SizedBox(height: 8),
@@ -390,39 +390,40 @@ class _BookingReviewScreenState extends State<BookingReviewScreen> {
 
                           // Price note
                           Row(
-  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  children: [
-    Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          "Đặt phòng/đặt chỗ này không được hoàn tiền.",
-          style: TextStyle(
-            fontSize: 14,
-            color: Colors.grey[600],
-          ),
-        ),
-        GestureDetector(
-          onTap: () {
-            // Chuyển sang màn hình chính sách khi người dùng nhấn vào "Xem chính sách"
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => PolicyScreen()),
-            );
-          },
-          child: Text(
-            "Xem chính sách",
-            style: TextStyle(
-              fontSize: 14,
-              color: Colors.blue[600],
-            ),
-          ),
-        ),
-      ],
-    ),
-  ],
-)
-
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Đặt phòng/đặt chỗ này không được hoàn tiền.",
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      color: Colors.grey[600],
+                                    ),
+                                  ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      // Chuyển sang màn hình chính sách khi người dùng nhấn vào "Xem chính sách"
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                PolicyScreen()),
+                                      );
+                                    },
+                                    child: Text(
+                                      "Xem chính sách",
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.blue[600],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          )
                         ],
                       ),
                     ),

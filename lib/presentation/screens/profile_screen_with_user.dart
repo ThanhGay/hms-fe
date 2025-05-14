@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:android_hms/Entity/user.dart';
 import 'package:android_hms/core/constants/default.dart';
@@ -50,11 +49,8 @@ class ProfileWithUser extends StatelessWidget {
           false;
 
       if (confirm) {
-        final prefs = await SharedPreferences.getInstance();
-        await prefs.clear();
-
         final statusCode = await ApiLogout.logoutUser();
-
+        print("Status: ${statusCode}");
         if (statusCode == "Success") {
           showToast(
               msg: ("Đăng xuất thành công!"),
