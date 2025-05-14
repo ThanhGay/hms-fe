@@ -51,7 +51,11 @@ class _VoteRoomState extends State<VoteRoomScreen> {
         ),
       );
       await Future.delayed(const Duration(seconds: 1));
-      Navigator.pop(context, true); // Quay lại
+      Navigator.pushNamed(
+        context,
+        '/home',
+        arguments: {"initialTabIndex": 0},
+      ); // Quay lại
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Đánh giá thất bại")),

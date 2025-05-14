@@ -4,6 +4,7 @@ import 'package:android_hms/core/constants/api_constants.dart';
 import 'package:android_hms/core/constants/default.dart';
 import 'package:android_hms/core/services/Bill/api_get_booking.dart';
 import 'package:android_hms/core/services/Bill/api_cancelBill.dart';
+import 'package:android_hms/presentation/screens/vote_room_screen.dart';
 import 'package:android_hms/presentation/utils/toast.dart';
 import 'package:android_hms/presentation/utils/util.dart';
 
@@ -226,9 +227,11 @@ class _TripDetailScreenState extends State<TripDetailScreen> {
                         "Từ:",
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
-                      Text(bill.checkIn != null
-                          ? formatDateTime(bill.checkIn!, 'dd/MM/yyyy hh:MM')
-                          : formatDateTime(bill.expectedCheckIn, 'dd/MM/yyyy hh:MM'),
+                      Text(
+                        bill.checkIn != null
+                            ? formatDateTime(bill.checkIn!, 'dd/MM/yyyy hh:MM')
+                            : formatDateTime(
+                                bill.expectedCheckIn, 'dd/MM/yyyy hh:MM'),
                       ),
                     ],
                   ),
@@ -240,9 +243,11 @@ class _TripDetailScreenState extends State<TripDetailScreen> {
                         "Đến:",
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
-                      Text(bill.checkOut != null
-                          ? formatDateTime(bill.checkOut!, 'dd/MM/yyyy hh:MM')
-                          : formatDateTime(bill.expectedCheckOut, 'dd/MM/yyyy hh:MM'),
+                      Text(
+                        bill.checkOut != null
+                            ? formatDateTime(bill.checkOut!, 'dd/MM/yyyy hh:MM')
+                            : formatDateTime(
+                                bill.expectedCheckOut, 'dd/MM/yyyy hh:MM'),
                       ),
                     ],
                   ),
@@ -320,6 +325,30 @@ class _TripDetailScreenState extends State<TripDetailScreen> {
           //       ),
           //     ),
           //   ),
+          Center(
+              child: SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                VoteRoomScreen(roomId: bill.rooms[0].roomID),
+                          ),
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.blue[700],
+                          padding: EdgeInsets.all(16),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12.0),
+                          )),
+                      child: Text('Đánh giá ngay',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14)))))
         ],
       ),
     );

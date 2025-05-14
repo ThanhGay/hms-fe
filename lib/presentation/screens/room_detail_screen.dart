@@ -11,7 +11,7 @@ import 'package:android_hms/core/constants/default.dart';
 import 'package:android_hms/core/constants/api_constants.dart';
 
 import 'package:android_hms/presentation/screens/booking_review_screen.dart';
-import 'package:android_hms/presentation/screens/vote_room_screen.dart';
+// import 'package:android_hms/presentation/screens/vote_room_screen.dart';
 import 'package:android_hms/presentation/utils/util.dart';
 
 import 'package:android_hms/Data/room_provider.dart';
@@ -61,10 +61,15 @@ class _RoomDetailScreenState extends State<RoomDetailScreen> {
     try {
       // Lấy RoomProvider và FavouriteProvider trước khi gọi hàm async
       final roomProvider = Provider.of<RoomProvider>(context, listen: false);
-      final favouriteProvider = Provider.of<FavouriteProvider>(context, listen: false);
+      final favouriteProvider =
+          Provider.of<FavouriteProvider>(context, listen: false);
 
       // Lấy danh sách phòng từ API
-      await ApiRoom.dsRoom(roomProvider, widget.hotelId, isLowHigh: false, isHighLow: false, isDoubleRoom: false, isSingleRoom: false);
+      await ApiRoom.dsRoom(roomProvider, widget.hotelId,
+          isLowHigh: false,
+          isHighLow: false,
+          isDoubleRoom: false,
+          isSingleRoom: false);
       final favourite = Provider.of<FavouriteProvider>(context, listen: false);
       setState(() {
         roomDetail = roomProvider.room
@@ -241,36 +246,6 @@ class _RoomDetailScreenState extends State<RoomDetailScreen> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Align(
-                                        alignment: Alignment.topRight,
-                                        child: TextButton(
-                                          onPressed: () async {
-                                            await Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) =>
-                                                    VoteRoomScreen(
-                                                        roomId: widget.roomId),
-                                              ),
-                                            );
-                                            // Gọi lại API sau khi người dùng đánh giá xong
-                                            final updatedVoteData =
-                                                await ApiViewVote.viewVote(
-                                                    widget.roomId);
-                                            if (updatedVoteData != null) {
-                                              setState(() {
-                                                voteData = updatedVoteData;
-                                              });
-                                            }
-                                          },
-                                          child: Text('Đánh giá ngay',
-                                              style: TextStyle(
-                                                  color: Colors.blue[700],
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 14)),
-                                        ),
-                                      ),
-
                                       Center(
                                         child: Column(
                                           children: [
