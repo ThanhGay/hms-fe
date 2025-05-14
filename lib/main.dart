@@ -4,26 +4,26 @@ import 'package:provider/provider.dart';
 import 'firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 
-import 'package:android_hms/presentation/themes/app_theme.dart';
-import 'package:android_hms/core/services/notification_service.dart';
+import 'package:android_hms/core/themes/app_theme.dart';
+import 'package:android_hms/services/notification_service.dart';
 
-import 'package:android_hms/Data/room_provider.dart';
-import 'package:android_hms/Data/hotel_provider.dart';
-import 'package:android_hms/Data/voucher_provider.dart';
-import 'package:android_hms/Data/favourite_provider.dart';
+import 'package:android_hms/views/storages/room_provider.dart';
+import 'package:android_hms/views/storages/hotel_provider.dart';
+import 'package:android_hms/views/storages/voucher_provider.dart';
+import 'package:android_hms/views/storages/favourite_provider.dart';
 
-import 'package:android_hms/presentation/screens/login_screen.dart';
-import 'package:android_hms/presentation/screens/signup_screen.dart';
-import 'package:android_hms/presentation/screens/welcome_screen.dart';
-import 'package:android_hms/presentation/screens/otp_check_screen.dart';
-import 'package:android_hms/presentation/screens/vote_room_screen.dart';
-import 'package:android_hms/presentation/screens/room_detail_screen.dart';
-import 'package:android_hms/presentation/screens/home_screen_bottom.dart';
-import 'package:android_hms/presentation/screens/booking_review_screen.dart';
-import 'package:android_hms/presentation/screens/forgot_password_screen.dart';
-import 'package:android_hms/presentation/screens/change_password_screen.dart';
-import 'package:android_hms/presentation/screens/booking_payment_screen.dart';
-import 'package:android_hms/presentation/screens/booking_option_sheet_screen.dart';
+import 'package:android_hms/views/screens/login_screen.dart';
+import 'package:android_hms/views/screens/signup_screen.dart';
+import 'package:android_hms/views/screens/welcome_screen.dart';
+import 'package:android_hms/views/screens/otp_check_screen.dart';
+import 'package:android_hms/views/screens/vote_room_screen.dart';
+import 'package:android_hms/views/screens/room_detail_screen.dart';
+import 'package:android_hms/views/screens/home_screen_bottom.dart';
+import 'package:android_hms/views/screens/booking_review_screen.dart';
+import 'package:android_hms/views/screens/forgot_password_screen.dart';
+import 'package:android_hms/views/screens/change_password_screen.dart';
+import 'package:android_hms/views/screens/booking_payment_screen.dart';
+import 'package:android_hms/views/screens/booking_option_sheet_screen.dart';
 
 final navigatorKey = GlobalKey<NavigatorState>();
 
