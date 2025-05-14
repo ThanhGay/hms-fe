@@ -7,6 +7,19 @@ import 'package:android_hms/Entity/mybill.dart';
 import 'package:android_hms/presentation/component/base/ImageNetwork.dart';
 import 'package:android_hms/presentation/screens/trip_detail_screen.dart';
 
+(Color, Color, double, double) styleFromStatus(String status) {
+  switch (status) {
+    case "PreBooking":
+      return (Colors.limeAccent, Colors.black, 24, -24);
+    case "Waiting payment":
+      return (Colors.red, Colors.white, 36, -32);
+    case "Stay":
+      return (Colors.green, Colors.white, 8, -20);
+    default:
+      return (Colors.red, Colors.white, 16, -16);
+  }
+}
+
 class ReservationCard extends StatelessWidget {
   final MyBill bill;
 
@@ -20,6 +33,7 @@ class ReservationCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final (bgColor, textColor, offsetTop, offsetRight) = styleFromStatus(bill.status);
     return Card(
       margin: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
@@ -61,21 +75,18 @@ class ReservationCard extends StatelessWidget {
                 ),
               ),
               Positioned(
-                  top: 24,
-                  right: -24,
+                  top: offsetTop,
+                  right: offsetRight,
                   child: Transform.rotate(
                     angle: math.pi / 4,
                     child: Container(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 24, vertical: 2),
-                      decoration: BoxDecoration(
-                          color: bill.status == "PreBooking"
-                              ? Colors.red
-                              : Colors.green),
+                      decoration: BoxDecoration(color: bgColor),
                       child: Text(
                         bill.status,
                         style: TextStyle(
-                          color: Colors.white,
+                          color: textColor,
                           fontWeight: FontWeight.w500,
                         ),
                       ),

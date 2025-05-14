@@ -1,29 +1,26 @@
+
 import 'package:dio/dio.dart';
 
 import 'package:android_hms/core/services/dioClient.dart';
 import 'package:android_hms/core/constants/api_constants.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-class ApiLogout {
-  static Future<String> logoutUser() async {
-    final prefs = await SharedPreferences.getInstance();
-
+class ApiCancelBill {
+  static Future<String> cancelBill(int billId) async {
     Response response;
 
-    const String url = "${APIConstants.api}logout";
+    final String url = "${APIConstants.apiBill}/delete-booking?bookingId=$billId";
     final uri = Uri.parse(url);
 
     try {
-      response = await DioClient().dio.postUri(uri);
-
+      response = await DioClient().dio.deleteUri(uri);
       if (response.statusCode == 200) {
-        await prefs.clear();
         return "Success";
       } else {
-        print("Lỗi khi logout: ${response.statusCode}");
+        print("${response.data}");
         return "Failed";
       }
     } on DioException catch (e) {
+      print("xxx ${e}");
       return ("${e.response}");
     }
   }
