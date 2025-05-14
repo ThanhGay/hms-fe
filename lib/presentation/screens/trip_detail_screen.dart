@@ -62,11 +62,12 @@ class _TripDetailScreenState extends State<TripDetailScreen> {
     final (bgColor, txtColor) = styleFromStatus(bill.status);
 
     Future<void> onCancel() async {
-        bool confirm = await showDialog(
+      bool confirm = await showDialog(
             context: context,
             builder: (context) => AlertDialog(
               title: Text("Cảnh báo"),
-              content: Text("Bạn chắc chắn muốn hủy đặt phòng? Lưu ý sẽ không được hoàn lại tiền !!!"),
+              content: Text(
+                  "Bạn chắc chắn muốn hủy đặt phòng? Lưu ý sẽ không được hoàn lại tiền !!!"),
               actions: [
                 TextButton(
                   onPressed: () => Navigator.pop(context, false),
@@ -222,18 +223,26 @@ class _TripDetailScreenState extends State<TripDetailScreen> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(
-                        "Thời gian:",
+                        "Từ:",
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
-                      Row(
-                        spacing: 8,
-                        children: [
-                          Text(formatDateTime(
-                              bill.expectedCheckIn, 'dd/MM/yyyy hh:MM')),
-                          Icon(Icons.arrow_right_alt),
-                          Text(formatDateTime(
-                              bill.expectedCheckOut, 'dd/MM/yyyy hh:MM')),
-                        ],
+                      Text(bill.checkIn != null
+                          ? formatDateTime(bill.checkIn!, 'dd/MM/yyyy hh:MM')
+                          : formatDateTime(bill.expectedCheckIn, 'dd/MM/yyyy hh:MM'),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    spacing: 16,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Đến:",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      Text(bill.checkOut != null
+                          ? formatDateTime(bill.checkOut!, 'dd/MM/yyyy hh:MM')
+                          : formatDateTime(bill.expectedCheckOut, 'dd/MM/yyyy hh:MM'),
                       ),
                     ],
                   ),
