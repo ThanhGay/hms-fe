@@ -11,14 +11,12 @@ class ApiLogin {
     const String url = "${APIConstants.api}login";
     final prefs = await SharedPreferences.getInstance();
     print("toke longi ${prefs.getString("deviceToken")}");
-    print("${url}");
     try {
       response = await dio.post(url, data: {
         "email": email,
         "password": password,
         "deviceToken": prefs.getString("deviceToken")
       });
-      print("toke longi ${prefs.getString("deviceToken")}");
       final data = response.data;
 
       final user = json.encode(data['user']);

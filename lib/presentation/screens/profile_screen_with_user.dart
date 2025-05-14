@@ -50,7 +50,7 @@ class ProfileWithUser extends StatelessWidget {
 
       if (confirm) {
         final statusCode = await ApiLogout.logoutUser();
-
+        print("Status: ${statusCode}");
         if (statusCode == "Success") {
           showToast(
               msg: ("Đăng xuất thành công!"),
